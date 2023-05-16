@@ -3,7 +3,7 @@ const router = express.Router();
 
 const apiRouter = require('./api');
 
-console.log('test');
+// console.log('test');
 
 router.use('/api', apiRouter);
 
