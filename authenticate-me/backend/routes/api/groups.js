@@ -87,4 +87,18 @@ router.get('/', async (req, res) => {
   return res.json({ Groups })
 });
 
+router.post('/', requireAuth, async (req, res) => {
+  const { name, about, type, private, city, state} = req.body;
+  const Groups = await Group.create({
+    organizerId: req.user.id,
+    name,
+    about,
+    type,
+    private,
+    city,
+    state
+  })
+  res.json(Groups)
+})
+
 module.exports = router;
