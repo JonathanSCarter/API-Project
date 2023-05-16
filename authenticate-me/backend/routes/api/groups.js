@@ -119,13 +119,14 @@ router.post('/', requireAuth, async (req, res) => {
     city,
     state
   })
-  res.json(Groups)
+  return res.json(Groups)
 })
 
 
 router.put('/:groupId', requireAuth, async (req, res) => {
   const { name, about, type, private, city, state} = req.body;
   const group = await Group.findByPk(req.params.groupId);
+  if(!group) throw new Error("Group couldn't be found")
 
   if(req.user.id !== group.organizerId) throw new Error('Current User must be the organizer for the group')
 
@@ -137,7 +138,17 @@ router.put('/:groupId', requireAuth, async (req, res) => {
   if(city) group.city = city;
   if(state) group.state = state;
 
-  res.json(group)
+  return res.json(group)
 
+})
+
+router.delete('/:groupId', requireAuth, async (req, res) => {
+  const group = await Group.findByPk(req.params.groupId);
+  if(!group) throw new Error("Group couldn't be found")
+  if(req.user.id !== group.organizerId) throw new Error('Current User must be the organizer for the group')
+
+  group.destroy();
+
+  return res.json({message: "Successfully deleted"})
 })
 module.exports = router;
