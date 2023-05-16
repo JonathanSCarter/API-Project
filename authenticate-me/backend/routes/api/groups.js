@@ -1,8 +1,46 @@
 const express = require('express');
-
-const { Group } = require('../../db/models');
+const { Op } = require('sequelize')
+const { Group, Membership } = require('../../db/models');
+const { requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
+
+router.get('/current', requireAuth, async (req, res) => {
+  let member = await Membership.findAll({
+    where: {
+      userId: req.user.id
+    },
+    attributes: ['groupId']
+  })
+  let groupIds = member.map(member => member.get('groupId'))
+  let groups = await Group.findAll({
+    where: {
+      [Op.or]: [
+        {organizerId: req.user.id},
+        {id: {[Op.in]: groupIds}}
+      ]
+    }
+  });
+  let groupArray = await Promise.all(groups.map(async group => {
+    const numMembers = await group.getMemberships();
+    const imageArray = await group.getGroupImages({
+      where: {
+        preview: true
+      },
+      limit: 1,
+      attributes: ['url']
+    });
+    let image = imageArray[0]
+    group = group.toJSON(),
+      group.numMembers = numMembers.length
+    if (image) group.previewImage = image.url
+    return group
+  }))
+
+  let Groups = groupArray
+
+  return res.json({ Groups })
+})
 
 router.get('/:groupId', async (req, res) => {
   let group = await Group.findByPk(req.params.groupId)
