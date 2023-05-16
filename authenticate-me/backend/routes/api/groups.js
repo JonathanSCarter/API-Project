@@ -122,4 +122,22 @@ router.post('/', requireAuth, async (req, res) => {
   res.json(Groups)
 })
 
+
+router.put('/:groupId', requireAuth, async (req, res) => {
+  const { name, about, type, private, city, state} = req.body;
+  const group = await Group.findByPk(req.params.groupId);
+
+  if(req.user.id !== group.organizerId) throw new Error('Current User must be the organizer for the group')
+
+
+  if(name) group.name = name;
+  if(about) group.about = about;
+  if(type) group.type = type;
+  if(private) group.private = private;
+  if(city) group.city = city;
+  if(state) group.state = state;
+
+  res.json(group)
+
+})
 module.exports = router;
