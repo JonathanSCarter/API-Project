@@ -4,7 +4,7 @@ const usersRouter = require('./users.js');
 const groupsRouter = require('./groups.js')
 const { restoreUser } = require("../../utils/auth.js");
 
-
+console.log('test');
 router.use(restoreUser);
 
 router.post('/test', (req, res) => {
