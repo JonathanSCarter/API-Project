@@ -12,11 +12,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Group.belongsTo(models.User, {foreignKey: 'UserId'})
+      Group.belongsTo(models.User, {foreignKey: 'organizerId'})
+      Group.hasMany(models.Membership, {foreignKey: 'groupId'})
+      Group.hasMany(models.GroupImage, {foreignKey: 'groupId'})
+      Group.hasMany(models.Venue, {foreignKey: 'groupId'})
     }
   }
   Group.init({
-    UserId: {
+    organizerId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

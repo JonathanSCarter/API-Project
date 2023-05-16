@@ -18,7 +18,7 @@ module.exports = {
     options.tableName = 'Groups';
     return queryInterface.bulkInsert(options, [
       {
-        UserId: 1,
+        organizerId: 1,
         name: 'Online Group 1',
         about: 'This is an online group for people interested in hiking.',
         type: 'Online',
@@ -27,7 +27,7 @@ module.exports = {
         state: 'California',
       },
       {
-        UserId: 2,
+        organizerId: 2,
         name: 'In Person Group 1',
         about: 'This is an in-person group for people interested in cooking.',
         type: 'In person',
@@ -36,7 +36,7 @@ module.exports = {
         state: 'California'
       },
       {
-        UserId: 3,
+        organizerId: 3,
         name: 'Online Group 2',
         about: 'This is an online group for people interested in yoga.',
         type: 'Online',
