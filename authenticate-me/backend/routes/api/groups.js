@@ -1,6 +1,6 @@
 const express = require('express');
 const { Op } = require('sequelize')
-const { Group, Membership } = require('../../db/models');
+const { Group, Membership, GroupImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
@@ -86,6 +86,27 @@ router.get('/', async (req, res) => {
 
   return res.json({ Groups })
 });
+
+router.post('/:groupId/images', requireAuth, async (req, res) => {
+  const { url, preview } = req.body;
+  const group = await Group.findByPk(req.params.groupId)
+  if(!group) throw new Error("Group couldn't be found")
+  if(req.user.id !== group.organizerId) throw new Error('Current User must be the organizer for the group')
+
+  const image = await GroupImage.create({
+    groupId: req.params.groupId,
+    url,
+    preview
+  })
+
+  const imageJson = {}
+  imageJson.id = image.id
+  imageJson.url = image.url
+  imageJson.preview = image.preview
+
+  return res.json({ imageJson })
+
+})
 
 router.post('/', requireAuth, async (req, res) => {
   const { name, about, type, private, city, state} = req.body;
