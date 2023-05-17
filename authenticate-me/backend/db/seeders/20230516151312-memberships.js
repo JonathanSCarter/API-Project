@@ -19,7 +19,7 @@ module.exports = {
     return queryInterface.bulkInsert(options, [
       {
         userId: 1,
-        groupId: 1,
+        groupId: 2,
         status: 'co-host'
       },
       {
