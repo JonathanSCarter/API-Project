@@ -17,6 +17,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Event.init({
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
     venueId: {
       type: DataTypes.INTEGER,
     },
@@ -58,7 +64,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false,
       validate: {
-        isAfter: sequelize.literal("CURRENT_TIMESTAMP"),
         isDate: true,
       }
     },

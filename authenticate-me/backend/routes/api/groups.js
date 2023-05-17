@@ -185,41 +185,41 @@ router.post('/:groupId/venues', requireAuth, async (req, res) => {
 router.post('/:groupId/events', requireAuth, async (req, res) => {
   console.log(req.body);
   const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
-  const member = await Membership.findAll({
-    where: {
-      userId: req.user.id,
-      status: 'co-host'
-    },
-    attributes: ['groupId']
-  })
-  const groupIds = member.map(member => member.get('groupId'))
+  // const member = await Membership.findAll({
+  //   where: {
+  //     userId: req.user.id,
+  //     status: 'co-host'
+  //   },
+  //   attributes: ['groupId']
+  // })
+  // const groupIds = member.map(member => member.get('groupId'))
 
-  const groups = await Group.findAll({
-    where: {
-      [Op.or]: [
-        { organizerId: req.user.id },
-        { id: { [Op.in]: groupIds } }
-      ],
-      id: req.params.groupId
-    },
-    attributes: ['id']
-  });
+  // const groups = await Group.findAll({
+  //   where: {
+  //     [Op.or]: [
+  //       { organizerId: req.user.id },
+  //       { id: { [Op.in]: groupIds } }
+  //     ],
+  //     id: req.params.groupId
+  //   },
+  //   attributes: ['id']
+  // });
 
-  const id = groups.map(id => id.get('id'));
-  if (!id) throw new Error("Bad request")
-
+  // const id = groups.map(id => id.get('id'));
+  // if (!id) throw new Error("Bad request")
+  console.log(req.params);
   const event = await Event.create({
-    groupId: id[0],
+    groupId: req.params.groupId,
     venueId,
     name,
     type,
     capacity,
     price,
     description,
-    startDate: "2021-11-19 20:00:00",
-    endDate: "2021-11-19 22:00:00"
+    startDate,
+    endDate
   })
-
+console.log(event);
   res.json(event)
 })
 
