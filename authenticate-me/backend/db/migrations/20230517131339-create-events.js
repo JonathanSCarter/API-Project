@@ -1,5 +1,4 @@
 'use strict';
-
 let options = {};
 if(process.env.NODE_ENV === 'production'){
   options.schema = process.env.SCHEMA
@@ -7,7 +6,7 @@ if(process.env.NODE_ENV === 'production'){
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    options.tableName = "Memberships";
+    options.tableName = 'Events'
 
     await queryInterface.createTable(options, {
       id: {
@@ -16,10 +15,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
+      venueId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        references: { model: 'Users', key: 'id'},
+        references: { model: 'Venues', key: 'id'},
         onDelete: 'CASCADE'
       },
       groupId: {
@@ -28,8 +26,32 @@ module.exports = {
         references: { model: 'Groups', key: 'id'},
         onDelete: 'CASCADE'
       },
-      status: {
-        type: Sequelize.ENUM('pending', 'member', 'co-host', 'host'),
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      description: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      type: {
+        type: Sequelize.ENUM('Online', 'In person'),
+        allowNull: false,
+      },
+      capacity: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      price: {
+        type: Sequelize.DECIMAL(99,2),
+        allowNull: false,
+      },
+      startDate: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      endDate: {
+        type: Sequelize.DATE,
         allowNull: false,
       },
       createdAt: {
@@ -45,7 +67,8 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = "Memberships";
-    await queryInterface.dropTable('Memberships');
+    options.tableName = 'Events'
+
+    await queryInterface.dropTable(options);
   }
 };

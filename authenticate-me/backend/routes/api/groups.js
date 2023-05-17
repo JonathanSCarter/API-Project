@@ -1,6 +1,6 @@
 const express = require('express');
 const { Op } = require('sequelize')
-const { Group, Membership, GroupImage, Venue } = require('../../db/models');
+const { Group, Membership, GroupImage, Venue, Event } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
@@ -181,6 +181,49 @@ router.post('/:groupId/venues', requireAuth, async (req, res) => {
   res.json(venue)
 })
 
+
+router.post('/:groupId/events', requireAuth, async (req, res) => {
+  console.log(req.body);
+  const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+  const member = await Membership.findAll({
+    where: {
+      userId: req.user.id,
+      status: 'co-host'
+    },
+    attributes: ['groupId']
+  })
+  const groupIds = member.map(member => member.get('groupId'))
+
+  const groups = await Group.findAll({
+    where: {
+      [Op.or]: [
+        { organizerId: req.user.id },
+        { id: { [Op.in]: groupIds } }
+      ],
+      id: req.params.groupId
+    },
+    attributes: ['id']
+  });
+
+  const id = groups.map(id => id.get('id'));
+  if (!id) throw new Error("Bad request")
+
+  const event = await Event.create({
+    groupId: id[0],
+    venueId,
+    name,
+    type,
+    capacity,
+    price,
+    description,
+    startDate: "2021-11-19 20:00:00",
+    endDate: "2021-11-19 22:00:00"
+  })
+
+  res.json(event)
+})
+
+
 router.post('/', requireAuth, async (req, res) => {
   const { name, about, type, private, city, state } = req.body;
   const Groups = await Group.create({
@@ -224,4 +267,7 @@ router.delete('/:groupId', requireAuth, async (req, res) => {
 
   return res.json({ message: "Successfully deleted" })
 })
+
+
+
 module.exports = router;
