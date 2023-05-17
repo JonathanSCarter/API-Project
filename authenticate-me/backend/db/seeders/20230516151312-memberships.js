@@ -5,7 +5,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     /**
      * Add seed commands here.
      *
@@ -35,22 +35,36 @@ module.exports = {
       {
         userId: 1,
         groupId: 2,
-        status: 'co-host'
+        status: 'host'
       },
       {
         userId: 2,
         groupId: 2,
+        status: 'co-host'
+      },
+      {
+        userId: 3,
+        groupId: 2,
+        status: 'pending'
+      },
+      {
+        userId: 1,
+        groupId: 3,
         status: 'host'
+      },
+      {
+        userId: 2,
+        groupId: 3,
+        status: 'member'
       },
       {
         userId: 3,
         groupId: 3,
-        status: 'host'
-      },
-    ])
+        status: 'co-host'
+      }])
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     /**
      * Add commands to revert seed here.
      *
@@ -60,7 +74,7 @@ module.exports = {
     options.tableName = 'Memberships';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      userId: { [Op.in]: [1,2,3] }
+      userId: { [Op.in]: [1, 2, 3] }
     }, {});
   }
 };

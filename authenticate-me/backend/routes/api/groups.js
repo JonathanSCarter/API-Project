@@ -1,6 +1,6 @@
 const express = require('express');
 const { Op } = require('sequelize')
-const { Group, Membership, GroupImage, Venue, Event } = require('../../db/models');
+const { Group, Membership, GroupImage, Venue, Event, User } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
@@ -76,6 +76,77 @@ router.get('/:groupId/venues', requireAuth, async (req, res) => {
 
   res.json({ Venues })
 })
+
+router.get('/:groupId/members', async (req, res) => {
+  const group = await Group.findByPk(req.params.groupId);
+  if (!group) throw new Error("Group couldn't be found");
+  console.log(req.user.id);
+  console.log(req.params.groupId);
+  const member = await Membership.findAll({
+    where: {
+      status: { [Op.in]: ['co-host', 'host'] },
+      groupId: req.params.groupId
+    },
+    attributes: ['userId']
+  });
+
+  const members = await Membership.findAll({
+    where: {
+      groupId: req.params.groupId
+    },
+    attributes: ['userId']
+  });
+
+  let Members = [];
+  const ownerIds = member.map(member => member.userId);
+  console.log(members.map(e => e.userId));
+
+  if (ownerIds.includes(req.user.id)) {
+    console.log('Entering if statement');
+    Members = await Promise.all(members.map(async member => {
+      let userInfo = await User.findOne({
+        where: {
+          id: member.userId
+        },
+        attributes: ['id', 'firstName', 'lastName']
+      });
+      const memberstatus = await Membership.findOne({
+        where: {
+          userId: member.userId,
+          status: { [Op.notIn]: ['pending'] }
+        },
+        attributes: ['status']
+      });
+      userInfo = userInfo.toJSON();
+      userInfo.Membership = memberstatus;
+      return userInfo;
+    }));
+
+    return res.json(Members);
+  } else {
+    console.log('Entering else statement');
+    Members = await Promise.all(members.map(async member => {
+      let userInfo = await User.findOne({
+        where: {
+          id: member.userId
+        },
+        attributes: ['id', 'firstName', 'lastName']
+      });
+      const memberstatus = await Membership.findOne({
+        where: {
+          userId: member.userId,
+          status: { [Op.notIn]: ['pending'] }
+        },
+        attributes: ['status']
+      });
+      userInfo = userInfo.toJSON();
+      userInfo.Membership = memberstatus;
+      return userInfo;
+    }));
+
+    return res.json({ Members });
+  }
+});
 
 router.get('/:groupId', async (req, res) => {
   let group = await Group.findByPk(req.params.groupId)
@@ -183,31 +254,30 @@ router.post('/:groupId/venues', requireAuth, async (req, res) => {
 
 
 router.post('/:groupId/events', requireAuth, async (req, res) => {
-  console.log(req.body);
   const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
-  // const member = await Membership.findAll({
-  //   where: {
-  //     userId: req.user.id,
-  //     status: 'co-host'
-  //   },
-  //   attributes: ['groupId']
-  // })
-  // const groupIds = member.map(member => member.get('groupId'))
+  const member = await Membership.findAll({
+    where: {
+      userId: req.user.id,
+      status: 'co-host'
+    },
+    attributes: ['groupId']
+  })
+  const groupIds = member.map(member => member.get('groupId'))
 
-  // const groups = await Group.findAll({
-  //   where: {
-  //     [Op.or]: [
-  //       { organizerId: req.user.id },
-  //       { id: { [Op.in]: groupIds } }
-  //     ],
-  //     id: req.params.groupId
-  //   },
-  //   attributes: ['id']
-  // });
+  const groups = await Group.findAll({
+    where: {
+      [Op.or]: [
+        { organizerId: req.user.id },
+        { id: { [Op.in]: groupIds } }
+      ],
+      id: req.params.groupId
+    },
+    attributes: ['id']
+  });
 
-  // const id = groups.map(id => id.get('id'));
-  // if (!id) throw new Error("Bad request")
-  console.log(req.params);
+  const id = groups.map(id => id.get('id'));
+  if (!id) throw new Error("Bad request")
+
   const event = await Event.create({
     groupId: req.params.groupId,
     venueId,
@@ -219,9 +289,10 @@ router.post('/:groupId/events', requireAuth, async (req, res) => {
     startDate,
     endDate
   })
-console.log(event);
+
   res.json(event)
 })
+
 
 
 router.post('/', requireAuth, async (req, res) => {
