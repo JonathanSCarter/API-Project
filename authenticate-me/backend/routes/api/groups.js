@@ -42,6 +42,37 @@ router.get('/current', requireAuth, async (req, res) => {
   return res.json({ Groups })
 })
 
+router.get('/:groupId/events', requireAuth, async (req, res) => {
+  const group = await Group.findOne({
+    where: {
+      id: req.params.groupId
+    },
+    attributes: ['id', 'name', 'city', 'state']
+  })
+  if (!group) throw new Error("Group couldn't be found")
+
+  let Events = await Event.findAll({
+    where: {
+      groupId: group.id
+    }
+  })
+  Events = await Promise.all(Events.map(async event => {
+    event = event.toJSON();
+    const venue = await Venue.findOne({
+      where: {
+        id: event.venueId
+      },
+      attributes: ['id', 'city', 'state']
+    })
+    event.Group = group
+    event.Venue = venue
+
+    return event
+  }))
+
+  res.json({ Events })
+})
+
 router.get('/:groupId/venues', requireAuth, async (req, res) => {
   const group = await Group.findByPk(req.params.groupId)
   if (!group) throw new Error("Group couldn't be found")
@@ -140,7 +171,7 @@ router.get('/:groupId/members', async (req, res) => {
         },
         attributes: ['status']
       });
-      if(memberstatus){
+      if (memberstatus) {
         userInfo = userInfo.toJSON();
         userInfo.Membership = memberstatus;
         return userInfo;
@@ -202,6 +233,8 @@ router.post('/:groupId/images', requireAuth, async (req, res) => {
   if (!group) throw new Error("Group couldn't be found")
   if (req.user.id !== group.organizerId) throw new Error('Current User must be the organizer for the group')
 
+
+
   const image = await GroupImage.create({
     groupId: req.params.groupId,
     url,
@@ -258,6 +291,22 @@ router.post('/:groupId/venues', requireAuth, async (req, res) => {
 
 router.post('/:groupId/events', requireAuth, async (req, res) => {
   const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
+  const venue = await Venue.findByPk(venueId)
+  if (!venue) throw new Error("Venue does not exist")
+  if (name.length < 5) throw new Error("Name must be at least 5 characters")
+  if (type !== 'Online' && type !== 'In person') throw new Error("Type must be Online or In person")
+  if (typeof capacity !== 'number') throw new Error('Capacity must be an integer')
+  if (typeof price !== 'number') throw new Error('Price is invalid')
+  if (!description) throw new Error("Description is required")
+  let date = new Date()
+  const parsedStartDate = new Date(startDate);
+  const parsedEndDate = new Date(endDate);
+  console.log(parsedStartDate.getTime());
+  console.log(parsedEndDate.getTime());
+  if (parsedStartDate.getTime() <= date.getTime()) throw new Error("Start date must be in the future");
+  if (parsedStartDate.getTime() >= parsedEndDate.getTime()) throw new Error("End date is less than start date");
+
+
   const member = await Membership.findAll({
     where: {
       userId: req.user.id,
@@ -293,7 +342,19 @@ router.post('/:groupId/events', requireAuth, async (req, res) => {
     endDate
   })
 
-  res.json(event)
+  const response = {
+    id: event.id,
+    venueId,
+    name,
+    type,
+    capacity,
+    price,
+    description,
+    startDate,
+    endDate
+  }
+
+  res.json(response)
 })
 
 router.post('/:groupId/membership', requireAuth, async (req, res) => {
@@ -303,20 +364,20 @@ router.post('/:groupId/membership', requireAuth, async (req, res) => {
       groupId: req.params.groupId
     }
   })
-  if(!members.length) throw new Error("Group couldn't be found")
+  if (!members.length) throw new Error("Group couldn't be found")
   const isMember = await Membership.findOne({
-    where:{
+    where: {
       groupId: req.params.groupId,
       userId: req.user.id
     }
   })
-  if(isMember.status === 'pending') throw new Error("Membership has already been requested")
-  else if(isMember) throw new Error("User is already a member of the group")
+  if (isMember.status === 'pending') throw new Error("Membership has already been requested")
+  else if (isMember) throw new Error("User is already a member of the group")
 
 
   const member = await Membership.create({
-    userId:req.user.id,
-    groupId:req.params.groupId,
+    userId: req.user.id,
+    groupId: req.params.groupId,
     status: 'pending'
   })
 
@@ -325,7 +386,7 @@ router.post('/:groupId/membership', requireAuth, async (req, res) => {
   application.memberId = req.user.id;
   application.status = member.status;
 
-  return res.json({application})
+  return res.json({ application })
 })
 
 router.post('/', requireAuth, async (req, res) => {
@@ -346,25 +407,25 @@ router.put('/:groupId/membership', requireAuth, async (req, res) => {
   const { memberId, status } = req.body;
 
   const member = await Membership.findOne({
-    where:{
-      id:memberId,
-      groupId:req.params.groupId
+    where: {
+      id: memberId,
+      groupId: req.params.groupId
     }
   })
   const user = await User.findByPk(memberId)
   const group = await Group.findByPk(req.params.groupId)
-  if(status === 'pending') throw new Error("Cannot change a membership status to pending")
-  if(!member) throw new Error("Membership between the user and the group does not exist")
-  if(!user) throw new Error("User couldn't be found")
+  if (status === 'pending') throw new Error("Cannot change a membership status to pending")
+  if (!member) throw new Error("Membership between the user and the group does not exist")
+  if (!user) throw new Error("User couldn't be found")
 
   const ownerCheck = await Membership.findOne({
     where: {
       groupId: req.params.groupId,
-      status: {[Op.in]: ['host', 'co-host']}
+      status: { [Op.in]: ['host', 'co-host'] }
     }
   })
 
-  if(!group || !ownerCheck) throw new Error("Group couldn't be found")
+  if (!group || !ownerCheck) throw new Error("Group couldn't be found")
 
   member.status = status;
 
@@ -376,17 +437,17 @@ router.put('/:groupId/membership', requireAuth, async (req, res) => {
 
   member.save();
 
-  return res.json({response})
+  return res.json({ response })
 })
 
 router.put('/:groupId', requireAuth, async (req, res) => {
   const { name, about, type, private, city, state } = req.body;
   const group = await Group.findByPk(req.params.groupId);
   if (!group) throw new Error("Group couldn't be found")
-  if(name.length > 60) throw new Error("Name must be 60 characters or less")
-  if(about.length < 50) throw new Error("About must be 50 characters or more")
-  if(type !== 'Online' && type !== 'In person') throw new Error("Type must be 'Online' or 'In person")
-  if(typeof private !== 'boolean') throw new Error('Private must be a boolean')
+  if (name.length > 60) throw new Error("Name must be 60 characters or less")
+  if (about.length < 50) throw new Error("About must be 50 characters or more")
+  if (type !== 'Online' && type !== 'In person') throw new Error("Type must be 'Online' or 'In person")
+  if (typeof private !== 'boolean') throw new Error('Private must be a boolean')
 
   if (req.user.id !== group.organizerId) throw new Error('Current User must be the organizer for the group')
 

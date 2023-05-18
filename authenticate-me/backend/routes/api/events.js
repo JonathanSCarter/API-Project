@@ -250,7 +250,12 @@ router.post('/:eventId/images', requireAuth, async (req, res) => {
     preview
 
   })
-  return res.json(image)
+
+  const response = {
+    url,
+    preview
+  }
+  return res.json(response)
 })
 
 router.put('/:eventId/attendance', requireAuth, async (req, res) => {
@@ -279,6 +284,22 @@ router.put('/:eventId', requireAuth, async (req, res) => {
     const testTwo = await Venue.findByPk(venueId)
     if (!testTwo) throw new Error("Venue couldn't be found")
   }
+
+  const venue = await Venue.findByPk(venueId)
+  if (!venue) throw new Error("Venue does not exist")
+  if (name.length < 5) throw new Error("Name must be at least 5 characters")
+  if (type !== 'Online' && type !== 'In person') throw new Error("Type must be Online or In person")
+  if (typeof capacity !== 'number') throw new Error('Capacity must be an integer')
+  if (typeof price !== 'number') throw new Error('Price is invalid')
+  if (!description) throw new Error("Description is required")
+  let date = new Date()
+  const parsedStartDate = new Date(startDate);
+  const parsedEndDate = new Date(endDate);
+  console.log(parsedStartDate.getTime());
+  console.log(parsedEndDate.getTime());
+  if (parsedStartDate.getTime() <= date.getTime()) throw new Error("Start date must be in the future");
+  if (parsedStartDate.getTime() >= parsedEndDate.getTime()) throw new Error("End date is less than start date");
+
 
   const member = await Membership.findAll({
     where: {
@@ -328,7 +349,19 @@ router.put('/:eventId', requireAuth, async (req, res) => {
 
   event.save();
 
-  return res.json(event)
+  const response = {
+    id:event.id,
+    groupId:event.groupId,
+    venueId,name,
+    type,
+    capacity,
+    price,
+    description,
+    startDate,
+    endDate
+  }
+
+  return res.json(response)
 })
 
 router.delete('/:eventId/attendance', requireAuth, async (req, res) => {
