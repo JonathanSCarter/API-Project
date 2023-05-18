@@ -244,7 +244,7 @@ router.post('/:groupId/venues', requireAuth, async (req, res) => {
   if (!id) throw new Error("Group couldn't be found")
 
   const venue = await Venue.create({
-    groupId: id[0],
+    groupId: req.params.groupId,
     address,
     city,
     state,
