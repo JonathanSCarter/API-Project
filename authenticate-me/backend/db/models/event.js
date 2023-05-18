@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       Event.belongsTo(models.Group, { foreignKey: 'groupId' })
       Event.belongsTo(models.Venue, { foreignKey: 'venueId' })
       Event.hasMany(models.EventImage, {foreignKey: 'eventId'})
+      Event.hasMany(models.Attendance, {foreignKey: 'eventId'})
 
     }
   }
@@ -29,11 +30,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     groupId: {
       type: DataTypes.INTEGER,
-      // allowNull: false,
+      allowNull: false,
     },
     name: {
       type: DataTypes.STRING,
-      // allowNull: false,
+      allowNull: false,
       validate: {
         isLong(value) {
           if (value.length < 5) throw new Error()
@@ -42,11 +43,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     description: {
       type: DataTypes.STRING,
-      // allowNull: false,
+      allowNull: false,
     },
     type: {
       type: DataTypes.ENUM('Online', 'In person'),
-      // allowNull: false,
+      allowNull: false,
       // validate: {
       //   NoVenue(value) {
       //     if ((value && this.venueId !== null) || (!value && this.venueId)) throw new Error()
@@ -55,29 +56,26 @@ module.exports = (sequelize, DataTypes) => {
     },
     capacity: {
       type: DataTypes.INTEGER,
-      // allowNull: false,
+      allowNull: false,
     },
     price: {
       type: DataTypes.DECIMAL(99, 2),
-      // allowNull: false,
+      allowNull: false,
     },
     startDate: {
       type: DataTypes.DATE,
-      // allowNull: false,
-      // validate: {
-      //   isDate: true,
-      // }
+      allowNull: false,
+
     },
     endDate: {
       type: DataTypes.DATE,
       allowNull: false,
-      // validate: {
-      //   isAfterStartDate(value) {
-      //     if (value <= this.startDate) throw new Error('End date must be after the start date');
-      //   },
-      //   isDate: true,
-
-      // },
+      validate: {
+        isAfterStartDate(value) {
+          if (value.parse <= this.startDate.parse) throw new Error('End date must be after the start date');
+        },
+        isDate: true,
+      },
     },
   }, {
     sequelize,

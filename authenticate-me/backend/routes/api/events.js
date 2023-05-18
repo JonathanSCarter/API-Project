@@ -1,10 +1,55 @@
 const express = require('express');
 const { Op } = require('sequelize')
-const { Event, Venue, Group, Membership, GroupImage, EventImage } = require('../../db/models');
+const { Event, Venue, Group, Membership, GroupImage, EventImage, Attendance, User } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
 
+router.get('/:eventId/attendees', async (req, res) => {
+  const event = await Event.findByPk(req.params.eventId)
+  if (!event) throw new Error("Event couldn't be found")
+  let membership = await Membership.findOne({
+    where: {
+      userId: req.user.id,
+      groupId: event.groupId
+    }
+  })
+  membership = membership.toJSON();
+  if ((membership.status === "host" || membership.status === 'co-host')) {
+    let attendees = await Attendance.findAll()
+    const Attendees = await Promise.all(attendees.map(async person => {
+      const user = await User.findByPk(person.userId)
+      const data = {};
+      data.id = person.id;
+      data.firstName = user.firstName;
+      data.lastName = user.lastName;
+      data.Attendance = { status: person.status }
+      console.log(data);
+      return data;
+    }))
+
+    return res.json({ Attendees })
+  } else {
+    const attendees = await Attendance.findAll({
+      where: {
+        status: { [Op.in]: ['attending', 'waitlist'] }
+      }
+    })
+    const Attendees = await Promise.all(attendees.map(async person => {
+      const user = await User.findByPk(person.userId)
+      const data = {};
+      data.id = person.id;
+      data.firstName = user.firstName;
+      data.lastName = user.lastName;
+      data.Attendance = { status: person.status }
+      console.log(data);
+      return data;
+    }))
+
+    return res.json({ Attendees })
+  }
+
+})
 
 router.get('/:eventId', async (req, res) => {
   let event = await Event.findOne({
@@ -55,10 +100,49 @@ router.get('/:eventId', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
+  let { page, size, name, type, startDate } = req.query
+
+  const pagination = {}
+  console.log(type);
+  if (Number(page) < 1) throw new Error("Page must be greater than or equal to 1")
+  if (Number(size) < 1) throw new Error("Size must be greater than or equal to 1")
+  if (typeof name !== 'string' && name) throw new Error("Name must be a string")
+  if ((type !== 'Online' && type !== 'In person') && type) throw new Error("Type must be 'Online' or 'In person'")
+  if(startDate){
+    if ((startDate.parse === NaN) && startDate) throw new Error("Start date must be a valid datetime")
+  }
+
+  if (name) {
+    pagination.where = {
+      name: {
+        [Op.substring]: name
+      }
+    }
+  }
+
+  if (type) {
+    pagination.where.type = type
+  }
+
+  if(startDate) {
+    pagination.where.startDate = {
+      [Op.gte]: startDate
+    }
+  }
+
+  if (size !== '0' && page !== '0') {
+    if (!size) size = 20;
+    if (!page) page = 1;
+    pagination.limit = size,
+      pagination.offset = (page - 1) * size
+  }
+
+
   const events = await Event.findAll({
     attributes: {
       exclude: ['description', 'price', 'capacity', 'createdAt', 'updatedAt']
-    }
+    },
+    ...pagination
   })
 
 
@@ -101,6 +185,29 @@ router.get('/', async (req, res) => {
   res.json({ Events })
 })
 
+router.post('/:eventId/attendance', requireAuth, async (req, res) => {
+  const event = await Event.findByPk(req.params.eventId)
+  if (!event) throw new Error("Event couldn't be found")
+  const checkAttendance = await Attendance.findOne({
+    where: {
+      userId: req.user.id,
+      eventId: req.params.eventId
+    }
+  })
+  if (checkAttendance.status === 'pending') throw new Error("Attendance has already been requested")
+  if (checkAttendance.status) throw new Error("User is already an attendee of the event")
+
+  const attendance = await Attendance.create({
+    eventId: req.params.eventId,
+    userId: req.user.id,
+    status: 'pending'
+  })
+  return res.json({
+    userId: attendance.userId,
+    status: attendance.status
+  })
+})
+
 router.post('/:eventId/images', requireAuth, async (req, res) => {
   const { url, preview } = req.body;
 
@@ -110,7 +217,7 @@ router.post('/:eventId/images', requireAuth, async (req, res) => {
   const member = await Membership.findAll({
     where: {
       userId: req.user.id,
-      status: 'co-host'
+      status: { [Op.in]: ['co-host', 'host'] }
     },
     attributes: ['groupId']
   })
@@ -144,6 +251,25 @@ router.post('/:eventId/images', requireAuth, async (req, res) => {
 
   })
   return res.json(image)
+})
+
+router.put('/:eventId/attendance', requireAuth, async (req, res) => {
+  const { userId, status } = req.body;
+  if (status === 'pending') throw new Error('Cannot change an attendance status to pending')
+  const test = await Event.findByPk(req.params.eventId)
+  if (!test) throw new Error("Event couldn't be found")
+
+  const attendance = await Attendance.findOne({
+    where: {
+      userId,
+      eventId: req.params.eventId
+    }
+  })
+
+  attendance.status = status
+  attendance.save();
+
+  return res.json(attendance)
 })
 
 router.put('/:eventId', requireAuth, async (req, res) => {
@@ -181,30 +307,68 @@ router.put('/:eventId', requireAuth, async (req, res) => {
   const event = await Event.findOne({
     where: {
       [Op.and]: [
-        { id: req.params.eventId},
+        { id: req.params.eventId },
         { id: { [Op.in]: id } }
       ]
     },
     attributes: {
-    exclude: ['createdAt', 'UpdatedAt']
-  }
+      exclude: ['createdAt', 'UpdatedAt']
+    }
   })
-if (!event) throw new Error("Event couldn't be found")
+  if (!event) throw new Error("Event couldn't be found")
 
-if (venueId) event.venueId = venueId
-if (name) event.name = name
-if (type) event.type = type
-if (capacity) event.capacity = capacity
-if (price) event.price = price
-if (description) event.description = description
-if (startDate) event.startDate = startDate
-if (endDate) event.endDate = endDate
+  if (venueId) event.venueId = venueId
+  if (name) event.name = name
+  if (type) event.type = type
+  if (capacity) event.capacity = capacity
+  if (price) event.price = price
+  if (description) event.description = description
+  if (startDate) event.startDate = startDate
+  if (endDate) event.endDate = endDate
 
-event.save();
+  event.save();
 
-return res.json(event)
+  return res.json(event)
 })
 
+router.delete('/:eventId/attendance', requireAuth, async (req, res) => {
+  const { userId } = req.body;
+
+  const test = await Event.findByPk(req.params.groupId)
+  if (!test) throw new Error("Event couldn't be found")
+
+  const event = await Event.findOne({
+    where: {
+      eventId: req.params.req,
+      userId
+    }
+  })
+  if (!event) throw new Error("Attendance does not exist for this User")
+  const membership = await Membership.findOne({
+    where: {
+      groupId: event.groupId,
+      userId: req.user.id
+    }
+  })
+
+  if (!(membership.status === 'host' || membership.status === 'co-host' || req.user.id === userId)) {
+    throw new Error("Only the User or organizer may delete an Attendance")
+  }
+
+  const attendance = await Attendance.findOne({
+    where: {
+      userId,
+      eventId: req.params.eventId
+    }
+  })
+
+  attendance.destroy();
+
+  res.json({
+    message: "Successfully deleted attendance from event"
+  })
+
+})
 
 router.delete('/:eventId', requireAuth, async (req, res) => {
 
@@ -235,16 +399,16 @@ router.delete('/:eventId', requireAuth, async (req, res) => {
   const event = await Event.findOne({
     where: {
       [Op.and]: [
-        { id: req.params.eventId},
+        { id: req.params.eventId },
         { id: { [Op.in]: id } }
       ]
     },
     attributes: {
-    exclude: ['createdAt', 'UpdatedAt']
-  }
+      exclude: ['createdAt', 'UpdatedAt']
+    }
   })
   event.destroy();
 
-  return res.json({message: "Successfully deleted"})
+  return res.json({ message: "Successfully deleted" })
 })
 module.exports = router;

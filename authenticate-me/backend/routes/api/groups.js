@@ -113,7 +113,7 @@ router.get('/:groupId/members', async (req, res) => {
       const memberstatus = await Membership.findOne({
         where: {
           userId: member.userId,
-          status: { [Op.notIn]: ['pending'] }
+          groupId: req.params.groupId
         },
         attributes: ['status']
       });
@@ -135,15 +135,18 @@ router.get('/:groupId/members', async (req, res) => {
       const memberstatus = await Membership.findOne({
         where: {
           userId: member.userId,
-          status: { [Op.notIn]: ['pending'] }
+          status: { [Op.notIn]: ['pending'] },
+          groupId: req.params.groupId
         },
         attributes: ['status']
       });
-      userInfo = userInfo.toJSON();
-      userInfo.Membership = memberstatus;
-      return userInfo;
+      if(memberstatus){
+        userInfo = userInfo.toJSON();
+        userInfo.Membership = memberstatus;
+        return userInfo;
+      }
     }));
-
+    Members = Members.filter(Boolean)
     return res.json({ Members });
   }
 });
@@ -293,7 +296,37 @@ router.post('/:groupId/events', requireAuth, async (req, res) => {
   res.json(event)
 })
 
+router.post('/:groupId/membership', requireAuth, async (req, res) => {
 
+  const members = await Membership.findAll({
+    where: {
+      groupId: req.params.groupId
+    }
+  })
+  if(!members.length) throw new Error("Group couldn't be found")
+  const isMember = await Membership.findOne({
+    where:{
+      groupId: req.params.groupId,
+      userId: req.user.id
+    }
+  })
+  if(isMember.status === 'pending') throw new Error("Membership has already been requested")
+  else if(isMember) throw new Error("User is already a member of the group")
+
+
+  const member = await Membership.create({
+    userId:req.user.id,
+    groupId:req.params.groupId,
+    status: 'pending'
+  })
+
+
+  const application = {}
+  application.memberId = req.user.id;
+  application.status = member.status;
+
+  return res.json({application})
+})
 
 router.post('/', requireAuth, async (req, res) => {
   const { name, about, type, private, city, state } = req.body;
@@ -309,6 +342,42 @@ router.post('/', requireAuth, async (req, res) => {
   return res.json(Groups)
 })
 
+router.put('/:groupId/membership', requireAuth, async (req, res) => {
+  const { memberId, status } = req.body;
+
+  const member = await Membership.findOne({
+    where:{
+      id:memberId,
+      groupId:req.params.groupId
+    }
+  })
+  const user = await User.findByPk(memberId)
+  const group = await Group.findByPk(req.params.groupId)
+  if(status === 'pending') throw new Error("Cannot change a membership status to pending")
+  if(!member) throw new Error("Membership between the user and the group does not exist")
+  if(!user) throw new Error("User couldn't be found")
+
+  const ownerCheck = await Membership.findOne({
+    where: {
+      groupId: req.params.groupId,
+      status: {[Op.in]: ['host', 'co-host']}
+    }
+  })
+
+  if(!group || !ownerCheck) throw new Error("Group couldn't be found")
+
+  member.status = status;
+
+  const response = {}
+  response.id = member.id;
+  response.groupId = req.params.groupId;
+  response.memberId = memberId;
+  response.status = status;
+
+  member.save();
+
+  return res.json({response})
+})
 
 router.put('/:groupId', requireAuth, async (req, res) => {
   const { name, about, type, private, city, state } = req.body;
