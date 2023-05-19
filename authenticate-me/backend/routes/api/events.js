@@ -387,6 +387,9 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res) => {
     }
   })
 
+  if(!membership) throw new Error("Only the User or organizer may delete an Attendance")
+
+
   if (!(membership.status === 'host' || membership.status === 'co-host' || req.user.id === userId)) {
     throw new Error("Only the User or organizer may delete an Attendance")
   }
