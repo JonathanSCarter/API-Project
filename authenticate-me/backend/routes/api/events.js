@@ -430,7 +430,7 @@ router.delete('/:eventId', requireAuth, async (req, res) => {
   });
 
   const id = groups.map(id => id.get('id'));
-  if (!id.length) throw new Error("Bad request")
+  if (!id.length) throw new Error("Event couldn't be found")
 
 
   const event = await Event.findOne({
