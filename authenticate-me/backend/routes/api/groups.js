@@ -487,7 +487,7 @@ router.delete('/:groupId/membership', requireAuth, async (req, res) => {
     where: {
       userId: req.user.id,
       groupId: req.params.groupId,
-      status: host
+      status: 'host'
     }
   })
 
