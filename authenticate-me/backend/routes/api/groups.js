@@ -482,6 +482,18 @@ router.delete('/:groupId/membership', requireAuth, async (req, res) => {
   const group = await Group.findByPk(req.params.groupId)
   if(!group) throw new Error("Group couldn't be found")
 
+  const cohostCheck = await Membership.findAll({
+    where: {
+      userId: user.req.id,
+      groupId: req.params.groupId,
+      status: {[Op.in]: ['host', 'co-host']}
+    }
+  })
+
+  if (req.user.id !== group.organizerId && !cohostCheck) throw new Error('Current User must be the organizer or co-host of the group')
+
+
+
   const member = await Membership.findByPk(memberId)
   if(!member) throw new Error("Membership couldn't be found")
 
