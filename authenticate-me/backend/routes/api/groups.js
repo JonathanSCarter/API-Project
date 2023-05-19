@@ -493,7 +493,12 @@ router.delete('/:groupId/membership', requireAuth, async (req, res) => {
 
   if (req.user.id !== memberId && !ownerCheck) throw new Error('User is not authorized to delete membership')
 
-  const member = await Membership.findByPk(memberId)
+  const member = await Membership.findOne({
+    where: {
+      userId: memberId,
+      groupId: group.params.groupId
+    }
+  })
   if(!member) throw new Error("Membership couldn't be found")
 
 
