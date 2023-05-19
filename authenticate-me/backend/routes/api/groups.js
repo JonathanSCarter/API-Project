@@ -219,6 +219,7 @@ router.get('/', async (req, res) => {
     group = group.toJSON(),
       group.numMembers = numMembers.length
     if (image) group.previewImage = image.url
+    else group.previewImage = null
     return group
   }))
 
@@ -246,12 +247,18 @@ router.post('/:groupId/images', requireAuth, async (req, res) => {
   imageJson.url = image.url
   imageJson.preview = image.preview
 
-  return res.json({ imageJson })
+  return res.json( imageJson )
 
 })
 
 router.post('/:groupId/venues', requireAuth, async (req, res) => {
+
   const { address, city, state, lat, lng } = req.body;
+
+  const group = await Group.findByPk(req.params.groupId)
+  if(!group) throw new Error("Group couldn't be found")
+
+
   const member = await Membership.findAll({
     where: {
       userId: req.user.id,
@@ -292,6 +299,9 @@ router.post('/:groupId/venues', requireAuth, async (req, res) => {
 router.post('/:groupId/events', requireAuth, async (req, res) => {
   const { venueId, name, type, capacity, price, description, startDate, endDate } = req.body;
   const venue = await Venue.findByPk(venueId)
+  const group = await Group.findByPk(req.params.groupId)
+  if(!group) throw new Error("Group couldn't be found")
+
   if (!venue) throw new Error("Venue does not exist")
   if (name.length < 5) throw new Error("Name must be at least 5 characters")
   if (type !== 'Online' && type !== 'In person') throw new Error("Type must be Online or In person")
@@ -331,7 +341,7 @@ router.post('/:groupId/events', requireAuth, async (req, res) => {
   if (!id) throw new Error("Bad request")
 
   const event = await Event.create({
-    groupId: req.params.groupId,
+    groupId: Number(req.params.groupId),
     venueId,
     name,
     type,
@@ -341,7 +351,7 @@ router.post('/:groupId/events', requireAuth, async (req, res) => {
     startDate,
     endDate
   })
-
+  console.log(event);
   const response = {
     id: event.id,
     venueId,
@@ -371,9 +381,10 @@ router.post('/:groupId/membership', requireAuth, async (req, res) => {
       userId: req.user.id
     }
   })
-  if (isMember.status === 'pending') throw new Error("Membership has already been requested")
-  else if (isMember) throw new Error("User is already a member of the group")
-
+  if(isMember){
+    if (isMember.status === 'pending') throw new Error("Membership has already been requested")
+    else throw new Error("User is already a member of the group")
+  }
 
   const member = await Membership.create({
     userId: req.user.id,
@@ -414,18 +425,18 @@ router.put('/:groupId/membership', requireAuth, async (req, res) => {
   })
   const user = await User.findByPk(memberId)
   const group = await Group.findByPk(req.params.groupId)
-  if (status === 'pending') throw new Error("Cannot change a membership status to pending")
-  if (!member) throw new Error("Membership between the user and the group does not exist")
-  if (!user) throw new Error("User couldn't be found")
-
   const ownerCheck = await Membership.findOne({
     where: {
       groupId: req.params.groupId,
       status: { [Op.in]: ['host', 'co-host'] }
     }
   })
-
   if (!group || !ownerCheck) throw new Error("Group couldn't be found")
+  if (status === 'pending') throw new Error("Cannot change a membership status to pending")
+  if (!member) throw new Error("Membership between the user and the group does not exist")
+  if (!user) throw new Error("User couldn't be found")
+
+
 
   member.status = status;
 
@@ -462,6 +473,29 @@ router.put('/:groupId', requireAuth, async (req, res) => {
   group.save();
 
   return res.json(group)
+
+})
+
+router.delete('/:groupId/membership', requireAuth, async (req, res) => {
+  const { memberId } = req.body;
+
+  const group = await Group.findByPk(req.params.groupId)
+  if(!group) throw new Error("Group couldn't be found")
+
+  const member = await Membership.findByPk(memberId)
+  if(!member) throw new Error("Membership couldn't be found")
+
+  const ownerCheck = await Membership.findOne({
+    where: {
+      groupId: req.params.groupId,
+      status: { [Op.in]: ['host', 'co-host'] }
+    }
+  })
+  if(!ownerCheck)("User couldn't be found")
+
+  member.destroy();
+
+  return res.json({ message: "Successfully deleted" })
 
 })
 
