@@ -1,0 +1,69 @@
+===============================================================================
+EXTENSION NAME : linecounter
+EXTENSION VERSION : 0.2.7
+-------------------------------------------------------------------------------
+count time : 2023-05-18 23:37:32
+count workspace : /home/jonathan/AppAcademy/Mod-4/Project/authenticate-me
+total files : 49
+total code lines : 9664
+total comment lines : 197
+total blank lines : 448
+
+    statistics
+   |      extension|     total code|  total comment|    total blank|percent|
+   -------------------------------------------------------------------------
+   |          .json|           6519|              0|              2|     67|
+   |            .js|           2397|            192|            325|     25|
+   |               |             30|              0|              7|   0.31|
+   |            .md|            718|              5|            114|    7.4|
+   -------------------------------------------------------------------------
+.gitignore, code is 5, comment is 0, blank is 0.
+backend/.env, code is 6, comment is 0, blank is 0.
+backend/.sequelizerc, code is 7, comment is 0, blank is 1.
+backend/app.js, code is 62, comment is 1, blank is 16.
+backend/bin/www, code is 12, comment is 0, blank is 6.
+backend/config/database.js, code is 24, comment is 0, blank is 1.
+backend/config/index.js, code is 9, comment is 0, blank is 0.
+backend/db/dev.db, it is a binary file.
+backend/db/migrations/20230511191947-create-user.js, code is 54, comment is 1, blank is 3.
+backend/db/migrations/20230516013936-create-groups.js, code is 62, comment is 1, blank is 5.
+backend/db/migrations/20230516144141-create-memberships.js, code is 48, comment is 1, blank is 2.
+backend/db/migrations/20230516150806-create-group-image.js, code is 46, comment is 1, blank is 3.
+backend/db/migrations/20230516173245-create-venues.js, code is 58, comment is 1, blank is 2.
+backend/db/migrations/20230517131339-create-events.js, code is 71, comment is 1, blank is 3.
+backend/db/migrations/20230517210645-create-event-image.js, code is 46, comment is 1, blank is 1.
+backend/db/migrations/20230518005031-create-attendance.js, code is 48, comment is 1, blank is 0.
+backend/db/models/attendance.js, code is 30, comment is 6, blank is 1.
+backend/db/models/event.js, code is 82, comment is 12, blank is 1.
+backend/db/models/eventimage.js, code is 29, comment is 6, blank is 1.
+backend/db/models/group.js, code is 52, comment is 6, blank is 1.
+backend/db/models/groupimage.js, code is 29, comment is 6, blank is 1.
+backend/db/models/index.js, code is 37, comment is 0, blank is 6.
+backend/db/models/membership.js, code is 27, comment is 6, blank is 1.
+backend/db/models/user.js, code is 58, comment is 6, blank is 1.
+backend/db/models/venue.js, code is 50, comment is 6, blank is 1.
+backend/db/seeders/20230511194706-demo-user.js, code is 41, comment is 16, blank is 6.
+backend/db/seeders/20230516015722-demo-group.js, code is 46, comment is 16, blank is 3.
+backend/db/seeders/20230516151312-memberships.js, code is 63, comment is 16, blank is 1.
+backend/db/seeders/20230516151707-groupimages.js, code is 34, comment is 16, blank is 2.
+backend/db/seeders/20230516175100-venues.js, code is 43, comment is 16, blank is 1.
+backend/db/seeders/20230517134919-event.js, code is 40, comment is 16, blank is 1.
+backend/db/seeders/20230517211004-EventImage.js, code is 34, comment is 16, blank is 1.
+backend/db/seeders/20230518010340-Attendance.js, code is 49, comment is 16, blank is 3.
+backend/package-lock.json, code is 6453, comment is 0, blank is 2.
+backend/package.json, code is 40, comment is 0, blank is 0.
+backend/psql-setup-script.js, code is 6, comment is 0, blank is 1.
+backend/routes/api/event-images.js, code is 22, comment is 1, blank is 11.
+backend/routes/api/events.js, code is 384, comment is 0, blank is 67.
+backend/routes/api/group-images.js, code is 20, comment is 0, blank is 9.
+backend/routes/api/groups.js, code is 430, comment is 0, blank is 84.
+backend/routes/api/index.js, code is 21, comment is 0, blank is 12.
+backend/routes/api/session.js, code is 77, comment is 0, blank is 19.
+backend/routes/api/users.js, code is 47, comment is 0, blank is 12.
+backend/routes/api/venues.js, code is 32, comment is 0, blank is 16.
+backend/routes/index.js, code is 12, comment is 0, blank is 7.
+backend/utils/auth.js, code is 55, comment is 0, blank is 15.
+backend/utils/validation.js, code is 19, comment is 0, blank is 4.
+package.json, code is 26, comment is 0, blank is 0.
+README.md, code is 718, comment is 5, blank is 114.
+===============================================================================

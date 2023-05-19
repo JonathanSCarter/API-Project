@@ -20,7 +20,7 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
     }
   })
 
-  if(!membership) throw new Error("Event Image couldn't be found")
+  if(!membership) throw new Error("You lack authorization to delete this image")
 
   console.log('teat,', image);
 

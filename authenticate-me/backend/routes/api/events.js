@@ -409,10 +409,13 @@ router.delete('/:eventId/attendance', requireAuth, async (req, res) => {
 
 router.delete('/:eventId', requireAuth, async (req, res) => {
 
+  const test = await Event.findByPk(req.params.eventId)
+  if(!test)throw new Error("Event couldn't be found")
+
   const member = await Membership.findAll({
     where: {
       userId: req.user.id,
-      status: 'co-host'
+      status: {[Op.in]: ['co-host', 'host']}
     },
     attributes: ['groupId']
   })
@@ -430,7 +433,7 @@ router.delete('/:eventId', requireAuth, async (req, res) => {
   });
 
   const id = groups.map(id => id.get('id'));
-  if (!id.length) throw new Error("Event couldn't be found")
+  if (!id.length) throw new Error("You lack authorization to delete this event")
 
 
   const event = await Event.findOne({

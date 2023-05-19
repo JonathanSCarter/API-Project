@@ -1,0 +1,334 @@
+{
+    "extension": "linecounter",
+    "version": "0.2.7",
+    "workspace": "/home/jonathan/AppAcademy/Mod-4/Project/authenticate-me",
+    "linecount": [
+        {
+            "version": "0.2.7",
+            "counttime": "2023-05-18 23:37:32",
+            "filesum": 49,
+            "codesum": 9664,
+            "commentsum": 197,
+            "blanksum": 448,
+            "statistics": {
+                ".json": {
+                    "code": 6519,
+                    "comment": 0,
+                    "blank": 2
+                },
+                ".js": {
+                    "code": 2397,
+                    "comment": 192,
+                    "blank": 325
+                },
+                "": {
+                    "code": 30,
+                    "comment": 0,
+                    "blank": 7
+                },
+                ".md": {
+                    "code": 718,
+                    "comment": 5,
+                    "blank": 114
+                }
+            },
+            "filelist": [
+                {
+                    "blank": 0,
+                    "code": 5,
+                    "comment": 0,
+                    "filename": ".gitignore"
+                },
+                {
+                    "blank": 0,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "backend/.env"
+                },
+                {
+                    "blank": 1,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "backend/.sequelizerc"
+                },
+                {
+                    "blank": 16,
+                    "code": 62,
+                    "comment": 1,
+                    "filename": "backend/app.js"
+                },
+                {
+                    "blank": 6,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": "backend/bin/www"
+                },
+                {
+                    "blank": 1,
+                    "code": 24,
+                    "comment": 0,
+                    "filename": "backend/config/database.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 9,
+                    "comment": 0,
+                    "filename": "backend/config/index.js"
+                },
+                {
+                    "filename": "backend/db/dev.db",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 3,
+                    "code": 54,
+                    "comment": 1,
+                    "filename": "backend/db/migrations/20230511191947-create-user.js"
+                },
+                {
+                    "blank": 5,
+                    "code": 62,
+                    "comment": 1,
+                    "filename": "backend/db/migrations/20230516013936-create-groups.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 48,
+                    "comment": 1,
+                    "filename": "backend/db/migrations/20230516144141-create-memberships.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 46,
+                    "comment": 1,
+                    "filename": "backend/db/migrations/20230516150806-create-group-image.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 58,
+                    "comment": 1,
+                    "filename": "backend/db/migrations/20230516173245-create-venues.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 71,
+                    "comment": 1,
+                    "filename": "backend/db/migrations/20230517131339-create-events.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 46,
+                    "comment": 1,
+                    "filename": "backend/db/migrations/20230517210645-create-event-image.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 48,
+                    "comment": 1,
+                    "filename": "backend/db/migrations/20230518005031-create-attendance.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 30,
+                    "comment": 6,
+                    "filename": "backend/db/models/attendance.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 82,
+                    "comment": 12,
+                    "filename": "backend/db/models/event.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 29,
+                    "comment": 6,
+                    "filename": "backend/db/models/eventimage.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 52,
+                    "comment": 6,
+                    "filename": "backend/db/models/group.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 29,
+                    "comment": 6,
+                    "filename": "backend/db/models/groupimage.js"
+                },
+                {
+                    "blank": 6,
+                    "code": 37,
+                    "comment": 0,
+                    "filename": "backend/db/models/index.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 27,
+                    "comment": 6,
+                    "filename": "backend/db/models/membership.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 58,
+                    "comment": 6,
+                    "filename": "backend/db/models/user.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 50,
+                    "comment": 6,
+                    "filename": "backend/db/models/venue.js"
+                },
+                {
+                    "blank": 6,
+                    "code": 41,
+                    "comment": 16,
+                    "filename": "backend/db/seeders/20230511194706-demo-user.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 46,
+                    "comment": 16,
+                    "filename": "backend/db/seeders/20230516015722-demo-group.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 63,
+                    "comment": 16,
+                    "filename": "backend/db/seeders/20230516151312-memberships.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 34,
+                    "comment": 16,
+                    "filename": "backend/db/seeders/20230516151707-groupimages.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 43,
+                    "comment": 16,
+                    "filename": "backend/db/seeders/20230516175100-venues.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 40,
+                    "comment": 16,
+                    "filename": "backend/db/seeders/20230517134919-event.js"
+                },
+                {
+                    "blank": 1,
+                    "code": 34,
+                    "comment": 16,
+                    "filename": "backend/db/seeders/20230517211004-EventImage.js"
+                },
+                {
+                    "blank": 3,
+                    "code": 49,
+                    "comment": 16,
+                    "filename": "backend/db/seeders/20230518010340-Attendance.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 6453,
+                    "comment": 0,
+                    "filename": "backend/package-lock.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 40,
+                    "comment": 0,
+                    "filename": "backend/package.json"
+                },
+                {
+                    "blank": 1,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "backend/psql-setup-script.js"
+                },
+                {
+                    "blank": 11,
+                    "code": 22,
+                    "comment": 1,
+                    "filename": "backend/routes/api/event-images.js"
+                },
+                {
+                    "blank": 67,
+                    "code": 384,
+                    "comment": 0,
+                    "filename": "backend/routes/api/events.js"
+                },
+                {
+                    "blank": 9,
+                    "code": 20,
+                    "comment": 0,
+                    "filename": "backend/routes/api/group-images.js"
+                },
+                {
+                    "blank": 84,
+                    "code": 430,
+                    "comment": 0,
+                    "filename": "backend/routes/api/groups.js"
+                },
+                {
+                    "blank": 12,
+                    "code": 21,
+                    "comment": 0,
+                    "filename": "backend/routes/api/index.js"
+                },
+                {
+                    "blank": 19,
+                    "code": 77,
+                    "comment": 0,
+                    "filename": "backend/routes/api/session.js"
+                },
+                {
+                    "blank": 12,
+                    "code": 47,
+                    "comment": 0,
+                    "filename": "backend/routes/api/users.js"
+                },
+                {
+                    "blank": 16,
+                    "code": 32,
+                    "comment": 0,
+                    "filename": "backend/routes/api/venues.js"
+                },
+                {
+                    "blank": 7,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": "backend/routes/index.js"
+                },
+                {
+                    "blank": 15,
+                    "code": 55,
+                    "comment": 0,
+                    "filename": "backend/utils/auth.js"
+                },
+                {
+                    "blank": 4,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": "backend/utils/validation.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 26,
+                    "comment": 0,
+                    "filename": "package.json"
+                },
+                {
+                    "blank": 114,
+                    "code": 718,
+                    "comment": 5,
+                    "filename": "README.md"
+                }
+            ]
+        }
+    ]
+}

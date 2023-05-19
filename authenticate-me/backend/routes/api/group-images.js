@@ -17,7 +17,7 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
     }
   })
 
-  if(!membership) throw new Error("Group Image couldn't be found")
+  if(!membership) throw new Error("You lack authorization to delete this image")
 
   image.destroy();
 
