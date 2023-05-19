@@ -484,7 +484,7 @@ router.delete('/:groupId/membership', requireAuth, async (req, res) => {
 
   const cohostCheck = await Membership.findAll({
     where: {
-      userId: user.req.id,
+      userId: req.user.id,
       groupId: req.params.groupId,
       status: {[Op.in]: ['host', 'co-host']}
     }
