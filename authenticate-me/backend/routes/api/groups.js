@@ -503,7 +503,7 @@ router.delete('/:groupId/membership', requireAuth, async (req, res) => {
       status: { [Op.in]: ['host', 'co-host'] }
     }
   })
-  if(!ownerCheck)("User couldn't be found")
+  if(!ownerCheck)throw new Error("'Current User must be the organizer or co-host of the group'")
 
   member.destroy();
 
