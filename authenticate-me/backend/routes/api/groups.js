@@ -490,7 +490,7 @@ router.delete('/:groupId/membership', requireAuth, async (req, res) => {
     }
   })
 
-  if (req.user.id !== group.organizerId && !cohostCheck) throw new Error('Current User must be the organizer or co-host of the group')
+  if (req.user.id !== group.organizerId && !cohostCheck.length) throw new Error('Current User must be the organizer or co-host of the group')
 
 
 
