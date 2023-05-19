@@ -108,7 +108,7 @@ router.get('/:groupId/venues', requireAuth, async (req, res) => {
   res.json({ Venues })
 })
 
-router.get('/:groupId/members', async (req, res) => {
+router.get('/:groupId/membership', async (req, res) => {
   const group = await Group.findByPk(req.params.groupId);
   if (!group) throw new Error("Group couldn't be found");
   console.log(req.user.id);
