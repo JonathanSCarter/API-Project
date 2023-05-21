@@ -10,7 +10,14 @@ router.put('/:venueId', requireAuth, async (req, res) => {
 
   let auth = false
 
-  const venue = await Venue.findByPk(req.params.venueId)
+  const venue = await Venue.findOne({
+    where: {
+      id: req.params.venueId
+    },
+    attributes: {
+      exclude: ['createdAt', 'updatedAt']
+    }
+  })
 
   if (!venue) throw new Error("Venue couldn't be found");
 
@@ -30,7 +37,7 @@ router.put('/:venueId', requireAuth, async (req, res) => {
   if(member) auth = true
   if(auth === false) throw new Error("Venue couldn't be found");
 
-  
+
   if(address) venue.address = address
   if(city) venue.city = city
   if(state) venue.state = state
@@ -38,6 +45,9 @@ router.put('/:venueId', requireAuth, async (req, res) => {
   if(lng) venue.lng = lng
 
   venue.save();
+
+  const response = {};
+
 
   return res.json(venue)
 

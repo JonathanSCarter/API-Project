@@ -11,13 +11,18 @@ router.get('/:eventId/attendees', async (req, res) => {
   let membership = await Membership.findOne({
     where: {
       userId: req.user.id,
-      groupId: event.groupId
+      groupId: event.groupId,
+      status: {[Op.in]: ['host', 'co-host']}
     }
   })
   if (membership) {
     membership = membership.toJSON();
     if ((membership.status === "host" || membership.status === 'co-host')) {
-      let attendees = await Attendance.findAll()
+      let attendees = await Attendance.findAll({
+        where: {
+          eventId: req.params.eventId
+        }
+      })
       const Attendees = await Promise.all(attendees.map(async person => {
         const user = await User.findByPk(person.userId)
         const data = {};
@@ -34,7 +39,8 @@ router.get('/:eventId/attendees', async (req, res) => {
   } else {
     const attendees = await Attendance.findAll({
       where: {
-        status: { [Op.in]: ['attending', 'waitlist'] }
+        status: { [Op.in]: ['attending', 'waitlist'] },
+        eventId: req.params.eventId
       }
     })
     const Attendees = await Promise.all(attendees.map(async person => {
@@ -70,7 +76,7 @@ router.get('/:eventId', async (req, res) => {
     where: {
       id: event.venueId,
     },
-    attributes: ['id', 'city', 'state', 'lat', 'lng']
+    attributes: ['id', 'address', 'city', 'state', 'lat', 'lng']
   })
   const group = await Group.findOne({
     where: {
@@ -180,6 +186,7 @@ router.get('/', async (req, res) => {
     event.Group = group
     event.numAttending = members.length
     if (image) event.previewImage = image.url
+    else event.previewImage = null
     return event
   }))
 
@@ -256,6 +263,7 @@ router.post('/:eventId/images', requireAuth, async (req, res) => {
   })
 
   const response = {
+    id: image.id,
     url: image.url,
     preview: image.preview
   }
@@ -274,6 +282,17 @@ router.put('/:eventId/attendance', requireAuth, async (req, res) => {
       eventId: req.params.eventId
     }
   })
+
+  const ownerCheck = await Membership.findOne({
+    where: {
+      userId: req.user.id,
+      status: { [Op.in]: ['host', 'co-host']}
+    }
+  })
+
+  if(!ownerCheck){
+    throw new Error("You lack authorization for this action")
+  }
 
   attendance.status = status
   attendance.save();

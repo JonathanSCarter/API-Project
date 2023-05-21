@@ -1,6 +1,6 @@
 const express = require('express');
 const { Op } = require('sequelize')
-const { Group, Membership, GroupImage, Venue, Event, User } = require('../../db/models');
+const { Group, Membership, GroupImage, Venue, Event, User, Attendance, EventImage } = require('../../db/models');
 const { requireAuth } = require('../../utils/auth');
 
 const router = express.Router();
@@ -54,6 +54,9 @@ router.get('/:groupId/events', requireAuth, async (req, res) => {
   let Events = await Event.findAll({
     where: {
       groupId: group.id
+    },
+    attributes: {
+      exclude: ['createdAt', 'updatedAt', 'description', 'capacity','price']
     }
   })
   Events = await Promise.all(Events.map(async event => {
@@ -64,8 +67,22 @@ router.get('/:groupId/events', requireAuth, async (req, res) => {
       },
       attributes: ['id', 'city', 'state']
     })
+    const members = await Attendance.findAll({
+      where: {
+        eventId: event.id
+      }
+    })
+    const image = await EventImage.findOne({
+      where: {
+        eventId: event.id,
+        preview: true
+      }
+    })
     event.Group = group
     event.Venue = venue
+    event.numAttending = members.length
+    if(image) event.previewImage = image.url
+    else event.previewImage = null
 
     return event
   }))
@@ -102,13 +119,16 @@ router.get('/:groupId/venues', requireAuth, async (req, res) => {
         { groupId: { [Op.in]: ids } },
         { groupId: req.params.groupId }
       ]
+    },
+    attributes: {
+      exclude: ['createdAt', 'updatedAt']
     }
   })
 
   res.json({ Venues })
 })
 
-router.get('/:groupId/membership', async (req, res) => {
+router.get('/:groupId/members', async (req, res) => {
   const group = await Group.findByPk(req.params.groupId);
   if (!group) throw new Error("Group couldn't be found");
   console.log(req.user.id);
@@ -292,7 +312,18 @@ router.post('/:groupId/venues', requireAuth, async (req, res) => {
     lng
   })
 
-  res.json(venue)
+  const response = {}
+
+
+  response.id = venue.id
+  response.groupId = venue.groupId
+  response.address = venue.address
+  response.city = venue.city
+  response.state = venue.state
+  response.lat = venue.lat
+  response.lng = venue.lng
+
+  res.json(response)
 })
 
 
@@ -411,6 +442,12 @@ router.post('/', requireAuth, async (req, res) => {
     city,
     state
   })
+  const Member = await Membership.create({
+    userId: req.user.id,
+    groupId: Groups.id,
+    status: 'host'
+  })
+
   return res.json(Groups)
 })
 
