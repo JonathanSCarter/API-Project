@@ -460,6 +460,7 @@ router.put('/:groupId/membership', requireAuth, async (req, res) => {
       groupId: req.params.groupId
     }
   })
+
   const user = await User.findByPk(memberId)
   const group = await Group.findByPk(req.params.groupId)
   const ownerCheck = await Membership.findOne({
@@ -469,7 +470,9 @@ router.put('/:groupId/membership', requireAuth, async (req, res) => {
       status: { [Op.in]: ['host', 'co-host'] }
     }
   })
-  if (!group || !ownerCheck) throw new Error("Group couldn't be found")
+  if (!group) throw new Error("Group couldn't be found")
+  if(!ownerCheck) throw new Error("User lacks authorization for this action")
+  if(ownerCheck.status === 'co-host' && status === 'co-host') throw new Error("User lacks authorization for this action")
   if (status === 'pending') throw new Error("Cannot change a membership status to pending")
   if (!member) throw new Error("Membership between the user and the group does not exist")
   if (!user) throw new Error("User couldn't be found")
