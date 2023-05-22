@@ -333,7 +333,7 @@ router.post('/:groupId/events', requireAuth, async (req, res) => {
   const group = await Group.findByPk(req.params.groupId)
   if(!group) throw new Error("Group couldn't be found")
 
-  if (!venue) throw new Error("Venue does not exist")
+  if (!venue && venueId !== null) throw new Error("Venue does not exist")
   if (name.length < 5) throw new Error("Name must be at least 5 characters")
   if (type !== 'Online' && type !== 'In person') throw new Error("Type must be Online or In person")
   if (typeof capacity !== 'number') throw new Error('Capacity must be an integer')
