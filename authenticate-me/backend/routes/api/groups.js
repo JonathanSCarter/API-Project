@@ -131,8 +131,7 @@ router.get('/:groupId/venues', requireAuth, async (req, res) => {
 router.get('/:groupId/members', async (req, res) => {
   const group = await Group.findByPk(req.params.groupId);
   if (!group) throw new Error("Group couldn't be found");
-  console.log(req.user.id);
-  console.log(req.params.groupId);
+
   const member = await Membership.findAll({
     where: {
       status: { [Op.in]: ['co-host', 'host'] },
@@ -150,10 +149,8 @@ router.get('/:groupId/members', async (req, res) => {
 
   let Members = [];
   const ownerIds = member.map(member => member.userId);
-  console.log(members.map(e => e.userId));
 
   if (ownerIds.includes(req.user.id)) {
-    console.log('Entering if statement');
     Members = await Promise.all(members.map(async member => {
       let userInfo = await User.findOne({
         where: {
@@ -175,7 +172,6 @@ router.get('/:groupId/members', async (req, res) => {
 
     return res.json(Members);
   } else {
-    console.log('Entering else statement');
     Members = await Promise.all(members.map(async member => {
       let userInfo = await User.findOne({
         where: {
@@ -342,8 +338,7 @@ router.post('/:groupId/events', requireAuth, async (req, res) => {
   let date = new Date()
   const parsedStartDate = new Date(startDate);
   const parsedEndDate = new Date(endDate);
-  console.log(parsedStartDate.getTime());
-  console.log(parsedEndDate.getTime());
+
   if (parsedStartDate.getTime() <= date.getTime()) throw new Error("Start date must be in the future");
   if (parsedStartDate.getTime() >= parsedEndDate.getTime()) throw new Error("End date is less than start date");
 
@@ -382,7 +377,6 @@ router.post('/:groupId/events', requireAuth, async (req, res) => {
     startDate,
     endDate
   })
-  console.log(event);
   const response = {
     id: event.id,
     venueId,
@@ -470,7 +464,6 @@ router.put('/:groupId/membership', requireAuth, async (req, res) => {
       status: { [Op.in]: ['host', 'co-host'] }
     }
   })
-  console.log(ownerCheck);
   if (!group) throw new Error("Group couldn't be found")
   if(!ownerCheck) throw new Error("User lacks authorization for this action")
   if(ownerCheck.status === 'co-host' && status === 'co-host') throw new Error("User lacks authorization for this action")

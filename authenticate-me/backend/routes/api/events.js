@@ -30,7 +30,6 @@ router.get('/:eventId/attendees', async (req, res) => {
         data.firstName = user.firstName;
         data.lastName = user.lastName;
         data.Attendance = { status: person.status }
-        console.log(data);
         return data;
       }))
 
@@ -50,7 +49,6 @@ router.get('/:eventId/attendees', async (req, res) => {
       data.firstName = user.firstName;
       data.lastName = user.lastName;
       data.Attendance = { status: person.status }
-      console.log(data);
       return data;
     }))
 
@@ -112,7 +110,7 @@ router.get('/', async (req, res) => {
   let { page, size, name, type, startDate } = req.query
 
   const pagination = {}
-  console.log(type);
+  const where = {}
   if (Number(page) < 1) throw new Error("Page must be greater than or equal to 1")
   if (Number(size) < 1) throw new Error("Size must be greater than or equal to 1")
   if (typeof name !== 'string' && name) throw new Error("Name must be a string")
@@ -122,19 +120,18 @@ router.get('/', async (req, res) => {
   }
 
   if (name) {
-    pagination.where = {
-      name: {
+    where.name = {
         [Op.substring]: name
-      }
     }
   }
 
   if (type) {
-    pagination.where.type = type
+    where.type =  type
   }
 
+console.log(startDate);
   if (startDate) {
-    pagination.where.startDate = {
+    where.startDate = {
       [Op.gte]: startDate
     }
   }
@@ -148,13 +145,14 @@ router.get('/', async (req, res) => {
 
 
   const events = await Event.findAll({
+    where,
     attributes: {
       exclude: ['description', 'price', 'capacity', 'createdAt', 'updatedAt']
     },
-    ...pagination
+    ...pagination,
   })
 
-
+console.log(where);
 
   let eventArray = await Promise.all(events.map(async event => {
     const place = await Venue.findOne({
@@ -323,8 +321,7 @@ router.put('/:eventId', requireAuth, async (req, res) => {
   let date = new Date()
   const parsedStartDate = new Date(startDate);
   const parsedEndDate = new Date(endDate);
-  console.log(parsedStartDate.getTime());
-  console.log(parsedEndDate.getTime());
+
   if (parsedStartDate.getTime() <= date.getTime()) throw new Error("Start date must be in the future");
   if (parsedStartDate.getTime() >= parsedEndDate.getTime()) throw new Error("End date is less than start date");
 
@@ -337,7 +334,6 @@ router.put('/:eventId', requireAuth, async (req, res) => {
     attributes: ['groupId']
   })
   const groupIds = member.map(member => member.get('groupId'))
-  console.log(groupIds);
   const groups = await Group.findAll({
     where: {
       [Op.or]: [
@@ -348,10 +344,8 @@ router.put('/:eventId', requireAuth, async (req, res) => {
     },
     attributes: ['id']
   });
-  console.log(groups);
   const id = groups.map(id => id.get('id'));
   if (!id.length) throw new Error("Bad request")
-  console.log(id);
 
   const event = await Event.findOne({
     where: {

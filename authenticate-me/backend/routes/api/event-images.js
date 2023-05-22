@@ -6,7 +6,6 @@ const { requireAuth } = require('../../utils/auth');
 const router = express.Router();
 
 router.delete('/:imageId', requireAuth, async (req, res) => {
-  console.log('test');
   const image = await EventImage.findByPk(req.params.imageId)
   if(!image) throw new Error("Event Image couldn't be found")
 
@@ -22,7 +21,6 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
 
   if(!membership) throw new Error("You lack authorization to delete this image")
 
-  console.log('teat,', image);
 
   image.destroy()
 
