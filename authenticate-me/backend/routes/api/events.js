@@ -285,6 +285,7 @@ router.put('/:eventId/attendance', requireAuth, async (req, res) => {
 
   const ownerCheck = await Membership.findOne({
     where: {
+      groupId: test.groupId,
       userId: req.user.id,
       status: { [Op.in]: ['host', 'co-host']}
     }
