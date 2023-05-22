@@ -170,7 +170,7 @@ router.get('/:groupId/members', async (req, res) => {
       return userInfo;
     }));
 
-    return res.json(Members);
+    return res.json({Members});
   } else {
     Members = await Promise.all(members.map(async member => {
       let userInfo = await User.findOne({
