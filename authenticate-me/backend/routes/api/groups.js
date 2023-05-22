@@ -456,7 +456,7 @@ router.put('/:groupId/membership', requireAuth, async (req, res) => {
 
   const member = await Membership.findOne({
     where: {
-      id: memberId,
+      userId: memberId,
       groupId: req.params.groupId
     }
   })
@@ -464,6 +464,7 @@ router.put('/:groupId/membership', requireAuth, async (req, res) => {
   const group = await Group.findByPk(req.params.groupId)
   const ownerCheck = await Membership.findOne({
     where: {
+      id: req.user.id,
       groupId: req.params.groupId,
       status: { [Op.in]: ['host', 'co-host'] }
     }
