@@ -129,7 +129,6 @@ router.get('/', async (req, res) => {
     where.type =  type
   }
 
-console.log(startDate);
   if (startDate) {
     where.startDate = {
       [Op.gte]: startDate
@@ -152,7 +151,6 @@ console.log(startDate);
     ...pagination,
   })
 
-console.log(where);
 
   let eventArray = await Promise.all(events.map(async event => {
     const place = await Venue.findOne({
