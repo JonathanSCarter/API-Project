@@ -1,0 +1,17 @@
+h1 {
+  display: flex;
+  justify-content: center;
+}
+
+
+input {
+  display: flex;
+  justify-content: center;
+}
+
+form {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+
+}
