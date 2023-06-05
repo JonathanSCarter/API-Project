@@ -50,6 +50,12 @@
 
 .container3 div {
   font-size: x-large;
-  text-underline-position: below;
+  width: 25%;
 
+}
+
+.container3 .disabled {
+  color: grey;
+  text-decoration: none;
+  cursor:default;
 }

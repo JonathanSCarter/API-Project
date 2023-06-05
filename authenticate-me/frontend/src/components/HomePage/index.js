@@ -2,8 +2,21 @@ import './HomePage.css'
 import bacon from './images/bacon-solid.svg'
 import group from './images/user-group-solid.svg'
 import { NavLink } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 function HomePage() {
+  const [disabled, setDisabled] = useState(true)
+
+  const sessionUser = useSelector((state) => state.session.user);
+
+  useEffect(() => {
+    if(sessionUser) setDisabled(false)
+  }, [])
+
+  const handleClick = (e) => {
+    if(disabled) e.preventDefault()
+  }
   return (
     <>
       <div className='container1parent'>
@@ -25,14 +38,19 @@ function HomePage() {
           <img src={group}></img>
           <NavLink to='/groups'>See all groups</NavLink>
         </div>
-        <div className="column">Find an event</div>
-        <div className="column">Start a new group</div>
-      </div>
-      <div className='container4'>
-        <button className='join'>Join Meetup</button>
-      </div>
-    </>
-  )
+        <div className="column">
+          <img src={group}></img>
+          <NavLink to='/events'>Find an event</NavLink>
+        </div>
+          <div className="column">
+            <img src={group}></img>
+            <NavLink className={disabled ? 'disabled' : ''}to='/events/create' onClick={(e) => handleClick(e)}>Start a group</NavLink></div>
+        </div>
+        <div className='container4'>
+          <button className='join'>Join Meetup</button>
+        </div>
+      </>
+      )
 }
 
-export default HomePage
+      export default HomePage
