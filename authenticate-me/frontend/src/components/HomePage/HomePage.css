@@ -1,0 +1,55 @@
+.container1{
+  display: grid;
+  grid-template-columns: 20% 30% 30% 20%;
+  grid-column-start: 2;
+  margin-top: 30px;
+}
+
+.container3 {
+  display: inline-flex;
+  width: 100%;
+  justify-content: space-evenly;
+  margin-top: 50px;
+}
+
+.join {
+  margin-top: 100px;
+  width: 150px;
+  height: 50px;
+}
+
+.container4 {
+  display: flex;
+  justify-content: center;
+}
+
+.rightImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+}
+.title {
+  grid-column-start: 2;
+}
+
+.container2 div{
+  display: flex;
+  justify-content: center;
+}
+
+.container2 {
+  margin-top: 25px;
+}
+
+.container2 h2{
+  display: flex;
+  justify-content: center;
+}
+
+
+.container3 div {
+  font-size: x-large;
+  text-underline-position: below;
+
+}
