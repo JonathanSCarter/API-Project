@@ -1,0 +1,47 @@
+
+li {
+  list-style-type: none;
+  padding: 25px 0px;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+.left i {
+  color: black;
+}
+
+
+.right button {
+  border: none;
+  background-color: white;
+  padding: 0px 50px;
+
+}
+
+
+.line {
+  position: relative;
+}
+
+.line::before {
+  content: "";
+  border-bottom: 2px solid grey;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.navbar {
+  height: 70px
+}
+
+* {
+  margin: 0px;
+}

@@ -1,23 +1,49 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import ProfileButton from './ProfileButton';
-import './Navigation.css';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import ProfileButton from "./ProfileButton";
+import OpenModalButton from "../OpenModalButton";
+import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
+import "./Navigation.css";
 
-function Navigation({ isLoaded }){
-  const sessionUser = useSelector(state => state.session.user);
+function Navigation({ isLoaded }) {
+  const sessionUser = useSelector((state) => state.session.user);
 
-  return (
-    <ul>
-      <li>
-        <NavLink exact to="/">Home</NavLink>
+  let sessionLinks;
+  if (sessionUser) {
+    sessionLinks = (
+      <li className="loggedIn right">
+        <ProfileButton user={sessionUser} />
       </li>
-      {isLoaded && (
-        <li>
-          <ProfileButton user={sessionUser} />
-        </li>
-      )}
-    </ul>
+    );
+  } else {
+    sessionLinks = (
+      <li className="right">
+        <OpenModalButton
+          className="notlogged"
+          buttonText="Log In"
+          modalComponent={<LoginFormModal />}
+        />
+        <OpenModalButton
+          buttonText="Sign Up"
+          modalComponent={<SignupFormModal />}
+        />
+      </li>
+    );
+  }
+  return (
+    <>
+      <div className="navbar">
+        <ul>
+          <li className='left'>
+            <NavLink exact to="/"><i class="fa-solid fa-drumstick-bite"></i></NavLink>
+          </li>
+          {isLoaded && sessionLinks}
+        </ul>
+      </div>
+      <div className="line"></div>
+    </>
   );
 }
 

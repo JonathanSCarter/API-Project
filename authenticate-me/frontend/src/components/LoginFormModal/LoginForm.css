@@ -14,3 +14,16 @@ form {
   align-content: center;
   padding: 100px;
 }
+
+.demo {
+  border: none;
+  background-color: white;
+  text-decoration: underline;
+  color: blue;
+}
+
+button {
+  cursor: pointer;
+}
+
+

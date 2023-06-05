@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import * as sessionActions from "../../store/session";
@@ -13,7 +13,13 @@ function SignupFormModal() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [disabled, setDisabled] = useState(true)
   const { closeModal } = useModal();
+
+  useEffect(() => {
+    if(username.length < 4 || password.length < 6) setDisabled(true)
+    else setDisabled(false)
+  }, [username, password])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -52,7 +58,7 @@ function SignupFormModal() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-          />
+            />
         </label>
         {errors.email && <p>{errors.email}</p>}
         <label>
@@ -62,7 +68,7 @@ function SignupFormModal() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-          />
+            />
         </label>
         {errors.username && <p>{errors.username}</p>}
         <label>
@@ -72,7 +78,7 @@ function SignupFormModal() {
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
-          />
+            />
         </label>
         {errors.firstName && <p>{errors.firstName}</p>}
         <label>
@@ -82,7 +88,7 @@ function SignupFormModal() {
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
-          />
+            />
         </label>
         {errors.lastName && <p>{errors.lastName}</p>}
         <label>
@@ -92,7 +98,7 @@ function SignupFormModal() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-          />
+            />
         </label>
         {errors.password && <p>{errors.password}</p>}
         <label>
@@ -102,12 +108,13 @@ function SignupFormModal() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-          />
+            />
         </label>
         {errors.confirmPassword && (
           <p>{errors.confirmPassword}</p>
-        )}
-        <button type="submit">Sign Up</button>
+          )}
+        <button type="submit" disabled={disabled}>Sign Up</button>
+        <div>{errors.undefined}</div>
       </form>
     </>
   );
