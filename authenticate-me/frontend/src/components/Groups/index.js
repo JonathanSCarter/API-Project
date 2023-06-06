@@ -19,7 +19,7 @@ function Groups() {
 
   useEffect(() => {
     console.log(groups);
-    if (events) {
+    if (events && groups) {
       events.forEach(event => {
         const groupId = event.groupId;
         groups[groupId].eventCount ? groups[groupId].eventCount = groups[groupId].eventCount + 1 : groups[groupId].eventCount = 1;
