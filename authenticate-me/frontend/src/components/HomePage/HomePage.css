@@ -1,8 +1,10 @@
 .container1{
+  position: absolute;
   display: grid;
-  grid-template-columns: 20% 30% 30% 20%;
-  grid-column-start: 2;
+  grid-template-columns: 35% 15% 15% 35%;
   margin-top: 30px;
+  width: 100%;
+  overflow: hidden;
 }
 
 .container3 {
@@ -27,7 +29,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50%;
+  grid-column: 3;
 }
 .title {
   grid-column-start: 2;
@@ -39,7 +41,7 @@
 }
 
 .container2 {
-  margin-top: 25px;
+  margin-top: 340px;
 }
 
 .container2 h2{
@@ -58,4 +60,13 @@
   color: grey;
   text-decoration: none;
   cursor:default;
+}
+
+.container1 img {
+  display: flex;
+  justify-content: center;
+}
+
+.rightImage img {
+  width: 100%;
 }

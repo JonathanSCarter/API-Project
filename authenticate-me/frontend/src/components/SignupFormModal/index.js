@@ -21,6 +21,8 @@ function SignupFormModal() {
     else setDisabled(false)
   }, [username, password])
 
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
@@ -114,7 +116,7 @@ function SignupFormModal() {
           <p>{errors.confirmPassword}</p>
           )}
         <button type="submit" disabled={disabled}>Sign Up</button>
-        <div>{errors.undefined}</div>
+        <div>{errors.path}</div>
       </form>
     </>
   );
