@@ -54,7 +54,7 @@ function Groups() {
             </div>
             <div className="notPreview">
             <h2>{group.name}</h2>
-            <div>{group.state}, {group.city}</div>
+            <div>{group.city}, {group.state}</div>
             <div>{group.about}</div>
             <div className="bottom">
             <div> {(() => {
