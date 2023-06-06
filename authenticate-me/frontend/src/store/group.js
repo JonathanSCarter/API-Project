@@ -27,20 +27,21 @@ export const fetchGroups = () => async (dispatch) => {
   const req = await fetch('/api/groups');
   const data = await req.json();
   const groups = data;
-  dispatch(getGroups(groups))
+  dispatch(getGroups(groups.Groups))
 }
 
 export const fetchGroup = (groupId) => async (dispatch) => {
   const req = await fetch(`/api/groups/${groupId}`);
   const data = await req.json();
   const group = data;
+  console.log(group);
   dispatch(getGroup(group))
 }
 export const fetchEventsByGroup = (groupId) => async (dispatch) => {
   const req = await fetch(`/api/groups/${groupId}/events`);
   const data = await req.json();
   const events = data;
-  dispatch(getEvents(events))
+  dispatch(getEvents(events.Events))
 }
 
 export const fetchMembersByGroup = (groupId) => async (dispatch) => {
@@ -57,20 +58,35 @@ const initialState = {
 const groupsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_GROUPS: {
-      return action.groups
+      return { ...state, groups: action.groups }
     }
     case GET_GROUP: {
-      return action.group
+      console.log(action);
+      return { ...state, groups: action.group }
     }
     case GET_EVENTS: {
-      const newState = Object.assign({}, state)
-      newState.events = action.events
-      return newState
+      const { events } = action;
+      const groupId = events[0]?.groupId;
+      if (groupId) {
+        let updatedGroups;
+        if (Array.isArray(state.groups)) {
+          updatedGroups = state.groups.map(group => {
+            if (group.id === groupId) {
+              return { ...group, events };
+            }
+            return group;
+          });
+        }
+        else {
+          updatedGroups = { ...state.groups, events }
+        }
+        return { ...state, groups: updatedGroups };
+      }
+      return state;
     }
     case GET_MEMBERS: {
-      const newState = Object.assign({}, state)
-      newState.members = action.members
-      return newState
+
+      return {...state.groups, members: action.members}
     }
     default:
       return state;

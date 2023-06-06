@@ -45,7 +45,7 @@
 }
 
 .group img {
-  width: 100%
+  width: 100%;
 }
 
 .group .bottom {
@@ -53,10 +53,12 @@
   float: left;
 }
 
-.preview {
+div .preview {
   display: flex;
   align-items: center;
+  justify-content: center;
   grid-column: 1;
+  width: 100%;
 }
 
 .notPreview {

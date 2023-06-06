@@ -42,7 +42,7 @@ router.get('/current', requireAuth, async (req, res) => {
   return res.json({ Groups })
 })
 
-router.get('/:groupId/events', requireAuth, async (req, res) => {
+router.get('/:groupId/events', async (req, res) => {
   const group = await Group.findOne({
     where: {
       id: req.params.groupId
@@ -149,7 +149,7 @@ router.get('/:groupId/members', async (req, res) => {
 
   let Members = [];
   const ownerIds = member.map(member => member.userId);
-
+  if(req.user){
   if (ownerIds.includes(req.user.id)) {
     Members = await Promise.all(members.map(async member => {
       let userInfo = await User.findOne({
@@ -171,7 +171,7 @@ router.get('/:groupId/members', async (req, res) => {
     }));
 
     return res.json({Members});
-  } else {
+  }} else {
     Members = await Promise.all(members.map(async member => {
       let userInfo = await User.findOne({
         where: {

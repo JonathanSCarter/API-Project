@@ -1,37 +1,39 @@
-import { NavLink, useHistory } from "react-router-dom"
-import './Groups.css'
-import { useDispatch, useSelector } from "react-redux"
-import { getAllGroups, fetchGroups } from "../../store/group"
-import { useEffect } from "react"
-import defaultImg from './default.jpg'
-import { fetchEvents, getAllEvents } from "../../store/events"
+import { NavLink, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import defaultImg from './default.jpg';
+import { fetchGroups, fetchEventsByGroup, getAllGroups } from "../../store/group";
+import { fetchEvents, getAllEvents } from "../../store/events";
+import './Groups.css';
+
 function Groups() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const history = useHistory();
+  const [disabled, setDisabled] = useState(false);
+
   useEffect(() => {
     dispatch(fetchGroups());
-    dispatch(fetchEvents())
+    setDisabled(false);
   }, []);
 
-
-  const groups = useSelector(state => state.groups.Groups)
-  const events = useSelector(state => state.events.Events)
+  const groups = useSelector(state => state.groups.groups);
 
   useEffect(() => {
-    console.log(groups);
-    if (events && groups) {
-      events.forEach(event => {
-        const groupId = event.groupId;
-        groups[groupId].eventCount ? groups[groupId].eventCount = groups[groupId].eventCount + 1 : groups[groupId].eventCount = 1;
+    if (groups && !disabled) {
+      console.log(groups);
+      groups.forEach(group => {
+        setDisabled(true);
+        dispatch(fetchEventsByGroup(group.id));
       });
     }
-  }, [events, groups]);
-
+  }, [dispatch, groups]);
 
   const handleClick = (group) => {
     console.log(group);
-    history.push(`/groups/${group.id}`)
-  }
+    history.push(`/groups/${group.id}`);
+  };
+
+  console.log(groups);
 
   return (
     <div className="mainColumn">
@@ -44,39 +46,30 @@ function Groups() {
         </h2>
       </div>
       <div className="label">Groups in MeatUp</div>
-      {groups && groups.map((group) => {
-        return (
-
-          <div className="group" onClick={() => handleClick(group)}>
-            <div className="preview">
-            <img src={group.previewImage ? group.previewImage : defaultImg} alt="Group Preview"></img>
-            </div>
-            <div className="notPreview">
+      {groups && groups.map((group) => (
+        <div className="group" onClick={() => handleClick(group)}>
+          <div className="preview">
+            <img src={group.previewImage ? group.previewImage : defaultImg} alt="Group Preview" />
+          </div>
+          <div className="notPreview">
             <h2>{group.name}</h2>
             <div>{group.city}, {group.state}</div>
             <div>{group.about}</div>
             <div className="bottom">
-            <div> {(() => {
-              if (group.eventCount !== undefined) {
-                if (group.eventCount === 1) {
-                  return '1 Event';
-                } else {
-                  return `${group.eventCount} Events`;
+              <div>
+                {group && group.events && group.events.length
+                  ? (group.events.length === 1 ? '1 Event' : `${group.events.length} Events`)
+                  : '0 Events'
                 }
-              } else {
-                return '0 Events';
-              }
-            })()}</div>
-            <div>·</div>
-            <div>{(() => group.private ? "private" : "public")()}</div>
-            </div>
+              </div>
+              <div>·</div>
+              <div>{group.private ? "private" : "public"}</div>
             </div>
           </div>
-
-        )
-      })}
+        </div>
+      ))}
     </div>
-  )
+  );
 }
 
-export default Groups
+export default Groups;
