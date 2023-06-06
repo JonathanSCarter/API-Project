@@ -23,23 +23,6 @@ const getMembers = members => ({
   members
 })
 
-export const getAllGroups = state => {
-  return Object.values(state.groups)
-}
-
-export const getGroupThunk = state => {
-  return Object.values(state.groups)
-}
-
-export const getAllEventsByGroup = state => {
-  return Object.values(state.groups)
-}
-
-export const getMembersThunk = state => {
-  console.log(state.groups);
-  return Object.values(state.groups)
-}
-
 export const fetchGroups = () => async (dispatch) => {
   const req = await fetch('/api/groups');
   const data = await req.json();
@@ -74,16 +57,20 @@ const initialState = {
 const groupsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_GROUPS: {
-      return { state: action.groups }
+      return action.groups
     }
     case GET_GROUP: {
-      return { state: action.group }
+      return action.group
     }
     case GET_EVENTS: {
-      return { ...state, events: action.events }
+      const newState = Object.assign({}, state)
+      newState.events = action.events
+      return newState
     }
     case GET_MEMBERS: {
-      return {...state, members:action.members}
+      const newState = Object.assign({}, state)
+      newState.members = action.members
+      return newState
     }
     default:
       return state;

@@ -10,13 +10,12 @@ function Groups() {
   const history = useHistory();
   useEffect(() => {
     dispatch(fetchGroups());
-  }, []);
-  useEffect(() => {
     dispatch(fetchEvents())
   }, []);
 
-  const groups = useSelector(getAllGroups)[0].Groups
-  const events = useSelector(getAllEvents)[0].Events
+
+  const groups = useSelector(state => state.groups.Groups)
+  const events = useSelector(state => state.events.Events)
 
   useEffect(() => {
     console.log(groups);

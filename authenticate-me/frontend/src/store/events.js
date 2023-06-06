@@ -4,9 +4,6 @@ const getEvents = events => ({
   type: GET_EVENTS,
   events
 })
-export const getAllEvents = state => {
-  return state?.events ? Object.values(state.events) : []
-}
 
 const initialState = {
   events: []
@@ -15,7 +12,7 @@ const initialState = {
 const eventsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_EVENTS: {
-      return {state: action.events}
+      return action.events
     }
     default:
       return state;

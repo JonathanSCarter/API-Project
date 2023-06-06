@@ -13,14 +13,15 @@ function SingleGroups() {
   const { groupId } = useParams();
   const dispatch = useDispatch()
 
-  const group = useSelector(getGroupThunk)[0]
-  const events = useSelector(getAllEventsByGroup)[1]
-  const members = useSelector(getMembersThunk)[2]
+  const group = useSelector(state => state.groups)
+  const events = useSelector(state => state.groups.events)
+  const members = useSelector(state => state.groups.members)
 
   useEffect(() => {
     if (members) {
       const host = members.Members.find(member => member.Membership.status === 'host')
       setOwner(host)
+      console.log(owner);
     }
   }, [members])
 
@@ -31,8 +32,6 @@ function SingleGroups() {
   }, [dispatch]);
 
 
-
-  console.log(owner);
   return (
     <div className="mainColumn">
       <div className="headers">
@@ -47,11 +46,9 @@ function SingleGroups() {
         <div className="notPreview">
           <h1>{group.name}</h1>
           <div>{group.city}, {group.state}</div>
-          {/* <div>{group.about}</div> */}
           <div className="bottom">
             <div> {(() => {
               if (events) {
-
                 if (events.Events.length !== undefined) {
                   if (events.Events.length === 1) {
                     return '1 Event';
@@ -66,7 +63,9 @@ function SingleGroups() {
             <div>·</div>
             <div>{(() => group.private ? "private" : "public")()}</div>
           </div>
-          <div>Organized by {owner.firstName} {owner.lastName}</div>
+          <div>
+            {owner && `Organized by ${owner.firstName} ${owner.lastName}`}
+          </div>
           <button>Join Group</button>
         </div>
       </div>
