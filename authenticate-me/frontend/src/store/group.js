@@ -1,12 +1,53 @@
+export const GET_EVENTS = '/group/GET_EVENTS'
 export const GET_GROUPS = '/group/GET_GROUPS'
+export const GET_GROUP = '/group/GET_GROUP'
 
 const getGroups = groups => ({
   type: GET_GROUPS,
   groups
 })
 
+const getEvents = events => ({
+  type: GET_EVENTS,
+  events
+})
+
+const getGroup = group => ({
+  type: GET_GROUP,
+  group
+})
+
 export const getAllGroups = state => {
-  return state?.groups ? Object.values(state.groups) : []
+  return Object.values(state.groups)
+}
+
+export const getGroupThunk = state => {
+  return Object.values(state.groups)
+}
+
+export const getAllEventsByGroup = state => {
+  return Object.values(state.groups)
+}
+
+
+export const fetchGroups = () => async (dispatch) => {
+  const req = await fetch('/api/groups');
+  const data = await req.json();
+  const groups = data;
+  dispatch(getGroups(groups))
+}
+
+export const fetchGroup = (groupId) => async (dispatch) => {
+  const req = await fetch(`/api/groups/${groupId}`);
+  const data = await req.json();
+  const group = data;
+  dispatch(getGroup(group))
+}
+export const fetchEventsByGroup = (groupId) => async (dispatch) => {
+  const req = await fetch(`/api/groups/${groupId}/events`);
+  const data = await req.json();
+  const events = data;
+  dispatch(getEvents(events))
 }
 
 const initialState = {
@@ -16,18 +57,19 @@ const initialState = {
 const groupsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_GROUPS: {
-      return {state: action.groups}
+      return { state: action.groups }
+    }
+    case GET_GROUP: {
+      return { state: action.group }
+    }
+    case GET_EVENTS: {
+      console.log(action, 'action');
+      return { ...state, events: action.events }
     }
     default:
       return state;
   }
 }
 
-export const fetchGroups = () => async (dispatch) => {
-  const req = await fetch('/api/groups');
-  const data = await req.json();
-  const groups = data;
-  dispatch(getGroups(groups))
-}
 
 export default groupsReducer

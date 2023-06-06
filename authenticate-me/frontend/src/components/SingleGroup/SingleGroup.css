@@ -1,0 +1,14 @@
+.mainColumn {
+  display: grid;
+  grid-template-columns: 1fr 8fr 1fr;
+  padding-top: 50px;
+}
+
+.groupDetail {
+  grid-column: 2;
+}
+
+.preview {
+  display: inline-flex;
+  width: 40%;
+}

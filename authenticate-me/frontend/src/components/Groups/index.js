@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom"
+import { NavLink, useHistory } from "react-router-dom"
 import './Groups.css'
 import { useDispatch, useSelector } from "react-redux"
 import { getAllGroups, fetchGroups } from "../../store/group"
@@ -7,7 +7,7 @@ import defaultImg from './default.jpg'
 import { fetchEvents, getAllEvents } from "../../store/events"
 function Groups() {
   const dispatch = useDispatch()
-
+  const history = useHistory();
   useEffect(() => {
     dispatch(fetchGroups());
   }, []);
@@ -19,6 +19,7 @@ function Groups() {
   const events = useSelector(getAllEvents)[0].Events
 
   useEffect(() => {
+    console.log(groups);
     if (events) {
       events.forEach(event => {
         const groupId = event.groupId;
@@ -28,8 +29,11 @@ function Groups() {
   }, [events, groups]);
 
 
-  console.log(events);
-  console.log(groups);
+  const handleClick = (group) => {
+    console.log(group);
+    history.push(`/groups/${group.id}`)
+  }
+
   return (
     <div className="mainColumn">
       <div className="headers">
@@ -44,7 +48,7 @@ function Groups() {
       {groups && groups.map((group) => {
         return (
 
-          <div className="group">
+          <div className="group" onClick={() => handleClick(group)}>
             <div className="preview">
             <img src={group.previewImage ? group.previewImage : defaultImg} alt="Group Preview"></img>
             </div>

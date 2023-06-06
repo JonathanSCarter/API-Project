@@ -5,6 +5,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import HomePage from './components/HomePage'
 import Groups from './components/Groups'
+import SingleGroups from "./components/SingleGroup";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -20,8 +21,11 @@ function App() {
         <Route exact path="/">
           <HomePage />
         </Route>
-        <Route path='/groups'>
+        <Route exact path='/groups'>
           <Groups />
+        </Route>
+        <Route path='/groups/:groupId'>
+          <SingleGroups />
         </Route>
       </Switch>
     </>
