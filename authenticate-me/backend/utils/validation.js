@@ -8,7 +8,6 @@ const handleValidationErrors = (req, _res, next) => {
     validationErrors
       .array()
       .forEach(error => {
-        console.log('\n errors: ', error, "\n");
         errors[error.path] = error.msg
       });
 

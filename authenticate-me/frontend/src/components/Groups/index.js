@@ -20,7 +20,6 @@ function Groups() {
 
   useEffect(() => {
     if (groups && Array.isArray(groups) && !disabled) {
-      console.log(groups);
       groups.forEach(group => {
         setDisabled(true);
         dispatch(fetchEventsByGroup(group.id));
@@ -29,11 +28,8 @@ function Groups() {
   }, [dispatch, groups]);
 
   const handleClick = (group) => {
-    console.log(group);
     history.push(`/groups/${group.id}`);
   };
-
-  console.log(groups);
 
   return (
     <div className="mainColumn">

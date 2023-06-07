@@ -29,7 +29,6 @@ function HomePage() {
     marginTop: `${container1Height + 150}px`,
   };
   useEffect(() => {
-    console.log(sessionUser);
     if(sessionUser) setDisabled(false)
   }, [sessionUser])
 

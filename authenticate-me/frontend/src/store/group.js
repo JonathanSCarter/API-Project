@@ -44,7 +44,6 @@ export const fetchEventsByGroup = (groupId) => async (dispatch) => {
 }
 
 export const fetchMembersByGroup = (groupId) => async (dispatch) => {
-  console.log(groupId);
   const req = await fetch(`/api/groups/${groupId}/members`);
   const data = await req.json();
   const members = data;
@@ -85,7 +84,6 @@ const groupsReducer = (state = initialState, action) => {
       return state;
     }
     case GET_MEMBERS: {
-      console.log('test');
       return {...state.groups, members: action.members}
     }
     default:
