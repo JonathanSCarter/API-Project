@@ -5,6 +5,11 @@ export const GET_GROUPS = '/group/GET_GROUPS'
 export const GET_GROUP = '/group/GET_GROUP'
 export const GET_MEMBERS = '/group/GET_MEMBERS'
 export const CREATE_GROUP = '/group/CREATE_GROUP'
+// export const EDIT_GROUP = '/group/EDIT_GROUP'
+
+// const editGroup = group => ({
+//   type: EDIT_GROUP
+// })
 
 const createGroup = group => ({
   type: CREATE_GROUP,
@@ -69,13 +74,23 @@ export const fetchGroupCreate = (payload) => async (dispatch) => {
     body: JSON.stringify(payload)
   })
   const data = await req.json();
-  console.log(data);
   const group = data;
   dispatch(createGroup(group))
-  console.log(group);
   return group.id
 }
 
+export const fetchGroupUpdate = (payload, groupId) => async (dispatch) => {
+  await csrfFetch(`/api/groups/${groupId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  })
+  // const data = await req.json();
+  // const group = data;
+  // dispatch(editGroup(group))
+}
 const initialState = {
   groups: []
 }

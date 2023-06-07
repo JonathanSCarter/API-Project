@@ -1,4 +1,4 @@
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useParams, useHistory } from "react-router-dom";
 import './SingleGroup.css';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEventsByGroup, fetchGroup, fetchMembersByGroup } from "../../store/group";
@@ -15,7 +15,7 @@ function SingleGroups() {
   const [hidden, setHidden] = useState(true);
   const { groupId } = useParams();
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const group = useSelector(state => state.groups);
   const members = useSelector(state => state.groups.members);
   const user = useSelector(state => state.session.user);
@@ -70,6 +70,10 @@ function SingleGroups() {
     window.alert('Feature coming soon');
   };
 
+  const goUpdate = () => {
+    history.push(`/groups/${groupId}/edit`)
+  }
+
   return (
     <div className="mainColumn">
       <div className="headers">
@@ -104,7 +108,7 @@ function SingleGroups() {
             {isOwner && (
               <>
                 <button className="ownerButtons" hidden={!isOwner}>Create event</button>
-                <button className="ownerButtons" hidden={!isOwner}>Update</button>
+                <button onClick={goUpdate} className="ownerButtons" hidden={!isOwner}>Update</button>
                 <button className="ownerButtons" hidden={!isOwner}>Delete</button>
               </>
             )}
