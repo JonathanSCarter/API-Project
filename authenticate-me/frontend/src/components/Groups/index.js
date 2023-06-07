@@ -19,7 +19,7 @@ function Groups() {
   const groups = useSelector(state => state.groups.groups);
 
   useEffect(() => {
-    if (groups && !disabled) {
+    if (groups && Array.isArray(groups) && !disabled) {
       console.log(groups);
       groups.forEach(group => {
         setDisabled(true);
@@ -46,7 +46,7 @@ function Groups() {
         </h2>
       </div>
       <div className="label">Groups in MeatUp</div>
-      {groups && groups.map((group) => (
+      {groups && Array.isArray(groups) && groups.map((group) => (
         <div className="group" onClick={() => handleClick(group)}>
           <div className="preview">
             <img src={group.previewImage ? group.previewImage : defaultImg} alt="Group Preview" />

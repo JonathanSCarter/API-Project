@@ -34,7 +34,6 @@ export const fetchGroup = (groupId) => async (dispatch) => {
   const req = await fetch(`/api/groups/${groupId}`);
   const data = await req.json();
   const group = data;
-  console.log(group);
   dispatch(getGroup(group))
 }
 export const fetchEventsByGroup = (groupId) => async (dispatch) => {
@@ -45,9 +44,11 @@ export const fetchEventsByGroup = (groupId) => async (dispatch) => {
 }
 
 export const fetchMembersByGroup = (groupId) => async (dispatch) => {
+  console.log(groupId);
   const req = await fetch(`/api/groups/${groupId}/members`);
   const data = await req.json();
   const members = data;
+
   dispatch(getMembers(members))
 }
 
@@ -61,7 +62,6 @@ const groupsReducer = (state = initialState, action) => {
       return { ...state, groups: action.groups }
     }
     case GET_GROUP: {
-      console.log(action);
       return { ...state, groups: action.group }
     }
     case GET_EVENTS: {
@@ -85,7 +85,7 @@ const groupsReducer = (state = initialState, action) => {
       return state;
     }
     case GET_MEMBERS: {
-
+      console.log('test');
       return {...state.groups, members: action.members}
     }
     default:

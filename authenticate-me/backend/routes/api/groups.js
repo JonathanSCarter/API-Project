@@ -149,8 +149,8 @@ router.get('/:groupId/members', async (req, res) => {
 
   let Members = [];
   const ownerIds = member.map(member => member.userId);
-  if(req.user){
-  if (ownerIds.includes(req.user.id)) {
+
+  if (req.user && ownerIds.includes(req.user.id)) {
     Members = await Promise.all(members.map(async member => {
       let userInfo = await User.findOne({
         where: {
@@ -171,7 +171,7 @@ router.get('/:groupId/members', async (req, res) => {
     }));
 
     return res.json({Members});
-  }} else {
+  } else {
     Members = await Promise.all(members.map(async member => {
       let userInfo = await User.findOne({
         where: {
