@@ -64,8 +64,7 @@ export const fetchGroupCreate = (payload) => async (dispatch) => {
   const req = await csrfFetch('/api/groups', {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer E2qqeeJz-Ulfw2HmdGPyAkcE7UXJnQuEzBhU"
+      "Content-Type": "application/json"
     },
     body: JSON.stringify(payload)
   })
@@ -73,6 +72,8 @@ export const fetchGroupCreate = (payload) => async (dispatch) => {
   console.log(data);
   const group = data;
   dispatch(createGroup(group))
+  console.log(group);
+  return group.id
 }
 
 const initialState = {

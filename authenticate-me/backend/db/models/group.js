@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         isLong(value){
-          if(value.length < 50) throw new Error()
+          if(value.length < 30) throw new Error()
         }
       }
     },

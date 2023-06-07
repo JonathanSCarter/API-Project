@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
+import { useHistory } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { fetchGroupCreate } from "../../store/group"
 function CreateGroup() {
+  const history = useHistory()
   const [name, setName] = useState("")
   const [about, setAbout] = useState("")
   const [type, setType] = useState("")
@@ -33,8 +35,9 @@ function CreateGroup() {
     }
   }, [cityState])
 
-  const handleSubmit = () => {
-    dispatch(fetchGroupCreate(payload))
+  const handleSubmit = async () => {
+    const id = await dispatch(fetchGroupCreate(payload))
+    history.push(`/groups/${id}`)
   }
   return (
     <>
