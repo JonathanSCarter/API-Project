@@ -10,7 +10,10 @@ function Events({ events }) {
   const [futureEvents, setFutureEvents] = useState([])
   const [pastEvents, setPastEvents] = useState([]);
   const dispatch = useDispatch()
+
   const eventsState = useSelector(state => state.events.events)
+  
+  console.log(eventsState);
   const history = useHistory();
   const {groupId} = useParams
   const separateEventsByDate = (events) => {
@@ -74,14 +77,15 @@ function Events({ events }) {
           const date = value.toLocaleDateString();
           const time = value.toLocaleTimeString();
           const moreEvent = eventsState.find(eventsStateEvent => eventsStateEvent.id === event.id)
-          const description = moreEvent.description
+          const description = moreEvent?.description
+
           return (
             <div onClick={()=>handleClick(event.id)}>
               <img src={event.previewImage ? event.previewImage : defaultImg} alt="Event Preview" />
               <div>{`${date} · ${time}`}</div>
               <div>{event.name}</div>
               <div>{event.Venue ? `${event.Venue.city}, ${event.Venue.state}` : "Location Unknown"}</div>
-              <div>{description}</div>
+              <div>{description ? description : ''}</div>
             </div>
           );
         })
@@ -95,14 +99,14 @@ function Events({ events }) {
           const date = value.toLocaleDateString();
           const time = value.toLocaleTimeString();
           const moreEvent = eventsState.find(eventsStateEvent => eventsStateEvent.id === event.id)
-          const description = moreEvent.description
+          const description = moreEvent?.description
           return (
             <div onClick={()=>handleClick(event.id)}>
               <img src={event.previewImage ? event.previewImage : defaultImg} alt="Event Preview" />
               <div>{`${date} · ${time}`}</div>
               <div>{event.name}</div>
               <div>{event.Venue ? `${event.Venue.city}, ${event.Venue.state}` : "Location Unknown"}</div>
-              <div>{description}</div>
+              <div>{description ? description : ''}</div>
             </div>
           );
         })

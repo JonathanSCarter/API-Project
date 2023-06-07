@@ -17,8 +17,6 @@ const initialState = {
 }
 
 const eventsReducer = (state = initialState, action) => {
-  console.log('please god');
-  console.log(action, 'please');
   switch (action.type) {
     case GET_EVENT: {
 

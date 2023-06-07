@@ -39,6 +39,9 @@ function Navigation({ isLoaded }) {
           <li className='left'>
             <NavLink exact to="/"><i class="fa-solid fa-drumstick-bite"></i></NavLink>
           </li>
+          <li>
+            <NavLink exact to='/groups/new'>Create a Group</NavLink>
+          </li>
           {isLoaded && sessionLinks}
         </ul>
       </div>

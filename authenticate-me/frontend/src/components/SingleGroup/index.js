@@ -116,8 +116,7 @@ function SingleGroups() {
         <div>{owner.firstName} {owner.lastName}</div>
         <h2>What we're about</h2>
         <div>{group.about}</div>
-        <Events events={group.events} />
-      </div>
+        {group.events && <Events key={group.events.length} events={group.events} />}      </div>
     </div>
   );
 }

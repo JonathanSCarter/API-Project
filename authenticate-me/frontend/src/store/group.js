@@ -1,7 +1,15 @@
+import { csrfFetch } from "./csrf"
+
 export const GET_EVENTS = '/group/GET_EVENTS'
 export const GET_GROUPS = '/group/GET_GROUPS'
 export const GET_GROUP = '/group/GET_GROUP'
 export const GET_MEMBERS = '/group/GET_MEMBERS'
+export const CREATE_GROUP = '/group/CREATE_GROUP'
+
+const createGroup = group => ({
+  type: CREATE_GROUP,
+  group
+})
 
 const getGroups = groups => ({
   type: GET_GROUPS,
@@ -36,6 +44,7 @@ export const fetchGroup = (groupId) => async (dispatch) => {
   const group = data;
   dispatch(getGroup(group))
 }
+
 export const fetchEventsByGroup = (groupId) => async (dispatch) => {
   const req = await fetch(`/api/groups/${groupId}/events`);
   const data = await req.json();
@@ -49,6 +58,21 @@ export const fetchMembersByGroup = (groupId) => async (dispatch) => {
   const members = data;
 
   dispatch(getMembers(members))
+}
+
+export const fetchGroupCreate = (payload) => async (dispatch) => {
+  const req = await csrfFetch('/api/groups', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer E2qqeeJz-Ulfw2HmdGPyAkcE7UXJnQuEzBhU"
+    },
+    body: JSON.stringify(payload)
+  })
+  const data = await req.json();
+  console.log(data);
+  const group = data;
+  dispatch(createGroup(group))
 }
 
 const initialState = {
@@ -85,6 +109,9 @@ const groupsReducer = (state = initialState, action) => {
     }
     case GET_MEMBERS: {
       return {...state.groups, members: action.members}
+    }
+    case CREATE_GROUP: {
+      return {...state}
     }
     default:
       return state;

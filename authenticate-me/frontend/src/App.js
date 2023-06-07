@@ -6,6 +6,8 @@ import Navigation from "./components/Navigation";
 import HomePage from './components/HomePage'
 import Groups from './components/Groups'
 import SingleGroups from "./components/SingleGroup";
+import CreateGroup from "./components/CreateGroups";
+
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -23,6 +25,9 @@ function App() {
         </Route>
         <Route exact path='/groups'>
           <Groups />
+        </Route>
+        <Route exact path='/groups/new'>
+          <CreateGroup />
         </Route>
         <Route path='/groups/:groupId'>
           <SingleGroups />

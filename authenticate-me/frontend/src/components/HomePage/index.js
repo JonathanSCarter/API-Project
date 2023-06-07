@@ -62,7 +62,7 @@ function HomePage() {
         </div>
           <div className="column">
             <img src={group} alt=""></img>
-            <NavLink className={disabled ? 'disabled' : ''}to='/events/create' onClick={(e) => handleClick(e)}>Start a group</NavLink></div>
+            <NavLink className={disabled ? 'disabled' : ''} to='/groups/new' onClick={(e) => handleClick(e) }>Start a group</NavLink></div>
         </div>
         <div className='container4'>
           <button className='join' >Join Meetup</button>
