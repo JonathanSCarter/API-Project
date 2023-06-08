@@ -26,13 +26,11 @@ function UpdateGroup() {
     state
   }
   const group = useSelector(state => state.groups.groups);
-  console.log(group);
   useEffect(() => {
     if (cityState.includes(', ')) {
       const values = cityState.split(', ')
       setCity(values[0])
       setState(values[1])
-      console.log(`${values[0]},${values[1]}`);
       if (values[2]) setCityState(`${values[0]}, ${values[1]}`)
     } else {
       if (cityState) setCity(cityState)

@@ -92,23 +92,28 @@ export const fetchGroupUpdate = (payload, groupId) => async (dispatch) => {
   // dispatch(editGroup(group))
 }
 const initialState = {
-  groups: []
+  allGroups: {
+
+  },
+  singleGroup: {
+
+  }
 }
 
 const groupsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_GROUPS: {
-      return { ...state, groups: action.groups }
+      return { ...state, allGroups: action.groups }
     }
     case GET_GROUP: {
-      return { ...state, groups: action.group }
+      return { ...state, singleGroup: action.group }
     }
     case GET_EVENTS: {
       const { events } = action;
       const groupId = events[0]?.groupId;
       if (groupId) {
         let updatedGroups;
-        if (Array.isArray(state.groups)) {
+        if (Array.isArray(state.groups?.allGroups)) {
           updatedGroups = state.groups.map(group => {
             if (group.id === groupId) {
               return { ...group, events };
@@ -117,17 +122,18 @@ const groupsReducer = (state = initialState, action) => {
           });
         }
         else {
-          updatedGroups = { ...state.groups, events }
-        }
-        return { ...state, groups: updatedGroups };
+          updatedGroups = {...state.singleGroup, events}
+          }
+        return { ...state, singleGroup: {...updatedGroups } };
       }
       return state;
     }
     case GET_MEMBERS: {
-      return {...state.groups, members: action.members}
+      const payload = action.members
+      return { ...state, singleGroup: { ...state.singleGroup, payload } }
     }
     case CREATE_GROUP: {
-      return {...state}
+      return { ...state }
     }
     default:
       return state;

@@ -16,8 +16,9 @@ function SingleGroups() {
   const { groupId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const group = useSelector(state => state.groups);
-  const members = useSelector(state => state.groups.members);
+
+  const group = useSelector(state => state.groups.singleGroup);
+  const members = useSelector(state => state.groups.singleGroup.members);
   const user = useSelector(state => state.session.user);
 
   useEffect(() => {
@@ -73,6 +74,7 @@ function SingleGroups() {
   const goUpdate = () => {
     history.push(`/groups/${groupId}/edit`)
   }
+
 
   return (
     <div className="mainColumn">

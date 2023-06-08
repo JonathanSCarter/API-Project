@@ -16,7 +16,7 @@ function Groups() {
     setDisabled(false);
   }, []);
 
-  const groups = useSelector(state => state.groups.groups);
+  const groups = useSelector(state => state.groups.allGroups);
 
   useEffect(() => {
     if (groups && Array.isArray(groups) && !disabled) {

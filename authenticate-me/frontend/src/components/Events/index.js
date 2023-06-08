@@ -11,9 +11,8 @@ function Events({ events }) {
   const [pastEvents, setPastEvents] = useState([]);
   const dispatch = useDispatch()
 
-  const eventsState = useSelector(state => state.events.events)
-  
-  console.log(eventsState);
+  const eventsState = useSelector(state => state.groups.singleGroup.events)
+
   const history = useHistory();
   const {groupId} = useParams
   const separateEventsByDate = (events) => {
