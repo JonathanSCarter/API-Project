@@ -74,12 +74,30 @@ export const fetchGroupCreate = (payload) => async (dispatch) => {
     body: JSON.stringify(payload)
   })
   const data = await req.json();
+  console.log(data,'data');
   const group = data;
   dispatch(createGroup(group))
   return group.id
 }
 
+export const fetchImageCreate = payload => async (dispatch) => {
+  console.log(payload.groupId);
+  await csrfFetch(`api/groups/${payload.groupId}/images`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  })
+}
+
+export const fetchGroupDelete = (groupId) => async (dispatch) => {
+  await csrfFetch(`/api/groups/${groupId}`, {
+    method: "DELETE"
+  })
+}
 export const fetchGroupUpdate = (payload, groupId) => async (dispatch) => {
+  console.log(payload);
   await csrfFetch(`/api/groups/${groupId}`, {
     method: "PUT",
     headers: {
@@ -87,9 +105,7 @@ export const fetchGroupUpdate = (payload, groupId) => async (dispatch) => {
     },
     body: JSON.stringify(payload)
   })
-  // const data = await req.json();
-  // const group = data;
-  // dispatch(editGroup(group))
+
 }
 const initialState = {
   allGroups: {
@@ -112,25 +128,13 @@ const groupsReducer = (state = initialState, action) => {
       const { events } = action;
       const groupId = events[0]?.groupId;
       if (groupId) {
-        let updatedGroups;
-        if (Array.isArray(state.groups?.allGroups)) {
-          updatedGroups = state.groups.map(group => {
-            if (group.id === groupId) {
-              return { ...group, events };
-            }
-            return group;
-          });
-        }
-        else {
-          updatedGroups = {...state.singleGroup, events}
-          }
-        return { ...state, singleGroup: {...updatedGroups } };
+        return { ...state, singleGroup: {...state.singleGroup, events} };
       }
       return state;
     }
     case GET_MEMBERS: {
-      const payload = action.members
-      return { ...state, singleGroup: { ...state.singleGroup, payload } }
+      const  { members } = action
+      return { ...state, singleGroup: { ...state.singleGroup, members } }
     }
     case CREATE_GROUP: {
       return { ...state }

@@ -11,11 +11,18 @@ const getEvents = events => ({
   events
 })
 
+export const fetchEvents = () => async (dispatch) => {
+  const req = await fetch(`/api/events`);
+  const data = await req.json();
+  const event = data;
+  dispatch(getEvents(event))
+}
+
 export const fetchEvent = (eventId) => async (dispatch) => {
   const req = await fetch(`/api/events/${eventId}`);
   const data = await req.json();
   const event = data;
-  dispatch(getEvent(event))
+  dispatch(getEvents(event))
 }
 
 export const fetchEventsByGroup = (groupId) => async (dispatch) => {
@@ -36,26 +43,9 @@ const eventsReducer = (state = initialState, action) => {
 
       return {...state, singleEvent: action.event}
     }
-  //   case GET_EVENTS: {
-  //     const { events } = action;
-  //     const groupId = events[0]?.groupId;
-  //     if (groupId) {
-  //       let updatedGroups;
-  //       if (Array.isArray(state.groups)) {
-  //         updatedGroups = state.groups.map(group => {
-  //           if (group.id === groupId) {
-  //             return { ...group, events };
-  //           }
-  //           return group;
-  //         });
-  //       }
-  //       else {
-  //         updatedGroups = { ...state.groups, events }
-  //       }
-  //       return { ...state, groups: updatedGroups };
-  //     }
-  //     return state;
-  //   }
+    case GET_EVENTS: {
+      return {...state, allEvents: action.events};
+    }
     default:
       return state;
   }

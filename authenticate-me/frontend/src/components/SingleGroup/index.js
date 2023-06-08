@@ -1,10 +1,12 @@
 import { NavLink, useParams, useHistory } from "react-router-dom";
 import './SingleGroup.css';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchEventsByGroup, fetchGroup, fetchMembersByGroup } from "../../store/group";
+import { fetchEventsByGroup, fetchGroup, fetchMembersByGroup, fetchGroupDelete } from "../../store/group";
 import { useEffect, useState } from "react";
 import defaultImg from '../Groups/default.jpg';
 import Events from "../Events";
+import OpenModalButton from "../OpenModalButton";
+import DeleteGroupModal from "../DeleteGroupModal";
 
 function SingleGroups() {
   const [owner, setOwner] = useState({});
@@ -76,6 +78,8 @@ function SingleGroups() {
   }
 
 
+
+
   return (
     <div className="mainColumn">
       <div className="headers">
@@ -111,7 +115,10 @@ function SingleGroups() {
               <>
                 <button className="ownerButtons" hidden={!isOwner}>Create event</button>
                 <button onClick={goUpdate} className="ownerButtons" hidden={!isOwner}>Update</button>
-                <button className="ownerButtons" hidden={!isOwner}>Delete</button>
+                <OpenModalButton
+                  buttonText="Delete"
+                  modalComponent={<DeleteGroupModal groupId={groupId}/>}
+                />
               </>
             )}
           </div>

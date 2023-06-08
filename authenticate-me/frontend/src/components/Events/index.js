@@ -50,7 +50,7 @@ function Events({ events }) {
       });
       setFutureEvents(sortedFutureEvents);
     }
-  }, [futureEvents]);
+  }, [events]);
 
   useEffect(() => {
     if (pastEvents.length > 0) {
@@ -61,7 +61,7 @@ function Events({ events }) {
       });
       setPastEvents(sortedPastEvents);
     }
-  }, [pastEvents]);
+  }, [events]);
 
   const handleClick = (eventId) => {
     history.push(`/events/${eventId}`);

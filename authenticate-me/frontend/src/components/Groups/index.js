@@ -2,8 +2,8 @@ import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import defaultImg from './default.jpg';
-import { fetchGroups, fetchEventsByGroup, getAllGroups } from "../../store/group";
-import { fetchEvents, getAllEvents } from "../../store/events";
+import { fetchGroups, fetchEventsByGroup } from "../../store/group";
+import { fetchEvents, } from "../../store/events";
 import './Groups.css';
 
 function Groups() {
@@ -13,11 +13,13 @@ function Groups() {
 
   useEffect(() => {
     dispatch(fetchGroups());
+    dispatch(fetchEvents());
     setDisabled(false);
   }, []);
 
   const groups = useSelector(state => state.groups.allGroups);
-
+  const events = useSelector(state => state.events.allEvents);
+  console.log(events);
   useEffect(() => {
     if (groups && Array.isArray(groups) && !disabled) {
       groups.forEach(group => {
@@ -27,6 +29,16 @@ function Groups() {
     }
   }, [dispatch, groups]);
 
+  useEffect(() => {
+    if(Array.isArray(events)){
+      events.forEach(event => {
+        const groupId = event.groupId
+        const group = groups.find(group => group.id === groupId)
+        if(group.events) group.events.push(event)
+        else group.events = [event]
+      })
+    }
+  }, [events])
   const handleClick = (group) => {
     history.push(`/groups/${group.id}`);
   };

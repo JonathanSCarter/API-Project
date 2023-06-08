@@ -491,7 +491,7 @@ router.put('/:groupId', requireAuth, async (req, res) => {
   const group = await Group.findByPk(req.params.groupId);
   if (!group) throw new Error("Group couldn't be found")
   if (name.length > 60) throw new Error("Name must be 60 characters or less")
-  if (about.length < 50) throw new Error("About must be 50 characters or more")
+  if (about.length < 30) throw new Error("About must be 50 characters or more")
   if (type !== 'Online' && type !== 'In person') throw new Error("Type must be 'Online' or 'In person")
   if (typeof private !== 'boolean') throw new Error('Private must be a boolean')
 
