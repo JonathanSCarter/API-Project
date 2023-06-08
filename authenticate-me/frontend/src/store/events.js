@@ -22,7 +22,7 @@ export const fetchEvent = (eventId) => async (dispatch) => {
   const req = await fetch(`/api/events/${eventId}`);
   const data = await req.json();
   const event = data;
-  dispatch(getEvents(event))
+  dispatch(getEvent(event))
 }
 
 export const fetchEventsByGroup = (groupId) => async (dispatch) => {
@@ -33,7 +33,7 @@ export const fetchEventsByGroup = (groupId) => async (dispatch) => {
 }
 
 const initialState = {
-  allEvents: {},
+  allEvents: [],
   singleEvent: {}
 }
 

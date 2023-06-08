@@ -11,7 +11,9 @@ function Events({ events }) {
   const [pastEvents, setPastEvents] = useState([]);
   const dispatch = useDispatch()
 
-  const eventsState = useSelector(state => state.groups.singleGroup.events)
+  const eventsState = useSelector(state => state.events.allEvents)
+  console.log(eventsState);
+  console.log(eventsState.allEvents);
 
   const history = useHistory();
   const {groupId} = useParams

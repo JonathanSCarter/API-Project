@@ -2,47 +2,37 @@ import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import defaultImg from './default.jpg';
-import { fetchGroups, fetchEventsByGroup } from "../../store/group";
-import { fetchEvents, } from "../../store/events";
+import { fetchGroups, fetchEventsByGroup, fetchEventsByGroupTwo } from "../../store/group";
 import './Groups.css';
 
 function Groups() {
   const dispatch = useDispatch();
   const history = useHistory();
   const [disabled, setDisabled] = useState(false);
+  const [disabled2, setDisabled2] = useState(false);
+
 
   useEffect(() => {
     dispatch(fetchGroups());
-    dispatch(fetchEvents());
     setDisabled(false);
-  }, []);
+  }, [dispatch]);
 
   const groups = useSelector(state => state.groups.allGroups);
-  const events = useSelector(state => state.events.allEvents);
-  console.log(events);
-  useEffect(() => {
-    if (groups && Array.isArray(groups) && !disabled) {
-      groups.forEach(group => {
-        setDisabled(true);
-        dispatch(fetchEventsByGroup(group.id));
-      });
-    }
-  }, [dispatch, groups]);
 
-  useEffect(() => {
-    if(Array.isArray(events)){
-      events.forEach(event => {
-        const groupId = event.groupId
-        const group = groups.find(group => group.id === groupId)
-        if(group.events) group.events.push(event)
-        else group.events = [event]
-      })
-    }
-  }, [events])
+useEffect(() => {
+  if(Array.isArray(groups) && !disabled2){
+    setDisabled2(true)
+    groups.forEach(group => {
+      dispatch(fetchEventsByGroupTwo(group.id))
+    })
+  }
+}, [groups])
+
+
   const handleClick = (group) => {
     history.push(`/groups/${group.id}`);
   };
-
+  console.log(groups);
   return (
     <div className="mainColumn">
       <div className="headers">
@@ -55,8 +45,9 @@ function Groups() {
       </div>
       <div className="label">Groups in MeatUp</div>
       {groups && Array.isArray(groups) && groups.map((group) => (
+
         <div className="group" onClick={() => handleClick(group)}>
-          <div className="preview">
+          <div className="preview">{console.log(group)}
             <img src={group.previewImage ? group.previewImage : defaultImg} alt="Group Preview" />
           </div>
           <div className="notPreview">
@@ -65,7 +56,7 @@ function Groups() {
             <div>{group.about}</div>
             <div className="bottom">
               <div>
-                {group && group.events && group.events.length
+                {group && group.events
                   ? (group.events.length === 1 ? '1 Event' : `${group.events.length} Events`)
                   : '0 Events'
                 }

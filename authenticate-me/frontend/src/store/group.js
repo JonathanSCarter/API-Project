@@ -1,4 +1,5 @@
 import { csrfFetch } from "./csrf"
+export const GET_EVENTS_TWO = '/group/GET_EVENTS_TWO'
 
 export const GET_EVENTS = '/group/GET_EVENTS'
 export const GET_GROUPS = '/group/GET_GROUPS'
@@ -23,6 +24,11 @@ const getGroups = groups => ({
 
 const getEvents = events => ({
   type: GET_EVENTS,
+  events
+})
+
+const getEventsTwo = events => ({
+  type: GET_EVENTS_TWO,
   events
 })
 
@@ -57,6 +63,13 @@ export const fetchEventsByGroup = (groupId) => async (dispatch) => {
   dispatch(getEvents(events.Events))
 }
 
+export const fetchEventsByGroupTwo = (groupId) => async (dispatch) => {
+  const req = await fetch(`/api/groups/${groupId}/events`);
+  const data = await req.json();
+  const events = data;
+  dispatch(getEventsTwo(events.Events))
+}
+
 export const fetchMembersByGroup = (groupId) => async (dispatch) => {
   const req = await fetch(`/api/groups/${groupId}/members`);
   const data = await req.json();
@@ -74,15 +87,13 @@ export const fetchGroupCreate = (payload) => async (dispatch) => {
     body: JSON.stringify(payload)
   })
   const data = await req.json();
-  console.log(data,'data');
   const group = data;
-  dispatch(createGroup(group))
+  // dispatch(createGroup(group))
   return group.id
 }
 
-export const fetchImageCreate = payload => async (dispatch) => {
-  console.log(payload.groupId);
-  await csrfFetch(`api/groups/${payload.groupId}/images`, {
+export const fetchImageCreate = (payload, groupId) => async (dispatch) => {
+  await csrfFetch(`/api/groups/${groupId}/images`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -126,9 +137,23 @@ const groupsReducer = (state = initialState, action) => {
     }
     case GET_EVENTS: {
       const { events } = action;
-      const groupId = events[0]?.groupId;
+      const groupId = Array.isArray(events) ? events[0]?.groupId : undefined;
       if (groupId) {
         return { ...state, singleGroup: {...state.singleGroup, events} };
+      }
+      return state;
+    }
+    case GET_EVENTS_TWO: {
+      const { events } = action;
+      const groupId = Array.isArray(events) ? events[0]?.groupId : undefined;
+      if (groupId) {
+        const updatedGroups = state.allGroups.map((group) => {
+          if (group.id === groupId) {
+            return { ...group, events };
+          }
+          return group;
+        });
+        return { ...state, allGroups: updatedGroups };
       }
       return state;
     }
