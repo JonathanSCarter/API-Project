@@ -32,10 +32,7 @@ function CreateEvents() {
 
   const group = useSelector(state => state.groups.singleGroup)
 
-useEffect(() => {
-  const num = Number(price)
-  if(num) setPrice(num)
-}, [price])
+
 
   useEffect(() => {
     dispatch(fetchGroup(groupId))
@@ -105,7 +102,12 @@ useEffect(() => {
     </select>
     <p>{errors.type}</p>
     <h4>What is the price for your event?</h4>
-    <input placeholder="0" type="text" value={`${price}`} onChange={(val) => setPrice(val.target.value)}></input>
+    <input placeholder="0" type="text" value={`${price}`} onChange={(val) => {
+    const inputValue = val.target.value;
+    if (!isNaN(inputValue)) {
+      setPrice(inputValue);
+    }
+  }}></input>
     <p>{errors.price}</p>
     <h2>Now describes what your group will be about</h2>
 

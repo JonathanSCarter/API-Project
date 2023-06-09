@@ -13,9 +13,14 @@ function Navigation({ isLoaded }) {
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
+      <>
+      <li className="left">
+      <NavLink exact to='/groups/new'>Create a Group</NavLink>
+      </li>
       <li className="loggedIn right">
         <ProfileButton user={sessionUser} />
       </li>
+      </>
     );
   } else {
     sessionLinks = (
@@ -36,11 +41,10 @@ function Navigation({ isLoaded }) {
     <>
       <div className="navbar">
         <ul>
-          <li className='left'>
-            <NavLink exact to="/"><i class="fa-solid fa-drumstick-bite"></i></NavLink>
-          </li>
-          <li>
-            <NavLink exact to='/groups/new'>Create a Group</NavLink>
+          <li className='left titlecard'>
+            <NavLink exact to="/">
+              <h1 className="title"><i class="fa-solid fa-drumstick-bite"></i>MeatUp</h1>
+            </NavLink>
           </li>
           {isLoaded && sessionLinks}
         </ul>
