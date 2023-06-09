@@ -32,7 +32,6 @@ useEffect(() => {
   const handleClick = (group) => {
     history.push(`/groups/${group.id}`);
   };
-  console.log(groups);
   return (
     <div className="mainColumn">
       <div className="headers">
@@ -47,7 +46,7 @@ useEffect(() => {
       {groups && Array.isArray(groups) && groups.map((group) => (
 
         <div className="group" onClick={() => handleClick(group)}>
-          <div className="preview">{console.log(group)}
+          <div className="preview">
             <img src={group.previewImage ? group.previewImage : defaultImg} alt="Group Preview" />
           </div>
           <div className="notPreview">

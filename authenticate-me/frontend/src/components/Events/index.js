@@ -1,19 +1,21 @@
 import { fetchEventsByGroup } from "../../store/group"
 import { useParams, useHistory } from "react-router-dom"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import defaultImg from '../Groups/default.jpg';
 import { fetchEvent } from "../../store/events";
 
-function Events({ events }) {
+function Events() {
   const [currentDate, setCurrentDate] = useState(new Date())
   const [futureEvents, setFutureEvents] = useState([])
   const [pastEvents, setPastEvents] = useState([]);
+  const [futureEvents2, setFutureEvents2] = useState([])
+  const [pastEvents2, setPastEvents2] = useState([]);
+  const [eventIds, setEventIds] = useState([])
+  const [disabled, setDisabled] = useState(false)
   const dispatch = useDispatch()
+  const events = useSelector(state => state.events.allEvents)
 
-  const eventsState = useSelector(state => state.events.allEvents)
-  console.log(eventsState);
-  console.log(eventsState.allEvents);
 
   const history = useHistory();
   const {groupId} = useParams
@@ -28,16 +30,26 @@ function Events({ events }) {
         pastEventsArr.push(event);
       }
     });
-
     setFutureEvents(futureEventsArr);
     setPastEvents(pastEventsArr);
   };
 
   useEffect(() => {
-    if(events) events.forEach(event => {
-      dispatch(fetchEvent(event.id))
-    })
+    if(events && !disabled){
+      setDisabled(true)
+      const ids = [];
+      events.forEach(event => {
+        ids.push(event.id)
+      })
+      setEventIds(ids)
+    }
   }, [events])
+
+  useEffect(() => {
+    eventIds.forEach(id => {
+      dispatch(fetchEvent(id))
+    })
+  }, [eventIds])
 
   useEffect(() => {
     if (events) separateEventsByDate(events);
@@ -50,9 +62,9 @@ function Events({ events }) {
         const dateB = new Date(b.startDate);
         return dateB - dateA;
       });
-      setFutureEvents(sortedFutureEvents);
+      setFutureEvents2(sortedFutureEvents);
     }
-  }, [events]);
+  }, [events, futureEvents]);
 
   useEffect(() => {
     if (pastEvents.length > 0) {
@@ -61,32 +73,32 @@ function Events({ events }) {
         const dateB = new Date(b.startDate);
         return dateB - dateA;
       });
-      setPastEvents(sortedPastEvents);
+      setPastEvents2(sortedPastEvents);
     }
-  }, [events]);
+  }, [events, pastEvents]);
 
   const handleClick = (eventId) => {
     history.push(`/events/${eventId}`);
   };
 
+
   return (
     <>
       <h2>Upcoming Events ({futureEvents.length})</h2>
-      {futureEvents && eventsState ? (
-        futureEvents.map(event => {
+      {futureEvents2 && events ? (
+        futureEvents2.map(event => {
           const value = new Date(event.startDate);
           const date = value.toLocaleDateString();
           const time = value.toLocaleTimeString();
-          const moreEvent = eventsState.find(eventsStateEvent => eventsStateEvent.id === event.id)
-          const description = moreEvent?.description
+
 
           return (
             <div onClick={()=>handleClick(event.id)}>
               <img src={event.previewImage ? event.previewImage : defaultImg} alt="Event Preview" />
               <div>{`${date} · ${time}`}</div>
               <div>{event.name}</div>
-              <div>{event.Venue ? `${event.Venue.city}, ${event.Venue.state}` : "Location Unknown"}</div>
-              <div>{description ? description : ''}</div>
+              <div>SomeCity, SomeState</div>
+              <div>{event.description}</div>
             </div>
           );
         })
@@ -94,20 +106,19 @@ function Events({ events }) {
         <div></div>
       )}
       <div>
-      {pastEvents && eventsState ? (
-        pastEvents.map(event => {
+      {pastEvents2 && events ? (
+        pastEvents2.map(event => {
           const value = new Date(event.startDate);
           const date = value.toLocaleDateString();
           const time = value.toLocaleTimeString();
-          const moreEvent = eventsState.find(eventsStateEvent => eventsStateEvent.id === event.id)
-          const description = moreEvent?.description
+
           return (
             <div onClick={()=>handleClick(event.id)}>
               <img src={event.previewImage ? event.previewImage : defaultImg} alt="Event Preview" />
               <div>{`${date} · ${time}`}</div>
               <div>{event.name}</div>
-              <div>{event.Venue ? `${event.Venue.city}, ${event.Venue.state}` : "Location Unknown"}</div>
-              <div>{description ? description : ''}</div>
+              <div>SomeCity, SomeState</div>
+              <div>{event.description}</div>
             </div>
           );
         })

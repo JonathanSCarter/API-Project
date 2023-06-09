@@ -62,7 +62,6 @@ function CreateGroup() {
 
   const handleFormSubmit = async () => {
     const response = await dispatch(fetchGroupCreate(payload));
-    console.log(response);
     await dispatch(fetchImageCreate({url: image, preview: true}, response))
     history.push(`/groups/${response}`);
   };

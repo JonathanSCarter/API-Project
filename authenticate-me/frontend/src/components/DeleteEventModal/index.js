@@ -1,24 +1,24 @@
 import { useModal } from '../../context/Modal'
-import { fetchGroupDelete } from '../../store/group'
+import { fetchEventDelete } from '../../store/events'
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 function DeleteGroupModal(props) {
-  const { groupId } = props
+  const { eventId } = props
   const dispatch = useDispatch()
   const history = useHistory()
   const goDelete = () => {
-    dispatch(fetchGroupDelete(groupId))
+    dispatch(fetchEventDelete(eventId))
     closeModal();
-    history.push('/groups')
+    history.push('/events')
   }
   const { closeModal } = useModal()
   return (
     <div>
       <h1>Confirm Delete</h1>
-      <div>Are you sure you want to remove this group?</div>
-      <button onClick={goDelete}>Yes(Delete Group)</button>
-      <button onClick={closeModal}>No (Keep Group)</button>
+      <div>Are you sure you want to remove this event?</div>
+      <button onClick={goDelete}>Yes(Delete Event)</button>
+      <button onClick={closeModal}>No (Keep Event)</button>
     </div>
   )
 }

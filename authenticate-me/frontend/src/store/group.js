@@ -108,7 +108,6 @@ export const fetchGroupDelete = (groupId) => async (dispatch) => {
   })
 }
 export const fetchGroupUpdate = (payload, groupId) => async (dispatch) => {
-  console.log(payload);
   await csrfFetch(`/api/groups/${groupId}`, {
     method: "PUT",
     headers: {
@@ -133,6 +132,7 @@ const groupsReducer = (state = initialState, action) => {
       return { ...state, allGroups: action.groups }
     }
     case GET_GROUP: {
+      console.log('test');
       return { ...state, singleGroup: action.group }
     }
     case GET_EVENTS: {

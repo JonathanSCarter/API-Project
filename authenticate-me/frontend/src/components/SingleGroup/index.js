@@ -22,6 +22,7 @@ function SingleGroups() {
   const group = useSelector(state => state.groups.singleGroup);
   const members = useSelector(state => state.groups.singleGroup.members);
   const user = useSelector(state => state.session.user);
+  const events = useSelector(state => state.groups.singleGroup.events);
 
   useEffect(() => {
     if (members) {
@@ -77,8 +78,9 @@ function SingleGroups() {
     history.push(`/groups/${groupId}/edit`)
   }
 
-
-
+  const goEventCreate = () => {
+    history.push(`/groups/${groupId}/events/new`)
+  }
 
   return (
     <div className="mainColumn">
@@ -113,7 +115,7 @@ function SingleGroups() {
             )}
             {isOwner && (
               <>
-                <button className="ownerButtons" hidden={!isOwner}>Create event</button>
+                <button onClick={goEventCreate} className="ownerButtons" hidden={!isOwner}>Create event</button>
                 <button onClick={goUpdate} className="ownerButtons" hidden={!isOwner}>Update</button>
                 <OpenModalButton
                   buttonText="Delete"
@@ -129,7 +131,7 @@ function SingleGroups() {
         <div>{owner.firstName} {owner.lastName}</div>
         <h2>What we're about</h2>
         <div>{group.about}</div>
-        {group.events && <Events events={group.events} />}      </div>
+        {events && <Events events={group.events} />}      </div>
     </div>
   );
 }
