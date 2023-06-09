@@ -88,3 +88,11 @@ div .preview img {
   flex-wrap: wrap;
   justify-content: flex-start;
 }
+
+.detailsCol {
+  display: grid;
+  grid-template-columns: 1fr 8fr 1fr;
+  background-color: lightgrey;
+  min-height: 100vh;
+
+}

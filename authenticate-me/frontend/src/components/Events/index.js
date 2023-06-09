@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import defaultImg from '../Groups/default.jpg';
 import { fetchEvent } from "../../store/events";
-
+import './Events.css'
 function Events() {
   const [currentDate, setCurrentDate] = useState(new Date())
   const [futureEvents, setFutureEvents] = useState([])
@@ -93,12 +93,14 @@ function Events() {
 
 
           return (
-            <div onClick={()=>handleClick(event.id)}>
+            <div className="imageContainer" onClick={()=>handleClick(event.id)}>
               <img src={event.previewImage ? event.previewImage : defaultImg} alt="Event Preview" />
+              <div className="eventDetails">
               <div>{`${date} · ${time}`}</div>
-              <div>{event.name}</div>
+              <h2>{event.name}</h2>
               <div>SomeCity, SomeState</div>
-              <div>{event.description}</div>
+              </div>
+              <div className="descrip">{event.description}</div>
             </div>
           );
         })
@@ -113,12 +115,14 @@ function Events() {
           const time = value.toLocaleTimeString();
 
           return (
-            <div onClick={()=>handleClick(event.id)}>
+            <div className="imageContainer" onClick={()=>handleClick(event.id)}>
               <img src={event.previewImage ? event.previewImage : defaultImg} alt="Event Preview" />
-              <div>{`${date} · ${time}`}</div>
-              <div>{event.name}</div>
-              <div>SomeCity, SomeState</div>
-              <div>{event.description}</div>
+              <div className="eventDetails">
+              <h4>{`${date} · ${time}`}</h4>
+              <h2>{event.name}</h2>
+              <h4>SomeCity, SomeState</h4>
+              <div className="descrip">{event.description}</div>
+              </div>
             </div>
           );
         })

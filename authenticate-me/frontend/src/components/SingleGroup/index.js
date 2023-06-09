@@ -83,6 +83,7 @@ function SingleGroups() {
   }
 
   return (
+    <>
     <div className="mainColumn">
       <div className="headers">
         <h4>
@@ -96,20 +97,20 @@ function SingleGroups() {
         <div className="notPreview">
           <div class="someDetails">
 
-          <h1>{group.name}</h1>
-          <div>{group.city}, {group.state}</div>
-          <div className="bottom">
-            <div>
-              {group && group.events && group.events.length
-                ? (group.events.length === 1 ? '1 Event' : `${group.events.length} Events`)
-                : '0 Events'
-              }
+            <h1>{group.name}</h1>
+            <div>{group.city}, {group.state}</div>
+            <div className="bottom">
+              <div>
+                {group && group.events && group.events.length
+                  ? (group.events.length === 1 ? '1 Event' : `${group.events.length} Events`)
+                  : '0 Events'
+                }
+              </div>
+              <div>·</div>
+              <div>{group.private ? "private" : "public"}</div>
             </div>
-            <div>·</div>
-            <div>{group.private ? "private" : "public"}</div>
+            <div>{owner && `Organized by ${owner.firstName} ${owner.lastName}`}</div>
           </div>
-          <div>{owner && `Organized by ${owner.firstName} ${owner.lastName}`}</div>
-            </div>
           <div className="buttonDown">
             {!hidden && (
               <button onClick={handleClick} disabled={disabled} className={disabled ? "disabled" : "notDisabled"}>
@@ -121,29 +122,34 @@ function SingleGroups() {
                 <button onClick={goEventCreate} className="ownerButtons" hidden={!isOwner}>Create event</button>
                 <button onClick={handleClick} className="ownerButtons" hidden={!isOwner}>Update</button>
                 <OpenModalButton
-                style={{
-                  backgroundColor: "darkslategray",
-                  color: "white",
-                  height: "40px",
-                  width: "fit-content",
-                  borderRadius: "0px",
-                  marginRight: "10px",
-                  boxShadow: "5px 5px black"}}
+                  style={{
+                    backgroundColor: "darkslategray",
+                    color: "white",
+                    height: "40px",
+                    width: "fit-content",
+                    borderRadius: "0px",
+                    marginRight: "10px",
+                    boxShadow: "5px 5px black"
+                  }}
                   buttonText="Delete"
-                  modalComponent={<DeleteGroupModal groupId={groupId}/>}
+                  modalComponent={<DeleteGroupModal groupId={groupId} />}
                 />
               </>
             )}
           </div>
         </div>
       </div>
+    </div>
+    <div className="detailsCol">
       <div className="details">
         <h2>Organizer</h2>
         <div>{owner.firstName} {owner.lastName}</div>
         <h2>What we're about</h2>
         <div>{group.about}</div>
-        {events && <Events events={group.events} />}      </div>
+        {events && <Events events={group.events} />}
+      </div>
     </div>
+    </>
   );
 }
 

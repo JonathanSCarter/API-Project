@@ -28,6 +28,7 @@ li {
 
 .line {
   position: relative;
+  padding-bottom: 10px;
 }
 
 .line::before {

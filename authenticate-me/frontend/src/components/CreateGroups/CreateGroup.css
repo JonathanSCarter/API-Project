@@ -1,0 +1,64 @@
+.centerCol {
+  display: grid;
+  grid-template-columns: 1fr 8fr 1fr;
+}
+
+.formGroup {
+  grid-column: 2;
+}
+
+.formGroup h4 {
+  color: teal;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.formGroup input {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 3px solid black;
+
+}
+
+.formGroup h2 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.formGroup li {
+  list-style-type: decimal;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 0px;
+  margin-left: 0px;
+}
+
+.formGroup ol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 15px;
+
+}
+
+.formGroup select {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 3px solid black;
+}
+
+.formGroup button {
+  height: 50px;
+  width: 200px;
+  box-shadow: 5px 5px black;
+  color: white;
+  background-color: red;
+  font-size: x-large;
+}
+
+.formGroup textarea {
+  border: 3px solid black;
+  width: 400px;
+  height: 225px;
+  resize: none;
+}
