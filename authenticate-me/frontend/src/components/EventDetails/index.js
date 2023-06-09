@@ -6,7 +6,7 @@ import defaultImg from "../Groups/default.jpg"
 import { fetchGroup, fetchMembersByGroup } from "../../store/group";
 import OpenModalButton from "../OpenModalButton";
 import DeleteEventModal from "../DeleteEventModal"
-
+import "./EventDetails.css"
 function EventDetails() {
   const dispatch = useDispatch();
   const { eventId } = useParams()

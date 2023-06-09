@@ -62,7 +62,7 @@ li {
 
 }
 
-a {
+.navbar a {
   text-decoration: none;
   color: black;
 }
@@ -72,8 +72,21 @@ a .titlecard {
   flex-direction: column;
 }
 
-ul {
+.ulthing {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
+
+.homepage a {
+  color: teal;
+}
+
+/* .navbar ul ul {
+  display: inline;
+  flex-direction: column;
+  align-items: normal;
+  justify-content: normal;
+  width: auto;
+} */

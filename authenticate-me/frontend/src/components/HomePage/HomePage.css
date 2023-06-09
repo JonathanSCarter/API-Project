@@ -1,7 +1,7 @@
 .container1{
-  position: absolute;
+  /* position: absolute; */
   display: grid;
-  grid-template-columns: 35% 15% 15% 35%;
+  grid-template-columns: 20% 30% 30% 20%;
   margin-top: 30px;
   width: 100%;
   overflow: hidden;
@@ -41,7 +41,7 @@
 }
 
 .container2 {
-  margin-top: 340px;
+  margin-top: 50px;
 }
 
 .container2 h2{
@@ -69,4 +69,28 @@
 
 .rightImage img {
   width: 100%;
+}
+
+.container4 button {
+  margin-top: 100px;
+  width: 200px;
+  height: 75px;
+  background-color: darkgreen;
+  font-size: larger;
+  color: white;
+  box-shadow: 10px 10px black;
+}
+
+.column {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container1 .title{
+  font-size: large;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }

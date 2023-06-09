@@ -94,6 +94,8 @@ function SingleGroups() {
           <img src={group && group.previewImage ? group.previewImage : defaultImg} alt="Group Preview" />
         </div>
         <div className="notPreview">
+          <div class="someDetails">
+
           <h1>{group.name}</h1>
           <div>{group.city}, {group.state}</div>
           <div className="bottom">
@@ -107,6 +109,7 @@ function SingleGroups() {
             <div>{group.private ? "private" : "public"}</div>
           </div>
           <div>{owner && `Organized by ${owner.firstName} ${owner.lastName}`}</div>
+            </div>
           <div className="buttonDown">
             {!hidden && (
               <button onClick={handleClick} disabled={disabled} className={disabled ? "disabled" : "notDisabled"}>
@@ -116,8 +119,16 @@ function SingleGroups() {
             {isOwner && (
               <>
                 <button onClick={goEventCreate} className="ownerButtons" hidden={!isOwner}>Create event</button>
-                <button onClick={goUpdate} className="ownerButtons" hidden={!isOwner}>Update</button>
+                <button onClick={handleClick} className="ownerButtons" hidden={!isOwner}>Update</button>
                 <OpenModalButton
+                style={{
+                  backgroundColor: "darkslategray",
+                  color: "white",
+                  height: "40px",
+                  width: "fit-content",
+                  borderRadius: "0px",
+                  marginRight: "10px",
+                  boxShadow: "5px 5px black"}}
                   buttonText="Delete"
                   modalComponent={<DeleteGroupModal groupId={groupId}/>}
                 />

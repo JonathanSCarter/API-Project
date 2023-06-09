@@ -4,6 +4,8 @@ import group from './images/user-group-solid.svg'
 import { NavLink } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import OpenModalButton from "../OpenModalButton";
+import SignupFormModal from "../SignupFormModal";
 
 function HomePage() {
   const [disabled, setDisabled] = useState(true)
@@ -26,7 +28,7 @@ function HomePage() {
   }, []);
 
   const container2Style = {
-    marginTop: `${container1Height + 150}px`,
+    marginTop: `${container1Height + 10}px`,
   };
   useEffect(() => {
     if(sessionUser) setDisabled(false)
@@ -36,7 +38,7 @@ function HomePage() {
     if(disabled) e.preventDefault()
   }
   return (
-    <>
+    <div className='homepage'>
       {/* <div className='container1parent'> */}
 
         <div className='container1 column1'>
@@ -47,7 +49,7 @@ function HomePage() {
           <div className='rightImage column1'><img src={bacon} alt=""></img></div>
         {/* </div> */}
       </div>
-      <div className='container2' style={container2Style}>
+      <div className='container2'>
         <h2>How MeatUp works</h2>
         <div>MeatUp lets you create events to eat meat with your friends!</div>
       </div>
@@ -65,9 +67,12 @@ function HomePage() {
             <NavLink className={disabled ? 'disabled' : ''} to='/groups/new' onClick={(e) => handleClick(e) }>Start a group</NavLink></div>
         </div>
         <div className='container4'>
-          <button className='join' >Join Meetup</button>
+        {!sessionUser && <OpenModalButton
+          buttonText="Join MeatUp"
+          modalComponent={<SignupFormModal />}
+        />}
         </div>
-      </>
+      </div>
       )
 }
 
