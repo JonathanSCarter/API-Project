@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useHistory, useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchGroupUpdate, fetchGroup } from "../../store/group"
-
+import './UpdateGroup.css'
 function UpdateGroup() {
 
   const history = useHistory()
@@ -83,19 +83,25 @@ function UpdateGroup() {
   };
 
   return (
-    <>
+    <div className="centerCol">
+    <div className="formGroup">
+
       <h4>UPDATE YOUR GROUP'S INFORMATION</h4>
       <h2>We'll walk you through a few steps to update your group's information</h2>
-      <div>line</div>
+      <div className="line"></div>
       <h2>First, set your group's location.</h2>
       <div>Meetup groups meet localy, in person and online. We'll connect you with people in your area, and more can join you online.</div>
       <input placeholder="City, STATE" type="text" value={`${cityState}`} onChange={(val) => { setCityState(val.target.value) }}></input>
       <p>{errors.city}</p>
       <p>{errors.state}</p>
+      <div className="line"></div>
+
       <h2>What is the name of your group?</h2>
       <div>Choose a name that will give people a clear idea of what the group is about. Feel Free to get creative! You can edit this later if you change your mind.</div>
       <input placeholder="What is your group name?" type="text" value={name} onChange={(val) => setName(val.target.value)}></input>
       <p>{errors.name}</p>
+      <div className="line"></div>
+
       <h2>Now describes what your group will be about</h2>
       <div>People will see this when we promote your group, but you'll be able to add to it later, too.</div>
       <ol>
@@ -105,6 +111,8 @@ function UpdateGroup() {
       </ol>
       <textarea placeholder="Please write at least 30 characters" value={about} onChange={(val) => setAbout(val.target.value)}></textarea>
       <p>{errors.about}</p>
+      <div className="line"></div>
+
       <h2>Final steps...</h2>
       <div>Is this an in person or online group?</div>
       <select value={type} onChange={(e) => setType(e.target.value)}>
@@ -127,7 +135,8 @@ function UpdateGroup() {
       <p>{errors.isPrivate}</p>
 
       <button onClick={handleSubmit}>Update Group</button>
-    </>
+      </div>
+    </div>
   )
 }
 

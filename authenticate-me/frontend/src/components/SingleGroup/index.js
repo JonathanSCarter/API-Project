@@ -120,7 +120,7 @@ function SingleGroups() {
             {isOwner && (
               <>
                 <button onClick={goEventCreate} className="ownerButtons" hidden={!isOwner}>Create event</button>
-                <button onClick={handleClick} className="ownerButtons" hidden={!isOwner}>Update</button>
+                <button onClick={goUpdate} className="ownerButtons" hidden={!isOwner}>Update</button>
                 <OpenModalButton
                   style={{
                     backgroundColor: "darkslategray",

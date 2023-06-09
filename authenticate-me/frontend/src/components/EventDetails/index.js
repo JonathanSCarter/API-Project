@@ -79,9 +79,13 @@ function EventDetails() {
     history.push(`/groups/${event.groupId}`)
   }
 
-  const goEdit = () => {
-    history.push(`/events/${event.id}/edit`)
-  }
+  // const goEdit = () => {
+  //   history.push(`/events/${event.id}/edit`)
+  // }
+
+  const handleClick = () => {
+    window.alert('Feature coming soon');
+  };
 
   if (event) {
     return (
@@ -121,7 +125,7 @@ function EventDetails() {
           </div>
           {isOwner && (
             <>
-            <button onClick={goEdit}>Update Event</button>
+            <button onClick={handleClick}>Update Event</button>
             <OpenModalButton
                   buttonText="Delete Event"
                   modalComponent={<DeleteEventModal eventId={eventId}/>}
