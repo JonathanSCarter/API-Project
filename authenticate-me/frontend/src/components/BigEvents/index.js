@@ -52,24 +52,26 @@ function BigEvents() {
         const date = value.toLocaleDateString();
         const time = value.toLocaleTimeString();
         return (
+          <>
+            <div className="group" onClick={() => handleClick(event)}>
+              <div className="preview">
+                <img src={event.previewImage ? event.previewImage : defaultImg} alt="Group Preview" />
+              </div>
+              <div className="notPreview">
+                <div>{`${date} · ${time}`}</div>
+                <h2>{event.name}</h2>
+                <div>Atlanta, Georgia</div>
+                {/* <div>{event.about}</div> */}
+                <div className="bottom">
 
-        <div className="event" onClick={() => handleClick(event)}>
-          <div className="preview">
-            <img src={event.previewImage ? event.previewImage : defaultImg} alt="Group Preview" />
-          </div>
-          <div className="notPreview">
-          <div>{`${date} · ${time}`}</div>
-            <h2>{event.name}</h2>
-            {/* <div>{event.city}, {event.state}</div> */}
-            <div>{event.about}</div>
-            <div>{event.description}</div>
-            <div className="bottom">
+                </div>
+              </div>
+              <div style={{marginTop: "15px"}}>{event.description}</div>
 
-          </div>
-          </div>
-
-        </div>
-      )})}
+            </div>
+          </>
+        )
+      })}
     </div>
   )
 }
