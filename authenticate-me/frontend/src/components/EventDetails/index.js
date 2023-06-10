@@ -42,7 +42,7 @@ function EventDetails() {
   }, [event]);
 
   useEffect(() => {
-    if(!user) setIsOwner(false)
+    if (!user) setIsOwner(false)
     if (members) {
       const host = members.Members.find(member => member.Membership.status === 'host');
       setOwner(host);
@@ -89,51 +89,71 @@ function EventDetails() {
 
   if (event) {
     return (
-      <div className="mainColumn">
-        <div className="headers">
-          <h4>
-            <NavLink to='/events'>Events</NavLink>
-          </h4>
-          <h1>{event.name}</h1>
-          <div>Hosted by {owner.firstName} {owner.lastName}</div>
-        </div>
-        <div className="eventDetail">
-          <div className="preview">
-            <img src={event && event.previewImage ? event.previewImage : defaultImg} alt="Event Preview" />
+      <>
+        <div className="mainColumn">
+          <div className="headers eventHeaders">
+            <h4>
+              <NavLink to='/events'>Events</NavLink>
+            </h4>
+            <h1>{event.name}</h1>
+            <div>Hosted by {owner.firstName} {owner.lastName}</div>
           </div>
-          <div className="notPreview">
-            <div onClick={goGroup}>
-            <img src={group.previewImage ? group.previewImage : defaultImg}></img>
-            <h1>{group.name}</h1>
-            <div>{group.type}</div>
+        </div>
+        <div className="eventDetailColumn">
+
+          <div className="eventDetail">
+            <div className="preview">
+              <img src={event && event.previewImage ? event.previewImage : defaultImg} alt="Event Preview" />
+            </div>
+            <div className="notPreview">
+              <div onClick={goGroup} className="groupForEvent">
+                <div className="groupImageContainer">
+                  <img src={group.previewImage ? group.previewImage : defaultImg}></img>
+                </div>
+                <div className="groupNotImage">
+                  <h1>{group.name}</h1>
+                  <div>{group.type}</div>
+                </div>
+              </div>
+              <div className="eventStuff">
+                <i class="fa-regular fa-clock" style={{ color: "#000000" }}></i>
+                <div className="secondHalf">
+                  <div>Start {`${date} · ${time}`}</div>
+                  <div>End {`${date2} · ${time2}`}</div>
+                </div>
+                <i class="fa-solid fa-dollar-sign" style={{ color: "#000000" }}></i>
+                <div className="secondHalf">
+                  {event.price === 0 ? "FREE" : `$${event.price}`}</div>
+                <i class="fa-solid fa-map-pin" style={{ color: "#000000" }}></i>
+                <div className="secondHalfRow">
+                  <div>
+                    {event.type}
+
+                  </div>
+                  {isOwner && (
+                    <>
+                      {/* <button onClick={handleClick}>Update Event</button> */}
+                      <OpenModalButton
+                        buttonText="Delete"
+                        modalComponent={<DeleteEventModal eventId={eventId} />}
+                      />
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="eventDescription">
+              <h1>Details</h1>
+              <div>{event.description}</div>
+              {isOwner && (
+                <>
+                  {/* <button onClick={handleClick}>Update Event</button> */}
+                </>
+              )}
             </div>
           </div>
-          <div>
-            <div>Clock icon</div>
-            <div>Start</div>
-            <div>{`${date} · ${time}`}</div>
-            <div>End</div>
-            <div>{`${date2} · ${time2}`}</div>
-            <div>MoneySign</div>
-            <div>{event.price === 0 ? "FREE" : `$${event.price}`}</div>
-            <div>pinIcon</div>
-            <div>{event.type}</div>
-          </div>
-          <div>
-            <h2>Details</h2>
-            <div>{event.description}</div>
-          </div>
-          {isOwner && (
-            <>
-            <button onClick={handleClick}>Update Event</button>
-            <OpenModalButton
-                  buttonText="Delete Event"
-                  modalComponent={<DeleteEventModal eventId={eventId}/>}
-                />
-            </>
-          )}
         </div>
-      </div>
+      </>
     )
   }
 }

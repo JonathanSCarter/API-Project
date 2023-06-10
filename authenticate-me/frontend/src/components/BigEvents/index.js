@@ -3,7 +3,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import defaultImg from '../Groups/default.jpg'
 import { useEffect, useState, useMemo } from "react";
 import { fetchEvents, fetchEvent } from "../../store/events";
-
+import './BigEvents.css'
 function BigEvents() {
   const dispatch = useDispatch();
   const [disabled, setDisabled] = useState(false);
@@ -37,7 +37,7 @@ function BigEvents() {
     return events.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
   }, [events]);
   return (
-    <div className="mainColumn">
+    <div className="mainColumnEvents">
       <div className="headers">
         <h2>
           <NavLink className='disabled' disabled={true} to='/events'>Events</NavLink>
@@ -54,6 +54,8 @@ function BigEvents() {
         return (
           <>
             <div className="group" onClick={() => handleClick(event)}>
+              <div className="eventGrid">
+
               <div className="preview">
                 <img src={event.previewImage ? event.previewImage : defaultImg} alt="Group Preview" />
               </div>
@@ -66,8 +68,9 @@ function BigEvents() {
 
                 </div>
               </div>
-              <div style={{marginTop: "15px"}}>{event.description}</div>
+              </div>
 
+              <div className="descrip2" style={{marginTop: "15px"}} onClick={() => handleClick(event)}>{event.description} </div>
             </div>
           </>
         )

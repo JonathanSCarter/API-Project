@@ -22,7 +22,9 @@ function SingleGroups() {
   const group = useSelector(state => state.groups.singleGroup);
   const members = useSelector(state => state.groups.singleGroup.members);
   const user = useSelector(state => state.session.user);
-  const events = useSelector(state => state.groups.singleGroup.events);
+  const events = useSelector(state => state.events.allEvents);
+
+
 
   useEffect(() => {
     if (members) {
@@ -82,6 +84,8 @@ function SingleGroups() {
     history.push(`/groups/${groupId}/events/new`)
   }
 
+console.log(events);
+
   return (
     <>
     <div className="mainColumn">
@@ -101,8 +105,8 @@ function SingleGroups() {
             <div>{group.city}, {group.state}</div>
             <div className="bottom">
               <div>
-                {group && group.events && group.events.length
-                  ? (group.events.length === 1 ? '1 Event' : `${group.events.length} Events`)
+                {events && events.length
+                  ? (events.length === 1 ? '1 Event' : `${events.length} Events`)
                   : '0 Events'
                 }
               </div>
@@ -146,7 +150,7 @@ function SingleGroups() {
         <div>{owner.firstName} {owner.lastName}</div>
         <h2>What we're about</h2>
         <div>{group.about}</div>
-        {events && <Events events={group.events} />}
+        {events.length > 0 && <Events events={events} />}
       </div>
     </div>
     </>

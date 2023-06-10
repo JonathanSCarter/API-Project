@@ -12,6 +12,7 @@
   width: 100%;
   justify-content: space-evenly;
   margin-top: 50px;
+  margin-bottom: 100px;
 }
 
 .join {
@@ -72,13 +73,13 @@
 }
 
 .container4 button {
-  margin-top: 100px;
   width: 200px;
   height: 75px;
   background-color: darkgreen;
   font-size: larger;
   color: white;
   box-shadow: 10px 10px black;
+  margin-bottom: 50px;
 }
 
 .column {

@@ -14,11 +14,11 @@ function DeleteGroupModal(props) {
   }
   const { closeModal } = useModal()
   return (
-    <div>
+    <div className='delete'>
       <h1>Confirm Delete</h1>
       <div>Are you sure you want to remove this event?</div>
-      <button onClick={goDelete}>Yes(Delete Event)</button>
-      <button onClick={closeModal}>No (Keep Event)</button>
+      <button style={{backgroundColor:"red"}} onClick={goDelete}>Yes(Delete Event)</button>
+      <button style={{backgroundColor:"black"}} onClick={closeModal}>No (Keep Event)</button>
     </div>
   )
 }

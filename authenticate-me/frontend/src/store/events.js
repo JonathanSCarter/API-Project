@@ -48,6 +48,7 @@ export const fetchEventsByGroup = (groupId) => async (dispatch) => {
 }
 
 export const fetchEventCreate = (payload, groupId) => async (dispatch) => {
+  console.log(payload);
   const req = await csrfFetch(`/api/groups/${groupId}/events`, {
     method: "POST",
     headers: {

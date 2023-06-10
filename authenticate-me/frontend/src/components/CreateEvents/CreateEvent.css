@@ -1,0 +1,9 @@
+.formGroup .timeBottom {
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.formGroup .timeTop {
+  margin-top: 10px;
+  margin-bottom: 0px;
+}

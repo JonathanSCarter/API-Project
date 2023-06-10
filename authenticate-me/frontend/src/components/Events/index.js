@@ -15,7 +15,7 @@ function Events() {
   const [disabled, setDisabled] = useState(false)
   const dispatch = useDispatch()
   const events = useSelector(state => state.events.allEvents)
-
+  console.log('test');
 
   const history = useHistory();
   const {groupId} = useParams

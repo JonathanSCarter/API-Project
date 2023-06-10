@@ -38,37 +38,30 @@ function LoginFormModal() {
     };
 
     return (
-    <>
+    <div className="loginModal">
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
-
-        <label>
-          Username or Email
           <input
+          placeholder="Username or Email"
             type="text"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             required
             aria-label='test'
           />
-        </label>
-        <label>
-          Password
           <input
+          placeholder="Password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
         {errors.credential && <p>{errors.credential}</p>}
         <button type="submit" disabled={disabled}>Log In</button>
-        <button className="demo" type="submit" onClick={() => {
-          setCredential('Demo-lition')
-          setPassword('password')
-        }}>Log in as Demo User</button>
+        <button className="demo" type="submit" onClick={() => dispatch(sessionActions.login({ credential:"Demo-lition", password:"password" }))
+    .then(()=>closeModal())}>Log in as Demo User</button>
       </form>
-    </>
+    </div>
   );
 }
 

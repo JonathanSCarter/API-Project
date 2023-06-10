@@ -3,7 +3,7 @@ import { useHistory, useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchGroup } from "../../store/group"
 import { fetchEventCreate, fetchEventImageCreate } from "../../store/events"
-
+import './CreateEvent.css'
 function CreateEvents() {
   const { groupId } = useParams()
   const history = useHistory()
@@ -32,7 +32,9 @@ function CreateEvents() {
 
   const group = useSelector(state => state.groups.singleGroup)
 
-
+  useEffect(() => {
+    setPrice(Number(price))
+  }, [price])
 
   useEffect(() => {
     dispatch(fetchGroup(groupId))
@@ -75,6 +77,8 @@ function CreateEvents() {
     if(description.length < 30) newErrors.description = "Description must be at least 30 characters long"
     setErrors(newErrors);
 
+
+
     if (Object.keys(newErrors).length === 0) {
       handleFormSubmit();
     }
@@ -86,13 +90,17 @@ function CreateEvents() {
     history.push(`/events/${response}`)
   };
   return (
-    <>
+    <div className="centerCol">
+      <div className="formGroup">
+
     <h1>Create an event for {group.name}</h1>
 
-    <h4>What is the name of your event?</h4>
+    <h3>What is the name of your event?</h3>
     <input placeholder="Event Name" type="text" value={`${name}`} onChange={(val) => { setName(val.target.value) }}></input>
     <p>{errors.name}</p>
-    <h4>Is this an in person or online event?</h4>
+    <div className="line"></div>
+
+    <h3>Is this an in person or online event?</h3>
     <select value={type} onChange={(e) => setType(e.target.value)}>
       <option value="" disabled hidden>
         (select one)
@@ -101,7 +109,9 @@ function CreateEvents() {
       <option value="Online">Online</option>
     </select>
     <p>{errors.type}</p>
-    <h4>What is the price for your event?</h4>
+    <div className="line"></div>
+
+    <h3>What is the price for your event?</h3>
     <input placeholder="0" type="text" value={`${price}`} onChange={(val) => {
     const inputValue = val.target.value;
     if (!isNaN(inputValue)) {
@@ -109,18 +119,26 @@ function CreateEvents() {
     }
   }}></input>
     <p>{errors.price}</p>
+    <div className="line"></div>
+
     <h2>Now describes what your group will be about</h2>
 
-    <h4>When does your event start?</h4>
-    <input placeholder="MM/DD/YYYY HH:mm AM" value={startDate} onChange={(val) => setStartDate(val.target.value)}></input>
+    <h3>When does your event start?</h3>
+
+
+    <input className="timeTop" placeholder="MM/DD/YYYY HH:mm AM" value={startDate} onChange={(val) => setStartDate(val.target.value)}></input>
     <p>{errors.startDate}</p>
-    <input placeholder="MM/DD/YYYY HH:mm PM" value={endDate} onChange={(val) => setEndDate(val.target.value)}></input>
+    <input className="timeBottom" placeholder="MM/DD/YYYY HH:mm PM" value={endDate} onChange={(val) => setEndDate(val.target.value)}></input>
     <p>{errors.endDate}</p>
+    <div className="line"></div>
+
 
 
     <div>Please add an image url for your event below:</div>
     <input placeholder="Image Url" type="text" value={image} onChange={(val) => setImage(val.target.value)}></input>
     <p>{errors.image}</p>
+    <div className="line"></div>
+
 
     <textarea placeholder="Please write at least 30 characters" value={description} onChange={(val) => setDescription(val.target.value)}></textarea>
     <p>{errors.description}</p>
@@ -128,7 +146,9 @@ function CreateEvents() {
 
 
     <button onClick={handleSubmit}>Create Event</button>
-  </>
+    </div>
+
+    </div>
   )
 }
 

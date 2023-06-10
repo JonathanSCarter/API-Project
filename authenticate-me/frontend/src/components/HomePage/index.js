@@ -31,7 +31,8 @@ function HomePage() {
     marginTop: `${container1Height + 10}px`,
   };
   useEffect(() => {
-    if(sessionUser) setDisabled(false)
+    if(sessionUser) setDisabled(false);
+    else setDisabled(true);
   }, [sessionUser])
 
   const handleClick = (e) => {
@@ -67,7 +68,7 @@ function HomePage() {
             <NavLink className={disabled ? 'disabled' : ''} to='/groups/new' onClick={(e) => handleClick(e) }>Start a group</NavLink></div>
         </div>
         <div className='container4'>
-        {!sessionUser && <OpenModalButton
+        {disabled && <OpenModalButton
           buttonText="Join MeatUp"
           modalComponent={<SignupFormModal />}
         />}
