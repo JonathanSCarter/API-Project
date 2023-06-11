@@ -135,11 +135,9 @@ const groupsReducer = (state = initialState, action) => {
       return { ...state, singleGroup: action.group }
     }
     case GET_EVENTS: {
-      console.log('test');
       const { events } = action;
       const groupId = Array.isArray(events) ? events[0]?.groupId : undefined;
       if (groupId) {
-        console.log('this had a groupId');
         return { ...state, singleGroup: {...state.singleGroup, events} };
       }
       return state;
@@ -160,7 +158,6 @@ const groupsReducer = (state = initialState, action) => {
     }
     case GET_MEMBERS: {
       const  { members } = action
-      console.log({...state.singleGroup});
       return { ...state, singleGroup: { ...state.singleGroup, members } }
     }
     case CREATE_GROUP: {

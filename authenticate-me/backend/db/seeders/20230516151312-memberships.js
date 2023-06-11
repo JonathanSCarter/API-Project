@@ -24,43 +24,48 @@ module.exports = {
       },
       {
         userId: 2,
-        groupId: 1,
-        status: 'member'
-      },
-      {
-        userId: 3,
-        groupId: 1,
-        status: 'pending'
-      },
-      {
-        userId: 1,
         groupId: 2,
         status: 'host'
       },
       {
-        userId: 2,
-        groupId: 2,
-        status: 'co-host'
-      },
-      {
         userId: 3,
-        groupId: 2,
-        status: 'pending'
-      },
-      {
-        userId: 1,
         groupId: 3,
         status: 'host'
       },
       {
+        userId: 1,
+        groupId: 4,
+        status: 'host'
+      },
+      {
         userId: 2,
-        groupId: 3,
-        status: 'member'
+        groupId: 5,
+        status: 'host'
       },
       {
         userId: 3,
-        groupId: 3,
-        status: 'co-host'
+        groupId: 6,
+        status: 'host'
+      },
+      {
+        userId: 1,
+        groupId: 7,
+        status: 'host'
+      },
+      {
+        userId: 2,
+        groupId: 8,
+        status: 'host'
+      },
+      {
+        userId: 3,
+        groupId: 9,
+        status: 'host'
+      },
+      {
+        userId: 1,
+        groupId: 10,
+        status: 'host'
       }])
   },
 

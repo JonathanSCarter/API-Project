@@ -84,7 +84,6 @@ function SingleGroups() {
     history.push(`/groups/${groupId}/events/new`)
   }
 
-console.log(events);
 
   return (
     <>

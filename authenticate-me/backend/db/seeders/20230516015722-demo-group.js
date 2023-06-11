@@ -19,30 +19,93 @@ module.exports = {
     return queryInterface.bulkInsert(options, [
       {
         organizerId: 1,
-        name: 'Online Group 1',
-        about: 'This is an online group for people interested in hiking.',
-        type: 'Online',
+        name: 'Meat Lovers Club',
+        about: 'This is a group for meat enthusiasts who enjoy various types of meat dishes.',
+        type: 'In person',
         private: false,
-        city: 'Los Angeles',
-        state: 'California',
+        city: 'Chicago',
+        state: 'Illinois'
       },
       {
         organizerId: 2,
-        name: 'In Person Group 1',
-        about: 'This is an in-person group for people interested in cooking.',
+        name: 'Carnivore Society',
+        about: 'Join this group if you have a passion for meat and want to explore different meat-based recipes.',
         type: 'In person',
         private: true,
-        city: 'San Francisco',
-        state: 'California'
+        city: 'Houston',
+        state: 'Texas'
       },
       {
         organizerId: 3,
-        name: 'Online Group 2',
-        about: 'This is an online group for people interested in yoga.',
+        name: 'Online Meat Eaters',
+        about: 'Connect with fellow meat lovers online and share your favorite meat-based dishes.',
+        type: 'Online',
+        private: false,
+        city: 'Denver',
+        state: 'Colorado'
+      },
+      {
+        organizerId: 1,
+        name: 'Grill Masters',
+        about: 'If you enjoy grilling and barbecuing meat, this group is perfect for you.',
+        type: 'In person',
+        private: false,
+        city: 'Atlanta',
+        state: 'Georgia'
+      },
+      {
+        organizerId: 2,
+        name: 'Meat Connoisseurs',
+        about: 'Join this exclusive group of meat connoisseurs to explore the finest cuts of meat and cooking techniques.',
+        type: 'In person',
+        private: true,
+        city: 'Miami',
+        state: 'Florida'
+      },
+      {
+        organizerId: 3,
+        name: 'Online BBQ Enthusiasts',
+        about: 'Connect with fellow barbecue enthusiasts online and share your love for perfectly smoked meats.',
         type: 'Online',
         private: true,
-        city: 'New York',
-        state: 'New York',
+        city: 'Austin',
+        state: 'Texas'
+      },
+      {
+        organizerId: 1,
+        name: 'Steak Lovers',
+        about: "If you're passionate about steaks and want to discover the best steak recipes, this group is for you.",
+        type: 'In person',
+        private: false,
+        city: 'Phoenix',
+        state: 'Arizona'
+      },
+      {
+        organizerId: 2,
+        name: 'Meat and Grill Aficionados',
+        about: 'Join this group to meet other meat and grilling enthusiasts and exchange tips and recipes.',
+        type: 'In person',
+        private: true,
+        city: 'Seattle',
+        state: 'Washington'
+      },
+      {
+        organizerId: 3,
+        name: 'Online Meat Masters',
+        about: 'Connect with seasoned meat chefs online and learn from their expertise in cooking meat to perfection.',
+        type: 'Online',
+        private: false,
+        city: 'Boston',
+        state: 'Massachusetts'
+      },
+      {
+        organizerId: 1,
+        name: 'Bacon Lovers United',
+        about: "If you're crazy about bacon and want to explore creative bacon recipes, this group is for you.",
+        type: 'In person',
+        private: false,
+        city: 'Portland',
+        state: 'Oregon'
       }
     ], {});
 

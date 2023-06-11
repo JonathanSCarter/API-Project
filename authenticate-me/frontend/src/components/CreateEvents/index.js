@@ -56,7 +56,6 @@ function CreateEvents() {
         newErrors.startDate = "Start date and time must be in the future";
       }
     }
-    console.log(endDate);
     if (endDate === "") {
       newErrors.endDate = "Event end is required";
     } else {
