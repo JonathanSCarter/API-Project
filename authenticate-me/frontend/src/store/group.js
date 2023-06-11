@@ -115,8 +115,8 @@ export const fetchGroupUpdate = (payload, groupId) => async (dispatch) => {
     },
     body: JSON.stringify(payload)
   })
-
 }
+
 const initialState = {
   allGroups: {
 

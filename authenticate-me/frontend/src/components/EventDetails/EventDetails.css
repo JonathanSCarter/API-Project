@@ -12,26 +12,40 @@
 .eventDetail {
   grid-column: 2;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 60% 40%;
   height: min-content;
+  align-items: stretch;
 
 }
 
 .eventDetail .notPreview {
   display: grid;
-  grid-template-rows: 2fr 3fr;
+  grid-template-rows: 35% 65%;
   margin-top: 40px;
   max-height: fit-content;
 }
 
+.groupForEvent img {
+  height: 100%;
+}
+
+.groupForEvent .groupNotImage {
+  width: 100%;
+}
+
 .notPreview .groupForEvent {
   /* padding: 20px; */
-  border: 30px solid white;
+  border: 20px solid white;
   background-color: white;
   grid-row: 1;
-  display: grid;
-  grid-template-columns: 2fr 3fr;
-  border-radius: 60px;
+  display: flex;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.eventDetailColumn .notPreview div {
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 .groupForEvent .groupImageContainer {
@@ -54,16 +68,24 @@
 
 .eventDetail .notPreview {
   justify-content: space-between;
+  display: grid;
+  margin-top: 40px;
+  max-height: fit-content;
+  grid-column: 2;
+  justify-content: space-between;
+  flex-direction: column;
+  padding-left: 20px;
+
 }
 
 .notPreview .eventStuff {
-  border: 30px solid white;
+  border: 20px solid white;
   background-color: white;
   grid-row: 2;
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  grid-template-columns: 2fr 3fr;
   grid-template-rows: 1fr 1fr 1fr;
-  border-radius: 60px;
+  border-radius: 30px;
   margin-top: 25px;
 }
 
@@ -79,7 +101,6 @@
 
 .preview img {
   height: 100%;
-  object-fit: cover;
 }
 
 .eventStuff i {
@@ -112,11 +133,20 @@
 }
 
 .notPreview .secondHalfRow button {
-  width: 100px;
   height: min-content;
   border-radius: 0px;
   background-color: darkslategray;
-  margin-right: 150px;
+  margin-right: 25px;
   color: white;
   box-shadow: 4px 4px black;
+  flex-shrink: 0;
+}
+
+.buttonBucket {
+  display: flex;
+  flex-direction: row;
+}
+
+.buttonBucket button {
+  width: 70px;
 }

@@ -111,7 +111,7 @@ function EventDetails() {
                   <img src={group.previewImage ? group.previewImage : defaultImg}></img>
                 </div>
                 <div className="groupNotImage">
-                  <h1>{group.name}</h1>
+                  <h3>{group.name}</h3>
                   <div>{group.type}</div>
                 </div>
               </div>
@@ -127,16 +127,20 @@ function EventDetails() {
                 <i class="fa-solid fa-map-pin" style={{ color: "#000000" }}></i>
                 <div className="secondHalfRow">
                   <div>
+                    <div>
                     {event.type}
-
+                    </div>
                   </div>
                   {isOwner && (
                     <>
-                      {/* <button onClick={handleClick}>Update Event</button> */}
+                    <div className="buttonBucket">
+
+                      <button >Update Event</button>
                       <OpenModalButton
                         buttonText="Delete"
                         modalComponent={<DeleteEventModal eventId={eventId} />}
-                      />
+                        />
+                        </div>
                     </>
                   )}
                 </div>

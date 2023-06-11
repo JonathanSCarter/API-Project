@@ -76,3 +76,8 @@ li .groups {
   top: -100px;
   right: 20px;
 }
+
+li .events {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

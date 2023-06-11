@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useHistory, useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
-import { fetchGroupUpdate, fetchGroup } from "../../store/group"
+import { fetchGroupUpdate, fetchGroup, fetchMembersByGroup } from "../../store/group"
 import './UpdateGroup.css'
 function UpdateGroup() {
 
@@ -16,6 +16,10 @@ function UpdateGroup() {
   const dispatch = useDispatch()
   const { groupId } = useParams();
   const [errors, setErrors] = useState({});
+  const [isOwner, setIsOwner] = useState(false);
+  const [owner, setOwner] = useState({});
+
+
 
   const payload = {
     name,
@@ -26,6 +30,9 @@ function UpdateGroup() {
     state
   }
   const group = useSelector(state => state.groups.singleGroup);
+  const members = useSelector(state => state.groups.singleGroup.members);
+  const user = useSelector(state => state.session.user);
+
   useEffect(() => {
     if (cityState.includes(', ')) {
       const values = cityState.split(', ')
@@ -46,6 +53,7 @@ function UpdateGroup() {
 
   useEffect(() => {
     dispatch(fetchGroup(groupId));
+    dispatch(fetchMembersByGroup(groupId));
   }, [dispatch]);
 
   useEffect(() => {
@@ -82,7 +90,18 @@ function UpdateGroup() {
     history.push(`/groups/${groupId}`);
   };
 
-  return (
+  useEffect(() => {
+    if(members && user) {
+      const host = members.Members.find(member => member.Membership.status === 'host');
+      setOwner(host);
+      if (host.id === user.id) {
+        setIsOwner(true);
+      } else history.push('/')
+    }
+    if(user === null) history.push('/')
+  })
+
+  return (isOwner &&
     <div className="centerCol">
     <div className="formGroup">
 

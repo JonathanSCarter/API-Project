@@ -10,7 +10,7 @@ function CreateEvents() {
   const [name, setName] = useState("")
   const [type, setType] = useState("")
   const [capacity, setCapacity] = useState(10)
-  const [price, setPrice] = useState("")
+  const [price, setPrice] = useState(null)
   const [description, setDescription] = useState("")
   const [startDate, setStartDate] = useState("")
   const [endDate, setEndDate] = useState("")
@@ -32,9 +32,6 @@ function CreateEvents() {
 
   const group = useSelector(state => state.groups.singleGroup)
 
-  useEffect(() => {
-    setPrice(Number(price))
-  }, [price])
 
   useEffect(() => {
     dispatch(fetchGroup(groupId))
@@ -70,7 +67,7 @@ function CreateEvents() {
         newErrors.endDate = "End date and time must be in the future";
       }
     }
-    if (isNaN(price)) {newErrors.price = "Please provide a valid integer for the price"}
+    if (isNaN(price)) {newErrors.price = "Please provide a valid number for the price"}
     if (image === "" || !(image.endsWith(".png") || image.endsWith(".jpg") || image.endsWith(".jpeg"))) {
       newErrors.image = "Image URL must end in .png, .jpg, or .jpeg";
     }
@@ -85,7 +82,10 @@ function CreateEvents() {
   };
 
   const handleFormSubmit = async () => {
-    const response = await dispatch(fetchEventCreate(payload, groupId));
+
+    const response = await dispatch(
+      fetchEventCreate({ ...payload, price: parseFloat(price) }, groupId)
+    );
     await dispatch(fetchEventImageCreate({url: image, preview: true}, response))
     history.push(`/events/${response}`)
   };
@@ -112,12 +112,21 @@ function CreateEvents() {
     <div className="line"></div>
 
     <h3>What is the price for your event?</h3>
-    <input placeholder="0" type="text" value={`${price}`} onChange={(val) => {
+    <input
+  placeholder="0"
+  type="number"
+  step="0.01"
+  value={price === null ? "" : price}
+  onChange={(val) => {
     const inputValue = val.target.value;
-    if (!isNaN(inputValue)) {
-      setPrice(inputValue);
+    let parsedValue = parseFloat(inputValue);
+    if (!isNaN(parsedValue)) {
+      parsedValue = parseFloat(parsedValue.toFixed(2));
     }
-  }}></input>
+    setPrice(parsedValue);
+  }}
+
+/>
     <p>{errors.price}</p>
     <div className="line"></div>
 
