@@ -3,7 +3,6 @@ import './SingleGroup.css';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEventsByGroup, fetchGroup, fetchMembersByGroup, fetchGroupDelete } from "../../store/group";
 import { useEffect, useState } from "react";
-import defaultImg from '../Groups/default.jpg';
 import Events from "../Events";
 import OpenModalButton from "../OpenModalButton";
 import DeleteGroupModal from "../DeleteGroupModal";
@@ -95,7 +94,7 @@ function SingleGroups() {
       </div>
       <div className="groupDetail">
         <div className="preview">
-          <img src={group && group.previewImage ? group.previewImage : defaultImg} alt="Group Preview" />
+          <img src={group.previewImage} alt="Group Preview" />
         </div>
         <div className="notPreview">
           <div class="someDetails">

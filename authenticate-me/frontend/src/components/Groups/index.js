@@ -1,7 +1,6 @@
 import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import defaultImg from './default.jpg';
 import { fetchGroups, fetchEventsByGroup, fetchEventsByGroupTwo } from "../../store/group";
 import './Groups.css';
 
@@ -47,7 +46,7 @@ useEffect(() => {
 
         <div className="group" onClick={() => handleClick(group)}>
           <div className="preview">
-            <img src={group.previewImage ? group.previewImage : defaultImg} alt="Group Preview" />
+            <img src={group.previewImage} alt="Group Preview" />
           </div>
           <div className="notPreview">
             <h2>{group.name}</h2>

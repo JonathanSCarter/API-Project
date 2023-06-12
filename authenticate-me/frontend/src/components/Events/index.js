@@ -2,7 +2,6 @@ import { fetchEventsByGroup } from "../../store/group"
 import { useParams, useHistory } from "react-router-dom"
 import { useCallback, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import defaultImg from '../Groups/default.jpg';
 import { fetchEvent } from "../../store/events";
 import './Events.css'
 function Events() {
@@ -93,7 +92,7 @@ function Events() {
 
           return (
             <div className="imageContainer" onClick={()=>handleClick(event.id)}>
-              <img src={event.previewImage ? event.previewImage : defaultImg} alt="Event Preview" />
+              <img src={event.previewImage} alt="Event Preview" />
               <div className="eventDetails">
               <div>{`${date} · ${time}`}</div>
               <h2>{event.name}</h2>
@@ -115,7 +114,7 @@ function Events() {
 
           return (
             <div className="imageContainer" onClick={()=>handleClick(event.id)}>
-              <img src={event.previewImage ? event.previewImage : defaultImg} alt="Event Preview" />
+              <img src={event.previewImage} alt="Event Preview" />
               <div className="eventDetails">
               <h4>{`${date} · ${time}`}</h4>
               <h2>{event.name}</h2>

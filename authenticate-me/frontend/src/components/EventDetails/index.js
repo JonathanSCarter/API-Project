@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { useParams, NavLink, useHistory } from "react-router-dom"
 import { fetchEventSingle, fetchEventDelete } from "../../store/events";
-import defaultImg from "../Groups/default.jpg"
 import { fetchGroup, fetchMembersByGroup } from "../../store/group";
 import OpenModalButton from "../OpenModalButton";
 import DeleteEventModal from "../DeleteEventModal"
@@ -103,12 +102,12 @@ function EventDetails() {
 
           <div className="eventDetail">
             <div className="preview">
-              <img src={event && event.previewImage ? event.previewImage : defaultImg} alt="Event Preview" />
+              <img src={event.previewImage} alt="Event Preview" />
             </div>
             <div className="notPreview">
               <div onClick={goGroup} className="groupForEvent">
                 <div className="groupImageContainer">
-                  <img src={group.previewImage ? group.previewImage : defaultImg}></img>
+                  <img src={group.previewImage}></img>
                 </div>
                 <div className="groupNotImage">
                   <h3>{group.name}</h3>

@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
-import defaultImg from '../Groups/default.jpg'
 import { useEffect, useState, useMemo } from "react";
 import { fetchEvents, fetchEvent } from "../../store/events";
 import './BigEvents.css'
@@ -57,7 +56,7 @@ function BigEvents() {
               <div className="eventGrid">
 
               <div className="preview">
-                <img src={event.previewImage ? event.previewImage : defaultImg} alt="Group Preview" />
+                <img src={event.previewImage} alt="Group Preview" />
               </div>
               <div className="notPreview">
                 <div>{`${date} · ${time}`}</div>
