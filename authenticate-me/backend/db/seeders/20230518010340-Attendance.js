@@ -62,7 +62,6 @@ module.exports = {
     options.tableName = 'Attendances'
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      status: { [Op.in]: ['waitlist','pending','attending'] }
     }, {});
   }
 };

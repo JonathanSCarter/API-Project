@@ -122,7 +122,6 @@ module.exports = {
     options.tableName = 'Groups';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      name: { [Op.in]: ['Online Group 1', 'In Person Group 1', 'Online Group 2'] }
     }, {});
   }
 };

@@ -333,7 +333,6 @@ module.exports = {
     options.tableName = 'Events';
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete(options, {
-      type: { [Op.in]: ['Online','In person'] }
     }, {});
   }
 };
