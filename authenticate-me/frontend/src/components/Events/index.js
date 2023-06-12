@@ -92,7 +92,7 @@ function Events() {
 
           return (
             <div className="imageContainer" onClick={()=>handleClick(event.id)}>
-              <img src={event.previewImage} alt="Event Preview" />
+              <img src={event.EventImages?.[0]?.url} alt="Event Preview" />
               <div className="eventDetails">
               <div>{`${date} · ${time}`}</div>
               <h2>{event.name}</h2>
@@ -114,7 +114,7 @@ function Events() {
 
           return (
             <div className="imageContainer" onClick={()=>handleClick(event.id)}>
-              <img src={event.previewImage} alt="Event Preview" />
+              <img src={event.EventImages?.[0]?.url} alt="Event Preview" />
               <div className="eventDetails">
               <h4>{`${date} · ${time}`}</h4>
               <h2>{event.name}</h2>

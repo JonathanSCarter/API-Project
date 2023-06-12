@@ -102,12 +102,12 @@ function EventDetails() {
 
           <div className="eventDetail">
             <div className="preview">
-              <img src={event.previewImage} alt="Event Preview" />
+              <img src={event.EventImages?.[0]?.url} alt="Event Preview" />
             </div>
             <div className="notPreview">
               <div onClick={goGroup} className="groupForEvent">
                 <div className="groupImageContainer">
-                  <img src={group.previewImage}></img>
+                  <img src={group.GroupImages?.[0]?.url}></img>
                 </div>
                 <div className="groupNotImage">
                   <h3>{group.name}</h3>

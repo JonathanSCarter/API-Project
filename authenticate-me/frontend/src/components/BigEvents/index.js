@@ -13,6 +13,7 @@ function BigEvents() {
   }, [dispatch]);
 
   const events = useSelector((state) => state.events.allEvents);
+
   const history = useHistory();
   const handleClick = (event) => {
     history.push(`/events/${event.id}`);
@@ -55,21 +56,21 @@ function BigEvents() {
             <div className="group" onClick={() => handleClick(event)}>
               <div className="eventGrid">
 
-              <div className="preview">
-                <img src={event.previewImage} alt="Group Preview" />
-              </div>
-              <div className="notPreview">
-                <div>{`${date} · ${time}`}</div>
-                <h2>{event.name}</h2>
-                <div>Atlanta, Georgia</div>
-                {/* <div>{event.about}</div> */}
-                <div className="bottom">
+                <div className="preview">
+                  <img src={event.EventImages?.[0]?.url} alt="Event Preview" />
+                </div>
+                <div className="notPreview">
+                  <div>{`${date} · ${time}`}</div>
+                  <h2>{event.name}</h2>
+                  <div>Atlanta, Georgia</div>
+                  {/* <div>{event.about}</div> */}
+                  <div className="bottom">
 
+                  </div>
                 </div>
               </div>
-              </div>
 
-              <div className="descrip2" style={{marginTop: "15px"}} onClick={() => handleClick(event)}>{event.description} </div>
+              <div className="descrip2" style={{ marginTop: "15px" }} onClick={() => handleClick(event)}>{event.description} </div>
             </div>
           </>
         )

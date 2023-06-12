@@ -94,7 +94,7 @@ function SingleGroups() {
       </div>
       <div className="groupDetail">
         <div className="preview">
-          <img src={group.previewImage} alt="Group Preview" />
+          <img src={group.GroupImages?.[0]?.url} alt="Group Preview" />
         </div>
         <div className="notPreview">
           <div class="someDetails">
