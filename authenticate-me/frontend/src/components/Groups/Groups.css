@@ -66,6 +66,7 @@ div .preview {
 }
 
 .notPreview div {
+  word-break: break-word;
   padding-top: 5px;
   padding-bottom: 5px;
 }
