@@ -88,22 +88,22 @@ router.get('/:eventId', async (req, res) => {
       groupId: group.id
     }
   })
-  const image = await GroupImage.findAll({
+  const image = await EventImage.findAll({
     where: {
-      groupId: group.id,
+      eventId: event.id,
     },
     attributes: ['id', 'url', 'preview']
   })
   event = event.toJSON(),
-    event.Venue = place
+  event.Venue = place
   event.Group = group
   event.numAttending = members.length
-  if (image) event.EventImages = image
+  event.EventImages = image
 
 
 
 
-  res.json(event)
+  return res.json(event)
 })
 
 router.get('/', async (req, res) => {
@@ -171,21 +171,21 @@ router.get('/', async (req, res) => {
         groupId: group.id
       }
     })
-    const image = await GroupImage.findOne({
+    const image = await EventImage.findOne({
       where: {
-        groupId: group.id,
+        eventId: event.id,
         preview: true
       }
     })
+    console.log(image);
     event = event.toJSON(),
-      event.Venue = place
+    event.Venue = place
     event.Group = group
     event.numAttending = members.length
-    if (image) event.previewImage = image.url
-    else event.previewImage = null
+    event.previewImage = image.url
     return event
   }))
-
+  console.log(eventArray);
   const Events = eventArray
 
   res.json({ Events })

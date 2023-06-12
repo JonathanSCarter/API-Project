@@ -150,3 +150,7 @@
 .buttonBucket button {
   width: 70px;
 }
+
+.groupForEvent {
+  cursor: pointer;
+}

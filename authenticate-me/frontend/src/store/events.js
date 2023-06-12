@@ -87,7 +87,7 @@ const eventsReducer = (state = initialState, action) => {
       const { event } = action;
       const updatedEvents = state.allEvents.map((existingEvent) => {
         if (existingEvent.id === event.id) {
-          return event;
+          return { ...existingEvent, ...event };
         }
         return existingEvent;
       });

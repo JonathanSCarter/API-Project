@@ -25,7 +25,7 @@ module.exports = {
       {
         eventId: 2,
         url:'https://cdn.discordapp.com/attachments/1116415077218779176/1116415196114722847/Z.png',
-        preview: false
+        preview: true
       },
       {
         eventId: 3,
@@ -39,7 +39,7 @@ module.exports = {
       {
         eventId: 5,
         url:'https://cdn.discordapp.com/attachments/1116415077218779176/1116415196114722847/Z.png',
-        preview: false
+        preview: true
       },
       {
         eventId: 6,
@@ -53,7 +53,7 @@ module.exports = {
       {
         eventId: 8,
         url:'https://cdn.discordapp.com/attachments/1116415077218779176/1116415196114722847/Z.png',
-        preview: false
+        preview: true
       },
       {
         eventId: 9,
@@ -67,7 +67,7 @@ module.exports = {
       {
         eventId: 11,
         url:'https://cdn.discordapp.com/attachments/1116415077218779176/1116415196114722847/Z.png',
-        preview: false
+        preview: true
       },
       {
         eventId: 12,
@@ -81,7 +81,7 @@ module.exports = {
       {
         eventId: 14,
         url:'https://cdn.discordapp.com/attachments/1116415077218779176/1116415196114722847/Z.png',
-        preview: false
+        preview: true
       },
       {
         eventId: 15,
@@ -95,7 +95,7 @@ module.exports = {
       {
         eventId: 17,
         url:'https://cdn.discordapp.com/attachments/1116415077218779176/1116415196114722847/Z.png',
-        preview: false
+        preview: true
       },
       {
         eventId: 18,
@@ -109,7 +109,7 @@ module.exports = {
       {
         eventId: 20,
         url:'https://cdn.discordapp.com/attachments/1116415077218779176/1116415196114722847/Z.png',
-        preview: false
+        preview: true
       },
       {
         eventId: 21,
@@ -123,7 +123,7 @@ module.exports = {
       {
         eventId: 23,
         url:'https://cdn.discordapp.com/attachments/1116415077218779176/1116415196114722847/Z.png',
-        preview: false
+        preview: true
       },
       {
         eventId: 24,
@@ -137,7 +137,7 @@ module.exports = {
       {
         eventId: 26,
         url:'https://cdn.discordapp.com/attachments/1116415077218779176/1116415196114722847/Z.png',
-        preview: false
+        preview: true
       },
       {
         eventId: 27,
@@ -151,7 +151,7 @@ module.exports = {
       {
         eventId: 29,
         url:'https://cdn.discordapp.com/attachments/1116415077218779176/1116415196114722847/Z.png',
-        preview: false
+        preview: true
       },
       {
         eventId: 30,

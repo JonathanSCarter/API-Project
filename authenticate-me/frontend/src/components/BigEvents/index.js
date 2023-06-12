@@ -57,7 +57,7 @@ function BigEvents() {
               <div className="eventGrid">
 
                 <div className="preview">
-                  <img src={event.EventImages?.[0]?.url} alt="Event Preview" />
+                  <img src={event.previewImage} alt="Event Preview" />
                 </div>
                 <div className="notPreview">
                   <div>{`${date} · ${time}`}</div>
