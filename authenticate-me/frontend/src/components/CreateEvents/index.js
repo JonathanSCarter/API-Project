@@ -20,7 +20,7 @@ function CreateEvents() {
 
   const dispatch = useDispatch()
   const payload = {
-    venueId: 1,
+    venueId: null,
     name,
     type,
     capacity,
@@ -85,6 +85,7 @@ function CreateEvents() {
     const response = await dispatch(
       fetchEventCreate({ ...payload, price: parseFloat(price) }, groupId)
     );
+    console.log(response);
     await dispatch(fetchEventImageCreate({url: image, preview: true}, response))
     history.push(`/events/${response}`)
   };

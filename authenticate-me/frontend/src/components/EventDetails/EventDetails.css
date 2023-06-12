@@ -7,6 +7,8 @@
 .eventHeaders h1 {
   margin-top: 10px;
   margin-bottom: 10px;
+  word-break: break-word;
+
 }
 
 .eventDetail {
@@ -58,6 +60,7 @@
   grid-template-columns: 1fr 8fr 1fr;
   background-color: lightgrey;
   min-height: 100vh;
+
 }
 
 .eventDetail .preview {
@@ -118,6 +121,7 @@
 
 .eventDescription {
   margin-top: 100px;
+  word-break: break-word;
 }
 
 .eventDescription h1 {

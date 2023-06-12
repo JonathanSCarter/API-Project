@@ -96,3 +96,8 @@ div .preview img {
   min-height: 100vh;
 
 }
+
+
+.something {
+  word-break: break-word;
+}

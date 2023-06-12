@@ -1,6 +1,5 @@
 .imageContainer {
   display: grid;
-  grid-template-columns: 1fr 4fr;
   width: 60%;
   background-color: white;
   border-radius: 20px;
@@ -24,4 +23,14 @@
 
 .descrip {
   padding-top: 10px;
+  width: 100%;
+  /* overflow-wrap: break-word; */
+  word-break: break-word;
+
+}
+
+.imageContainer .tophalf {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+
 }

@@ -92,11 +92,13 @@ function Events() {
 
           return (
             <div className="imageContainer" onClick={()=>handleClick(event.id)}>
+              <div className="tophalf">
               <img src={event.EventImages?.[0]?.url} alt="Event Preview" />
               <div className="eventDetails">
               <div>{`${date} · ${time}`}</div>
               <h2>{event.name}</h2>
               <div>SomeCity, SomeState</div>
+              </div>
               </div>
               <div className="descrip">{event.description}</div>
             </div>

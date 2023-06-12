@@ -136,7 +136,7 @@ router.get('/', async (req, res) => {
   }
 
   if (size !== '0' && page !== '0') {
-    if (!size) size = 20;
+    if (!size) size = 50;
     if (!page) page = 1;
     pagination.limit = size,
       pagination.offset = (page - 1) * size

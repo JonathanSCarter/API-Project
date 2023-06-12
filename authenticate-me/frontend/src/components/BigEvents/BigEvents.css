@@ -9,6 +9,8 @@
   margin-top: 0px;
   margin-bottom: 20px;
   cursor: pointer;
+  word-break: break-word;
+
 }
 
 .mainColumnEvents .group {
