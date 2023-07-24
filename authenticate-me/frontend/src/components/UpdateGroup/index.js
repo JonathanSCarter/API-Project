@@ -74,6 +74,7 @@ function UpdateGroup() {
     if (!city) newErrors.city = "City does not exist";
     if (!state) newErrors.state = "State does not exist";
     if (name.length > 60) newErrors.name = "Name must be 60 or fewer characters in length";
+    if (!name.length) newErrors.name= "Name does not exist";
     if (about.length < 30) newErrors.about = "About must be at least 30 characters";
     if (type === "") newErrors.type = "Please select a type";
     if (isPrivate === "") newErrors.isPrivate = "Please select a privacy status";
