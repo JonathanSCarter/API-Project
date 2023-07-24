@@ -71,12 +71,13 @@ export const fetchEventImageCreate = (payload, eventId) => async (dispatch) => {
 }
 
 export const fetchEventDelete = (eventId) => async (dispatch) => {
-  await csrfFetch(`/api/events/${eventId}`, {
+  const req = await csrfFetch(`/api/events/${eventId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json"
     }
   })
+  console.log(req);
 }
 
 const initialState = {
