@@ -8,7 +8,7 @@ function DeleteGroupModal(props) {
   const dispatch = useDispatch()
   const history = useHistory()
   const goDelete = () => {
-    dispatch(fetchEventDelete(eventId))
+    dispatch(fetchEventDelete(parseInt(eventId)))
     closeModal();
     history.push('/events')
   }
