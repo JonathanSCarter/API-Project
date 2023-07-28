@@ -41,9 +41,12 @@ export const fetchEventSingle = (eventId) => async (dispatch) => {
 }
 
 export const fetchEventsByGroup = (groupId) => async (dispatch) => {
+  console.log('test3');
   const req = await fetch(`/api/groups/${groupId}/events`);
   const data = await req.json();
+  console.log(data);
   const events = data;
+  console.log(events, 'events');
   dispatch(getEvents(events.Events))
 }
 
@@ -96,6 +99,7 @@ const eventsReducer = (state = initialState, action) => {
       return { ...state, allEvents: updatedEvents };
     }
     case GET_EVENTS: {
+      console.log(action);
       return {...state, allEvents: action.events};
     }
     case GET_EVENT_SINGLE: {

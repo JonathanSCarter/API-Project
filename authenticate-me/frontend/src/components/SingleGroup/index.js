@@ -14,6 +14,7 @@ function SingleGroups() {
   const [isNotMember, setIsNotMember] = useState(true);
   const [disabled, setDisabled] = useState(false);
   const [hidden, setHidden] = useState(true);
+  const [loading, setLoading] = useState(false)
   const { groupId } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -22,8 +23,6 @@ function SingleGroups() {
   const members = useSelector(state => state.groups.singleGroup.members);
   const user = useSelector(state => state.session.user);
   const events = useSelector(state => state.events.allEvents);
-
-
 
   useEffect(() => {
     if (members) {
@@ -50,10 +49,15 @@ function SingleGroups() {
   }, [user]);
 
   useEffect(() => {
-    dispatch(fetchGroup(groupId));
-    dispatch(fetchEventsByGroup(groupId));
-    dispatch(fetchMembersByGroup(groupId));
-  }, [dispatch]);
+    const fetchData = async () => {
+      await dispatch(fetchGroup(groupId));
+      await dispatch(fetchEventsByGroup(groupId));
+      await dispatch(fetchMembersByGroup(groupId));
+      setLoading(true);
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (!loggedIn || isOwner || isNotMember) {
@@ -83,8 +87,7 @@ function SingleGroups() {
     history.push(`/groups/${groupId}/events/new`)
   }
 
-
-  return (
+  return loading ? (
     <>
     <div className="mainColumn">
       <div className="headers">
@@ -152,7 +155,7 @@ function SingleGroups() {
       </div>
     </div>
     </>
-  );
+  ) : null;
 }
 
 export default SingleGroups;

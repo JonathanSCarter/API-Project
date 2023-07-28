@@ -58,7 +58,7 @@ function LoginFormModal() {
           />
         {errors.credential && <p>{errors.credential}</p>}
         <button type="submit" disabled={disabled}>Log In</button>
-        <button className="demo" type="submit" onClick={() => dispatch(sessionActions.login({ credential:"Demo-lition", password:"password" }))
+        <button className="demo" onClick={() => dispatch(sessionActions.login({ credential:"Demo-lition", password:"password" }))
     .then(()=>closeModal())}>Log in as Demo User</button>
       </form>
     </div>
